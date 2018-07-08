@@ -29,7 +29,7 @@
       <ul id="index">
         <li class="set">
           <h3>
-            <a href="#modules">Presentation</a>
+              <a href="#content">README</a>
           </h3>
         </li>
 
@@ -57,7 +57,7 @@
           </h3>
 
           <ul>
-            ${macros.list_functions(project.modules)}
+            ${macros.list_functions(project)}
           </ul>
         </li>
 
@@ -67,7 +67,7 @@
           </h3>
 
           <ul>
-            ${macros.list_classes(project.modules)}
+            ${macros.list_classes(project)}
           </ul>
         </li>
       </ul>

@@ -1,5 +1,6 @@
-"""Project and Python parsing functions.
+"""High-level parsing functions.
 
+Most of the source code parsing is not performed here. This is instead 
 """
 import os
 import ast
@@ -45,11 +46,15 @@ def parse_project(path):
 
 
 def parse_module(path, name):
+    """Parse a Python module.
+
+    """
     fullpath = os.path.join(path, name)
 
     if os.path.isfile(fullpath):
         return parse_file(path, name)
-    elif os.path.isdir(fullpath):
+
+    if os.path.isdir(fullpath):
         module = Module(name)
 
         init = os.path.join(fullpath, '__init__.py')
@@ -77,6 +82,7 @@ def parse_module(path, name):
                 if not fullpath.endswith('.py'):
                     continue
 
+                # FIXME Unncessary call to `parse_module()`, use `parse_file()`.
                 module.add_module(
                     parse_module(path, item)
                 )
@@ -85,6 +91,9 @@ def parse_module(path, name):
 
 
 def parse_file(path, name):
+    """Parse a Python file.
+
+    """
     fullpath = os.path.join(path, name)
     with open(fullpath) as file:
         contents = file.read()

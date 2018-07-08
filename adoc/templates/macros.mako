@@ -105,7 +105,7 @@
 
           <ul class="class_list">
             % for base in klass.bases:
-              <li>
+              <li class="mono">
                 <a href="#ancestors">${base}</a>
               </li>
             % endfor
@@ -138,36 +138,20 @@
   </ul>
 </%def>
 
-<%def name="list_functions(modules)">
-  % for module in modules:
-    % if module.functions:
-      % for function in module.functions:
+<%def name="list_functions(project)">
+    % for function in project.iter_functions():
         <li class="mono">
-          ${link(function)}
+            ${link(function)}
         </li>
-      % endfor
-    % endif
-
-    % if module.modules:
-      ${list_functions(module.modules)}
-    % endif
-  % endfor
+    % endfor
 </%def>
 
 <%def name="list_classes(modules)">
-  % for module in modules:
-    % if module.classes:
-      % for klass in module.classes:
+    % for klass in project.iter_classes():
         <li class="mono">
-          ${link(klass)}
+            ${link(klass)}
         </li>
-      % endfor
-    % endif
-
-    % if module.modules:
-      ${list_classes(module.modules)}
-    % endif
-  % endfor
+    % endfor
 </%def>
 
 <%def name="show_doc(article)">

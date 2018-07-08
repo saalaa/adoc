@@ -1,5 +1,4 @@
-"""adoc xxx
-
+"""Main package.
 """
 import sys
 

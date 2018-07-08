@@ -30,12 +30,12 @@ def main():
 
 
 @main.command('html')
-@click.option('--dump', '-d', is_flag=True)
 @click.option('--verbose', '-v', is_flag=True)
 @click.option('--output', '-o', default='-')
 @click.argument('project_path', type=project_type)
-def html_command(dump, verbose, output, project_path):
-    """Render documentation as an HTML document."""
+def html_command(verbose, output, project_path):
+    """Render documentation as an HTML document.
+    """
     try:
         project = parse(project_path)
     except:
@@ -48,10 +48,6 @@ def html_command(dump, verbose, output, project_path):
             )
 
         sys.exit(1)
-
-    # if dump:
-    #     for item in walk(project):
-    #         click.echo(item)
 
     if output == '-':
         output = sys.stdout
@@ -69,7 +65,8 @@ def html_command(dump, verbose, output, project_path):
 @click.option('--port', '-p', default=8080, type=int)
 @click.argument('project_path', type=project_type)
 def http_command(verbose, host, port, project_path):
-    """Serve HTML documentation over HTTP."""
+    """Serve HTML documentation over HTTP.
+    """
     server = Server(host, port, project_path)
 
     success('Starting up on %s:%s' % (host, port))

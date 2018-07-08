@@ -29,8 +29,6 @@ class Atom:
 
     parent = None
 
-    _fullly_qualified_name = None
-
     def __init__(self, name, doc=None):
         self.name = name
         self.doc = doc or ''
@@ -69,9 +67,8 @@ class ParametersMixin:
             self.parameters = []
 
         parameter.parent = self
-        self.parameters.append(
-            parameter
-        )
+
+        self.parameters.append(parameter)
 
         return parameter
 
@@ -239,9 +236,8 @@ class FunctionsMixin:
             self.functions = []
 
         function.parent = self
-        self.functions.append(
-            function
-        )
+
+        self.functions.append(function)
 
         return function
 
@@ -277,9 +273,8 @@ class ClassesMixin:
             self.classes = []
 
         klass.parent = self
-        self.classes.append(
-            klass
-        )
+
+        self.classes.append(klass)
 
         return klass
 
@@ -335,9 +330,8 @@ class ModulesMixin:
             self.modules = []
 
         module.parent = self
-        self.modules.append(
-            module
-        )
+
+        self.modules.append(module)
 
         return module
 
@@ -377,6 +371,46 @@ class Project(ModulesMixin, Atom):
     def resolve(self, name):
         """Resolve a symbol."""
         return None
+
+    def iter_modules(self, max_depth=-1):
+        modules = []
+        for module in walk(self, 'modules', max_depth=max_depth):
+            if getattr(module, 'modules', None):
+                modules += module.modules
+
+        return sorted(
+            modules, key=lambda m: m.name
+        )
+
+    def iter_functions(self, max_depth=-1):
+        functions = []
+        for module in walk(self, 'modules', max_depth=max_depth):
+            if getattr(module, 'functions', None):
+                functions += module.functions
+
+        return sorted(
+            functions, key=lambda f: f.name
+        )
+
+    def iter_classes(self, max_depth=-1):
+        classes = []
+        for module in walk(self, 'modules', max_depth=max_depth):
+            if getattr(module, 'classes', None):
+                classes += module.classes
+
+        return sorted(
+            classes, key=lambda c: c.name
+        )
+
+
+def walk(root, attr, max_depth=-1):
+    yield root
+
+    if max_depth == 0:
+        return
+
+    for item in getattr(root, attr) or []:
+        yield from walk(item, attr, max_depth - 1)
 
 
 # def walk(item):
