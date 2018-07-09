@@ -29,7 +29,6 @@ This projet targets Python 3.5 and above.
 - Symbol resolution, allowing linking through symbols within the document
 - Arbitrary Markdown files inclusion, creating new sections as needed
 - JPEG/PNG media inclusion (only one final artifact)
-- Project information sniffing (license, project URL, CI jobs, etc...)
 - Support both Markdown and ReStructuredText
 
 

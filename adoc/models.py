@@ -237,6 +237,24 @@ class Module(ModulesMixin, ClassesMixin, FunctionsMixin, Atom):
 class Project(ModulesMixin, Atom):
     """Representation of a project."""
     name = None
+    metadata = None
+
+    def __init__(self, name, doc, metadata):
+        super().__init__(
+            name, doc
+        )
+
+        self.metadata = metadata or {}
+
+    def has_meta(self, *keys):
+        for key in keys:
+            if self.get_meta(key):
+                return True
+
+        return False
+
+    def get_meta(self, key, default=None):
+        return self.metadata.get(key, default) if self.metadata else default
 
     def iter_modules(self, max_depth=-1):
         modules = []

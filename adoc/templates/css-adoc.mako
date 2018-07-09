@@ -162,6 +162,11 @@ table#module-list {
     width: 100%;
   }
 
+.metadata {
+  list-style-type: none;
+  padding: 10px;
+}
+
 
 #index {
   list-style-type: none;

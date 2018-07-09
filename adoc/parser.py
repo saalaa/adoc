@@ -1,6 +1,7 @@
 """High-level parsing functions."""
 
 import os
+import json
 import ast
 
 from .utils import warning
@@ -21,16 +22,26 @@ def parse_project(path, ignores):
         os.path.realpath(path)
     )
 
-    readme = os.path.join(path, 'README.md')
+    readme_file = os.path.join(path, 'README.md')
 
-    doc = None
-    if os.path.isfile(readme):
-        with open(readme) as file:
-            doc = file.read()
+    readme = None
+    if os.path.isfile(readme_file):
+        with open(readme_file) as fh:
+            readme = fh.read()
     else:
         warning('README.md not found in project')
 
-    project = Project(name, doc)
+    metadata_file = os.path.join(path, '.adoc.json')
+
+    metadata = None
+    if os.path.isfile(metadata_file):
+        with open(metadata_file) as fh:
+            metadata = json.load(fh)
+
+    if metadata and 'name' in metadata:
+        name = metadata['name']
+
+    project = Project(name, readme, metadata)
 
     for item in os.listdir(path):
         fullpath = os.path.join(path, item)
@@ -93,8 +104,8 @@ def parse_module(path, name, ignores):
 def parse_file(path, name):
     """Parse a Python file."""
     fullpath = os.path.join(path, name)
-    with open(fullpath) as file:
-        contents = file.read()
+    with open(fullpath) as fh:
+        contents = fh.read()
 
     name, ext = os.path.splitext(name)
 

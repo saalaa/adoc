@@ -24,12 +24,38 @@
 
   <div id="container">
     <div id="sidebar">
-      <h1>Index</h1>
+      <h2>
+        <strong>${project.name}</strong>
+
+        % if project.has_meta('version'):
+          (<small>${project.get_meta('version')}</small>)
+        % endif
+      </h2>
+
+      % if project.has_meta('author', 'license', 'urls'):
+        <ul class="metadata">
+          % if project.has_meta('author'):
+            <li>${project.get_meta('author') | h}</li>
+          % endif
+
+          % if project.has_meta('license'):
+            <li>${project.get_meta('license') | h}</li>
+          % endif
+
+          % if project.has_meta('urls'):
+            % for key, value in project.get_meta('urls').items():
+              <li><a href="${value}">${key | h}</a></li>
+            % endfor
+          % endif
+        </ul>
+      % endif
+
+      <h2>Index</h2>
 
       <ul id="index">
         <li class="set">
           <h3>
-              <a href="#content">Introduction</a>
+            <a href="#content">Introduction</a>
           </h3>
         </li>
 
