@@ -26,7 +26,6 @@ This projet targets Python 3.5 and above.
 
 ## Long-term Goals
 
-- Code cleanup, it's kind of thrown together right now
 - Symbol resolution, allowing linking through symbols within the document
 - Arbitrary Markdown files inclusion, creating new sections as needed
 - JPEG/PNG media inclusion (only one final artifact)
