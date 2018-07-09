@@ -59,14 +59,14 @@
       <div class="name def" ${anchor(function)}>
         % if function.decorators:
           % for decorator in function.decorators:
-            <div>@${decorator.name}</div>
+            <div>@${decorator.name | h}</div>
           % endfor
         % endif
 
         <div>
           <p>def <span class="ident">${function.name}</span>(</p>
           % if function.parameters:
-            <p>${', '.join([p.to_html() for p in function.parameters])})</p>
+            <p>${', '.join([p.to_html() for p in function.parameters]) | h})</p>
           % else:
             <p>)</p>
           % endif
