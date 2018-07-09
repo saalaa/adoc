@@ -52,6 +52,14 @@ def make_python(node):
         return '{}.{}'.format(
             make_python(node.value), node.attr
         )
+    elif isinstance(node, ast.Tuple):
+        items = [
+            make_python(element) for element in node.elts
+        ]
+
+        return '({})'.format(
+            ', '.join(items)
+        )
     elif isinstance(node, ast.List):
         items = [
             make_python(element) for element in node.elts
@@ -65,7 +73,16 @@ def make_python(node):
             make_python(element) for element in node.elts
         ]
 
-        return '[{}]'.format(
+        return '{{}}'.format(
+            ', '.join(items)
+        )
+    elif isinstance(node, ast.Dict):
+        items = [
+            '{}: {}'.format(make_python(key), make_python(value)) \
+                    for key, value in zip(node.keys, node.values)
+        ]
+
+        return '{{}}'.format(
             ', '.join(items)
         )
     elif isinstance(node, ast.Call):
@@ -86,6 +103,10 @@ def make_python(node):
         return '{}({})'.format(
             make_python(node.func), ', '.join(items)
         )
+    elif isinstance(node, ast.Lambda):
+        return 'lambda {}: {}'.format(
+            make_python(node.args), make_python(node.body)
+        )
     elif isinstance(node, ast.UnaryOp):
         return '{}{}'.format(
             lookup(UNARY_OP_MAPPING, node.op),
@@ -97,9 +118,35 @@ def make_python(node):
             lookup(BINARY_OP_MAPPING, node.op),
             make_python(node.right)
         )
+    elif isinstance(node, ast.arguments):
+        items = []
+
+        padding = [None] * (len(node.args) - len(node.defaults))
+
+        for arg, default in zip(node.args, padding + node.defaults):
+            if not default:
+                items.append(arg.arg)
+            else:
+                default = make_python(default)
+
+                items.append(
+                    '{}={}'.format(arg, default)
+                )
+
+        if node.vararg:
+            items.append(
+                '*{}'.format(node.vararg)
+            )
+
+        if node.kwarg:
+            items.append(
+                '**{}'.format(node.kwarg)
+            )
+
+        return ', '.join(items)
 
     warning(
-        'Unknown node: {}'.format(node)
+        'Unsupported node: {}'.format(node)
     )
 
     return '???'
