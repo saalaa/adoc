@@ -121,19 +121,19 @@
 </%def>
 
 <%def name="list_modules(root)">
-  <ul>
-      % for module in root.iter_modules():
-          <li class="mono">
-              ${link(module, module.fully_qualified_name)}
-          </li>
-      % endfor
-  </ul>
+    <ul>
+        % for module in root.iter_modules():
+            <li class="mono searchable" data-fqn="${module.fully_qualified_name.lower()}">
+                ${link(module, module.fully_qualified_name)}
+            </li>
+        % endfor
+    </ul>
 </%def>
 
 <%def name="list_functions(project)">
     <ul>
         % for function in project.iter_functions():
-            <li class="mono">
+            <li class="mono searchable" data-fqn="${function.fully_qualified_name.lower()}">
                 ${link(function)}
             </li>
         % endfor
@@ -143,7 +143,7 @@
 <%def name="list_classes(modules)">
     <ul>
         % for klass in project.iter_classes():
-            <li class="mono">
+            <li class="mono searchable" data-fqn="${klass.fully_qualified_name.lower()}">
                 ${link(klass)}
             </li>
         % endfor

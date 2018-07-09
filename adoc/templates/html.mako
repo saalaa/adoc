@@ -40,6 +40,14 @@
         </li>
 
         <li class="set">
+          <h3>
+            Filter Symbols
+          </h3>
+
+          <input id="filter" accessKey="/" placeholder="Alt+/ or Alt+Shift+/">
+        </li>
+
+        <li class="set">
           <h3 id="modules">
             <a href="#modules">Modules</a>
           </h3>
@@ -89,5 +97,27 @@
       </p>
     </footer>
   </div>
+
+  <script>
+    (function () {
+      var input = document.getElementById('filter');
+      var searchables = document.querySelectorAll('li.searchable');
+
+      function filter_symbols () {
+        var q = input.value
+          .toLowerCase()
+          .trim();
+
+        searchables.forEach(function (el) {
+          var fqn = el.getAttribute('data-fqn');
+          var match = fqn.indexOf(q) !== -1;
+
+          el.style.display = match ? '' : 'none';
+        });
+      }
+
+      input.addEventListener('input', filter_symbols, false);
+    })();
+  </script>
 </body>
 </html>
