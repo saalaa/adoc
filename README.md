@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/saalaa/adoc.svg?branch=master)](https://travis-ci.org/saalaa/adoc)
+
 # **adoc** project
 
 This program generates HTML documentation for Python projects by parsing the
