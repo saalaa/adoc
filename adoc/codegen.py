@@ -26,6 +26,24 @@ UNARY_OP_MAPPING = {
     ast.USub: '-'
 }
 
+COMPARE_OP_MAPPING = {
+    ast.Eq: '==',
+    ast.NotEq: '!=',
+    ast.Lt: '<',
+    ast.LtE: '<=',
+    ast.Gt: '>',
+    ast.GtE: '>=',
+    ast.Is: 'is',
+    ast.IsNot: 'is not',
+    ast.In: 'in',
+    ast.NotIn: 'not in'
+}
+
+BOOL_OP_MAPPING = {
+    ast.And: 'and',
+    ast.Or: 'or'
+}
+
 
 def lookup(mapping, atom):
     return mapping.get(
@@ -37,7 +55,7 @@ def make_python(node):
     """Generate Python code from an AST node (a subtree).
     """
     if node is None:
-        return ''
+        return '!!!'
     elif isinstance(node, ast.Num):
         return '{}'.format(node.n)
     elif isinstance(node, ast.Str):
@@ -45,7 +63,7 @@ def make_python(node):
     elif isinstance(node, ast.Bytes):
         return "b'...'"
     elif isinstance(node, ast.NameConstant):
-        return '{}'.format(node.value)
+        return repr(node.value)
     elif isinstance(node, ast.Name):
         return node.id
     elif isinstance(node, ast.Attribute):
@@ -56,6 +74,9 @@ def make_python(node):
         items = [
             make_python(element) for element in node.elts
         ]
+
+        if len(items) == 1:
+            items.append('')
 
         return '({})'.format(
             ', '.join(items)
@@ -73,7 +94,7 @@ def make_python(node):
             make_python(element) for element in node.elts
         ]
 
-        return '{{}}'.format(
+        return '{{{}}}'.format(
             ', '.join(items)
         )
     elif isinstance(node, ast.Dict):
@@ -82,7 +103,7 @@ def make_python(node):
                     for key, value in zip(node.keys, node.values)
         ]
 
-        return '{{}}'.format(
+        return '{{{}}}'.format(
             ', '.join(items)
         )
     elif isinstance(node, ast.Call):
@@ -118,6 +139,35 @@ def make_python(node):
             lookup(BINARY_OP_MAPPING, node.op),
             make_python(node.right)
         )
+    elif isinstance(node, ast.Compare):
+        items = [
+            make_python(node.left)
+        ]
+
+        for op, right in zip(node.ops, node.comparators):
+            items.append(
+                lookup(COMPARE_OP_MAPPING, op)
+            )
+            items.append(
+                make_python(right)
+            )
+
+        return ' '.join(items)
+    elif isinstance(node, ast.BoolOp):
+        items = []
+        for idx, value in enumerate(node.values):
+            if idx:
+                items.append(
+                    lookup(BOOL_OP_MAPPING, node.op)
+                )
+
+            items.append(
+                make_python(value)
+            )
+
+        return '({})'.format(
+            ' '.join(items)
+        )
     elif isinstance(node, ast.arguments):
         items = []
 
@@ -130,17 +180,17 @@ def make_python(node):
                 default = make_python(default)
 
                 items.append(
-                    '{}={}'.format(arg, default)
+                    '{}={}'.format(arg.arg, default)
                 )
 
         if node.vararg:
             items.append(
-                '*{}'.format(node.vararg)
+                '*{}'.format(node.vararg.arg)
             )
 
         if node.kwarg:
             items.append(
-                '**{}'.format(node.kwarg)
+                '**{}'.format(node.kwarg.arg)
             )
 
         return ', '.join(items)
