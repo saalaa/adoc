@@ -194,6 +194,9 @@ class FunctionsMixin:
     """Mixin for classes that hold `Function` instances."""
     functions = None
 
+    def is_empty(self):
+        return not self.functions
+
     def add_function(self, function):
         """Add a `Function` instance, setting `self` as its parent."""
         if self.functions is None:
@@ -230,6 +233,9 @@ class Function(ParametersMixin, DecoratorsMixin, Atom):
 class ClassesMixin:
     """Mixin for classes that hold `Class` instances."""
     classes = None
+
+    def is_empty(self):
+        return not self.classes
 
     def add_class(self, klass):
         """Add a `Class` instance, setting `self` as its parent."""
@@ -288,6 +294,16 @@ class ModulesMixin:
     """Mixin for classes that hold `Module` instances."""
     modules = None
 
+    def is_empty(self):
+        if not self.modules:
+            return True
+
+        for module in self.modules:
+            if not module.is_empty():
+                return False
+
+        return True
+
     def add_module(self, module):
         """Add a `Module` instance, setting `self` as its parent."""
         if self.modules is None:
@@ -305,6 +321,10 @@ class Module(ModulesMixin, VariablesMixin, ClassesMixin, FunctionsMixin, Atom):
 
     No distinction is made between modules and packages.
     """
+    def is_empty(self):
+        return ClassesMixin.is_empty(self) and FunctionsMixin.is_empty(self) \
+                and ModulesMixin.is_empty(self)
+
     def merge(self, module):
         self.doc = module.doc  # TODO Merge the rest as well
 
@@ -343,7 +363,7 @@ class Project(ModulesMixin, Atom):
                 modules += module.modules
 
         return sorted(
-            modules, key=lambda m: m.name
+            modules, key=lambda m: m.fully_qualified_name
         )
 
     def iter_functions(self, max_depth=-1):
