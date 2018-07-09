@@ -1160,31 +1160,25 @@ it never reaches the interpreter and side-effects are effortlessly avoided.</p>
 <p>This projet targets Python 3.5 and above.</p>
 <h1>Features</h1>
 <ul>
-<li>Reads commong <em>ignore</em> files</li>
-<li>AST-based Python parsing<ul>
-<li>Doesn't break on Python standard library</li>
-</ul>
-</li>
-<li>Single HTML artifact</li>
-<li>Markdown support</li>
+<li>Reads common <em>ignore</em> files</li>
+<li>AST-based Python parsing</li>
 <li>Ability to start an HTTP server (rebuild on reload)</li>
+<li>Markdown support</li>
+<li>Single HTML artifact</li>
 </ul>
 <h2>Short-term Goals</h2>
 <ul>
-<li>Add a test suite (esp. metaclasses)</li>
+<li>Test suite (esp. metaclasses)</li>
 <li>More documentation</li>
 <li>Release a proper package</li>
 </ul>
 <h2>Long-term Goals</h2>
 <ul>
-<li>Symbol resolution, allowing linking through symbols within the document<ul>
-<li>Add a fallback to https://docs.python.org/3/ when resolution fails</li>
-</ul>
-</li>
-<li>Support arbitrary Markdown files inclusion, possibly creating new sections in
-  the README</li>
-<li>Support JPEG/PNG media inclusion (only one final artifact)</li>
-<li>Support project information sniffing (license, project URL, CI jobs, etc...)</li>
+<li>Code cleanup, it's kind of thrown together right now</li>
+<li>Symbol resolution, allowing linking through symbols within the document</li>
+<li>Arbitrary Markdown files inclusion, creating new sections as needed</li>
+<li>JPEG/PNG media inclusion (only one final artifact)</li>
+<li>Project information sniffing (license, project URL, CI jobs, etc...)</li>
 <li>Support both Markdown and ReStructuredText</li>
 </ul>
 <h2>Installation</h2>
@@ -1496,11 +1490,12 @@ with 404s for any request that's not made on <code>/</code>.</p>
       <div class="desc">
         <p>Find an ignore file through a series of heuristics.</p>
 <p>The following common ignore files are probed:</p>
-<pre><code>- `.gitignore`
-- `.hgignore`
-- `.agignore`
-- `.ignore`
-</code></pre>
+<ul>
+<li><code>.gitignore</code></li>
+<li><code>.hgignore</code></li>
+<li><code>.agignore</code></li>
+<li><code>.ignore</code></li>
+</ul>
       </div>
     </div>
     <div class="item">
