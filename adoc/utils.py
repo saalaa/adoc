@@ -1,23 +1,23 @@
-import click
+import sys
 
 from functools import wraps
 
 
 def success(message):
-    click.echo(
-        click.style('Success: ', fg='green') + message
+    print(
+        message, file=sys.stdout
     )
 
 
 def warning(message):
-    click.echo(
-        click.style('Warning: ', fg='yellow') + message, err=True
+    print(
+        'Warning: {}'.format(message), file=sys.stderr
     )
 
 
 def error(message):
-    click.echo(
-        click.style('Error: ', fg='red') + message, err=True
+    print(
+        'Error: {}'.format(message), file=sys.stderr
     )
 
 
