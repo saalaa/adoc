@@ -545,6 +545,11 @@ table#module-list {
     width: 100%;
   }
 
+.metadata {
+  list-style-type: none;
+  padding: 10px;
+}
+
 
 #index {
   list-style-type: none;
@@ -772,20 +777,26 @@ table#module-list {
   <div id="container">
     <div id="sidebar">
       <h2>
-        <strong>wcm-attachments</strong> (<small>0.1.0</small>)
+        <strong>adoc</strong>
+
+          (<small>0.1.0</small>)
       </h2>
 
-      <ul>
-        <li><a href="xxx>">Homepage</a></li>
-        <li><a href="xxx>">Issues</a></li>
-      </ul>
+        <ul class="metadata">
+            <li>Benoit Myard &lt;benoit@myard.xyz&gt;</li>
+
+            <li>BSD 2-Clause License</li>
+
+              <li><a href="https://github.com/saalaa/adoc">Homepage</a></li>
+              <li><a href="https://github.com/saalaa/adoc/issues">Issues</a></li>
+        </ul>
 
       <h2>Index</h2>
 
       <ul id="index">
         <li class="set">
           <h3>
-              <a href="#content">Introduction</a>
+            <a href="#content">Introduction</a>
           </h3>
         </li>
 
@@ -1142,11 +1153,9 @@ it never reaches the interpreter and side-effects are effortlessly avoided.</p>
 </ul>
 <h2>Long-term Goals</h2>
 <ul>
-<li>Code cleanup, it's kind of thrown together right now</li>
 <li>Symbol resolution, allowing linking through symbols within the document</li>
 <li>Arbitrary Markdown files inclusion, creating new sections as needed</li>
 <li>JPEG/PNG media inclusion (only one final artifact)</li>
-<li>Project information sniffing (license, project URL, CI jobs, etc...)</li>
 <li>Support both Markdown and ReStructuredText</li>
 </ul>
 <h2>Installation</h2>
@@ -2156,6 +2165,54 @@ transmited to the HTML writer.</p>
           </h3>
 
           
+    <div class="item">
+        <div class="name def" 
+  id="adoc.models.Project.__init__"
+ title="adoc.models.Project.__init__">
+
+        <div>
+          <p>def <span class="ident">__init__</span>(</p>
+
+            <p>self, name, doc, metadata)</p>
+        </div>
+      </div>
+
+      <div class="desc">
+        
+      </div>
+    </div>
+    <div class="item">
+        <div class="name def" 
+  id="adoc.models.Project.has_meta"
+ title="adoc.models.Project.has_meta">
+
+        <div>
+          <p>def <span class="ident">has_meta</span>(</p>
+
+            <p>self, *keys)</p>
+        </div>
+      </div>
+
+      <div class="desc">
+        
+      </div>
+    </div>
+    <div class="item">
+        <div class="name def" 
+  id="adoc.models.Project.get_meta"
+ title="adoc.models.Project.get_meta">
+
+        <div>
+          <p>def <span class="ident">get_meta</span>(</p>
+
+            <p>self, key, default=None)</p>
+        </div>
+      </div>
+
+      <div class="desc">
+        
+      </div>
+    </div>
     <div class="item">
         <div class="name def" 
   id="adoc.models.Project.iter_modules"
