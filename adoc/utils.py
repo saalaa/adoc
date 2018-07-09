@@ -36,27 +36,3 @@ def memoized(f):
         return value
 
     return wrapper
-
-
-def compose(*functions):
-    def composed(value):
-        for function in functions:
-            value = function(value)
-
-        return value
-
-    return composed
-
-
-def partial(func, *args):
-    initial_args = args
-
-    @wraps(func)
-    def wrapper(*additional_args):
-        args = []
-        args.append(initial_args)
-        args.append(additional_args)
-
-        return func(*args)
-
-    return wrapper
