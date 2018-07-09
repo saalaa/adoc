@@ -8,6 +8,7 @@ DEFAULTS = [
     'tests',
     'migrations',
     '__pycache__',
+    'test_*',
     '.env',
     '.git',
     '.hg'
