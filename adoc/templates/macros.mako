@@ -55,14 +55,15 @@
         <div class="name def" ${anchor(function)} title="${function.fully_qualified_name}">
         % if function.decorators:
           % for decorator in function.decorators:
-            <div>@${decorator.name | h}</div>
+            <div>@${decorator | h}</div>
           % endfor
         % endif
 
         <div>
           <p>def <span class="ident">${function.name}</span>(</p>
+
           % if function.parameters:
-            <p>${', '.join([p.to_html() for p in function.parameters]) | h})</p>
+            <p>${', '.join(function.parameters) | h})</p>
           % else:
             <p>)</p>
           % endif
@@ -82,7 +83,7 @@
       <p class="name" ${anchor(klass)} title="${klass.fully_qualified_name}">
         % if klass.decorators:
           % for decorator in klass.decorators:
-            @${decorator.name}<br>
+            @${decorator | h}<br>
           % endfor
         % endif
 

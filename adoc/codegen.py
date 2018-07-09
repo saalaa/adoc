@@ -51,6 +51,34 @@ def lookup(mapping, atom):
     )
 
 
+def make_signature(node):
+    items = []
+
+    padding = [None] * (len(node.args) - len(node.defaults))
+
+    for arg, default in zip(node.args, padding + node.defaults):
+        if not default:
+            items.append(arg.arg)
+        else:
+            default = make_python(default)
+
+            items.append(
+                '{}={}'.format(arg.arg, default)
+            )
+
+    if node.vararg:
+        items.append(
+            '*{}'.format(node.vararg.arg)
+        )
+
+    if node.kwarg:
+        items.append(
+            '**{}'.format(node.kwarg.arg)
+        )
+
+    return items
+
+
 def make_python(node):
     """Generate Python code from an AST node (a subtree).
     """
@@ -169,31 +197,9 @@ def make_python(node):
             ' '.join(items)
         )
     elif isinstance(node, ast.arguments):
-        items = []
-
-        padding = [None] * (len(node.args) - len(node.defaults))
-
-        for arg, default in zip(node.args, padding + node.defaults):
-            if not default:
-                items.append(arg.arg)
-            else:
-                default = make_python(default)
-
-                items.append(
-                    '{}={}'.format(arg.arg, default)
-                )
-
-        if node.vararg:
-            items.append(
-                '*{}'.format(node.vararg.arg)
-            )
-
-        if node.kwarg:
-            items.append(
-                '**{}'.format(node.kwarg.arg)
-            )
-
-        return ', '.join(items)
+        return ', '.join(
+            make_signature(node)
+        )
 
     warning(
         'Unsupported node: {}'.format(node)

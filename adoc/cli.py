@@ -13,11 +13,13 @@ import argparse
 import sys
 import traceback
 
-from .ignores import merge_ignores, find_ignore, read_ignore
 from .parser import parse
 from .writer import html
 from .utils import error, success
 from .httpd import Server
+from .ignores import (
+    merge_ignores, find_ignore, read_ignore
+)
 
 
 def main():

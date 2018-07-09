@@ -20,7 +20,6 @@ This projet targets Python 3.5 and above.
 
 ## Short-term Goals
 
-- Test suite (esp. metaclasses)
 - More documentation
 - Release a proper package
 

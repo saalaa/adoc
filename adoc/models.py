@@ -6,26 +6,29 @@ source code.
 They are handled mostly while parsing a project's source code and later
 transmited to the HTML writer.
 """
+
 import ast
 
-from .codegen import make_python
-from .utils import memoized  # , warning
+from .utils import memoized
+from .codegen import (
+    make_python, make_signature
+)
 
 
-def concat_ast_attr(attr):
-    if isinstance(attr, ast.Name):
-        return attr.id + '.'
+def walk(root, attr, max_depth=-1):
+    yield root
 
-    if isinstance(attr, ast.Attribute):
-        return concat_ast_attr(attr.value) + '.' + attr.attr
+    if max_depth == 0:
+        return
 
-    return ''
+    for item in getattr(root, attr) or []:
+        yield from walk(item, attr, max_depth - 1)
 
 
 class Atom:
     """Lowest-level unit representing a source code unit."""
     name = None
-    doc = ''
+    doc = None
 
     parent = None
 
@@ -54,140 +57,35 @@ class Atom:
     @classmethod
     def from_ast(cls, node):
         """Build `Atom` instances from an AST node."""
-        raise NotImplementedError()
+        raise NotImplementedError()  # pragma: no cover
 
 
 class ParametersMixin:
-    """Mixin for classes that hold `Parameter` instances."""
+    """Mixin for classes that hold parameters."""
     parameters = None
 
-    def add_parameter(self, parameter):
-        """Add a `Parameter` instance, setting `self` as its parent."""
+    def add_parameters(self, parameters):
+        """Add parameters representation (ie. `str`)."""
         if self.parameters is None:
             self.parameters = []
 
-        parameter.parent = self
-
-        self.parameters.append(parameter)
-
-        return parameter
-
-
-class Parameter(Atom):
-    default = None
-
-    is_vararg = False
-    is_kwarg = False
-
-    def __init__(self, name, default=None, is_vararg=False, is_kwarg=False):
-        self.name = name
-        self.default = default
-
-        self.is_vararg = is_vararg
-        self.is_kwarg = is_kwarg
-
-    def to_html(self):
-        if self.is_vararg:
-            return '*%s' % self.name
-
-        if self.is_kwarg:
-            return '**%s' % self.name
-
-        if self.default:
-            return '%s=%s' % (self.name, self.default)
-
-        return self.name
-
-    @classmethod
-    def from_ast(cls, node):
-        """Build `Parameter` instances from an AST node."""
-        args = []
-
-        if not node.args:
-            return args
-
-        if node.args.args:
-            args += [
-                Parameter(arg.arg) for arg in node.args.args
-            ]
-
-            if node.args.defaults:
-                length = len(node.args.defaults)
-                for i in range(length):
-                    args[-(i + 1)].default = make_python(
-                        node.args.defaults[i]
-                    )
-
-        if node.args.vararg:
-            args.append(
-                Parameter(node.args.vararg.arg, is_vararg=True)
-            )
-
-        if node.args.kwonlyargs:
-            args += [
-                arg.arg for arg in node.args.kwonlyargs
-            ]
-
-            if node.args.kw_defaults:
-                length = len(node.args.kw_defaults)
-                for i in range(length):
-                    args[-(i + 1)].default = make_python(
-                        node.args.defaults[i]
-                    )
-
-        if node.args.kwarg:
-            args.append(
-                Parameter(node.args.kwarg.arg, is_kwarg=True)
-            )
-
-        return args
+        self.parameters.extend(
+            parameters
+        )
 
 
 class DecoratorsMixin:
-    """Mixin for classes that hold `Decorator` instances."""
+    """Mixin for classes that hold decorators."""
     decorators = None
 
-    def add_decorator(self, decorator):
-        """Add a `Decorator` instance, setting `self` as its parent."""
+    def add_decorators(self, decorators):
+        """Add decorators, (ie. `str`)."""
         if self.decorators is None:
             self.decorators = []
 
-        decorator.parent = self
-        self.decorators.append(
-            decorator
+        self.decorators.extend(
+            decorators
         )
-
-        return decorator
-
-
-class Decorator(Atom):
-    @classmethod
-    def from_ast(cls, node):
-        """Build a `Decorator` instance from an AST node."""
-        return cls(
-            make_python(node)
-        )
-
-
-class VariablesMixin:
-    """Mixin for classes that hold `Variable` instances."""
-    variables = None
-
-    def add_variable(self, variable):
-        """Add a `Variable` instance, setting `self` as its parent."""
-        if self.variables is None:
-            self.variables = []
-
-        variable.parent = self
-        self.variables.append(
-            variable
-        )
-
-        return variable
-
-
-class Variable(Atom):
-    pass
 
 
 class FunctionsMixin:
@@ -206,8 +104,6 @@ class FunctionsMixin:
 
         self.functions.append(function)
 
-        return function
-
 
 class Function(ParametersMixin, DecoratorsMixin, Atom):
     @classmethod
@@ -216,16 +112,13 @@ class Function(ParametersMixin, DecoratorsMixin, Atom):
         doc = ast.get_docstring(node)
         function = cls(node.name, doc)
 
-        for decorator in node.decorator_list:
-            function.add_decorator(
-                Decorator.from_ast(decorator)
-            )
+        function.add_decorators(
+            make_python(decorator) for decorator in node.decorator_list
+        )
 
-        parameters = Parameter.from_ast(node)
-
-        if parameters:
-            for parameter in parameters:
-                function.add_parameter(parameter)
+        function.add_parameters(
+            make_signature(node.args)
+        )
 
         return function
 
@@ -246,18 +139,14 @@ class ClassesMixin:
 
         self.classes.append(klass)
 
-        return klass
 
-
-class Class(ParametersMixin, DecoratorsMixin, VariablesMixin, FunctionsMixin,
-        Atom):
+class Class(DecoratorsMixin, FunctionsMixin, Atom):
     bases = None
 
     def add_base(self, base):
         if self.bases is None:
             self.bases = []
 
-        # base.parent = self
         self.bases.append(
             base
         )
@@ -268,10 +157,9 @@ class Class(ParametersMixin, DecoratorsMixin, VariablesMixin, FunctionsMixin,
         doc = ast.get_docstring(node)
         klass = cls(node.name, doc)
 
-        for decorator in node.decorator_list:
-            klass.add_decorator(
-                Decorator.from_ast(decorator)
-            )
+        klass.add_decorators(
+            make_python(decorator) for decorator in node.decorator_list
+        )
 
         for base in node.bases:
             try:
@@ -313,16 +201,14 @@ class ModulesMixin:
 
         self.modules.append(module)
 
-        return module
 
-
-class Module(ModulesMixin, VariablesMixin, ClassesMixin, FunctionsMixin, Atom):
+class Module(ModulesMixin, ClassesMixin, FunctionsMixin, Atom):
     """Representation of a module.
 
     No distinction is made between modules and packages.
     """
     def is_empty(self):
-        return ClassesMixin.is_empty(self) and FunctionsMixin.is_empty(self) \
+        return FunctionsMixin.is_empty(self) and ClassesMixin.is_empty(self) \
                 and ModulesMixin.is_empty(self)
 
     def merge(self, module):
@@ -351,10 +237,6 @@ class Module(ModulesMixin, VariablesMixin, ClassesMixin, FunctionsMixin, Atom):
 class Project(ModulesMixin, Atom):
     """Representation of a project."""
     name = None
-
-    def resolve(self, name):
-        """Resolve a symbol."""
-        return None
 
     def iter_modules(self, max_depth=-1):
         modules = []
@@ -385,13 +267,3 @@ class Project(ModulesMixin, Atom):
         return sorted(
             classes, key=lambda c: c.name
         )
-
-
-def walk(root, attr, max_depth=-1):
-    yield root
-
-    if max_depth == 0:
-        return
-
-    for item in getattr(root, attr) or []:
-        yield from walk(item, attr, max_depth - 1)
