@@ -63,6 +63,7 @@ def format_doc(atom):
     doc = atom.doc
 
     return markdown.markdown(doc, extentions=[
+        'markdown.extensions.extra',
         'markdown.extensions.codehilite'
     ])
 
