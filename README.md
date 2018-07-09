@@ -9,11 +9,11 @@ This projet targets Python 3.5 and above.
 
 ## Goals
 
-- Improve function parameters support
-- Remove or improve decorators support
 - Add module inclusion/exclusion mechanism
 - Add a test suite (esp. metaclasses)
 - Support arbitrary Markdown files inclusion
+- Resolve symbols (incl. in Markdown)
+- Drop empty modules (through a finalization phase?)
 - Release a proper package
 
 
@@ -22,7 +22,7 @@ This projet targets Python 3.5 and above.
 There is no release available yet. At this point, the project is essentially a
 preview.
 
-The only way to test this project is through clone this repository and
+The only way to test this project is through cloning this repository and
 preparing a virtual environment for it:
 
     python3 -m venv env

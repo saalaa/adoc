@@ -886,20 +886,6 @@ table#module-list {
             
         <li class="mono">
             
-  <a href="#adoc.httpd._make_request_handler">
-    _make_request_handler
-  </a>
-
-        </li>
-        <li class="mono">
-            
-  <a href="#adoc.utils.compose">
-    compose
-  </a>
-
-        </li>
-        <li class="mono">
-            
   <a href="#adoc.models.concat_ast_attr">
     concat_ast_attr
   </a>
@@ -949,6 +935,13 @@ table#module-list {
         </li>
         <li class="mono">
             
+  <a href="#adoc.codegen.lookup">
+    lookup
+  </a>
+
+        </li>
+        <li class="mono">
+            
   <a href="#adoc.cli.main">
     main
   </a>
@@ -958,6 +951,13 @@ table#module-list {
             
   <a href="#adoc.writer.make_ancestor_filter">
     make_ancestor_filter
+  </a>
+
+        </li>
+        <li class="mono">
+            
+  <a href="#adoc.codegen.make_python">
+    make_python
   </a>
 
         </li>
@@ -1005,22 +1005,8 @@ table#module-list {
         </li>
         <li class="mono">
             
-  <a href="#adoc.utils.partial">
-    partial
-  </a>
-
-        </li>
-        <li class="mono">
-            
   <a href="#adoc.utils.success">
     success
-  </a>
-
-        </li>
-        <li class="mono">
-            
-  <a href="#adoc.codegen.to_source">
-    to_source
   </a>
 
         </li>
@@ -1135,15 +1121,15 @@ table#module-list {
         </li>
         <li class="mono">
             
-  <a href="#adoc.httpd.Server">
-    Server
+  <a href="#adoc.httpd.RequestHandler">
+    RequestHandler
   </a>
 
         </li>
         <li class="mono">
             
-  <a href="#adoc.codegen.SourceGenerator">
-    SourceGenerator
+  <a href="#adoc.httpd.Server">
+    Server
   </a>
 
         </li>
@@ -1177,17 +1163,17 @@ it never reaches the interpreter and side-effects are effortlessly avoided.</p>
 <p>This projet targets Python 3.5 and above.</p>
 <h2>Goals</h2>
 <ul>
-<li>Improve function parameters support</li>
-<li>Remove or improve decorators support</li>
 <li>Add module inclusion/exclusion mechanism</li>
 <li>Add a test suite (esp. metaclasses)</li>
 <li>Support arbitrary Markdown files inclusion</li>
+<li>Resolve symbols (incl. in Markdown)</li>
+<li>Drop empty modules (through a finalization phase?)</li>
 <li>Release a proper package</li>
 </ul>
 <h2>Installation</h2>
 <p>There is no release available yet. At this point, the project is essentially a
 preview.</p>
-<p>The only way to test this project is through clone this repository and
+<p>The only way to test this project is through cloning this repository and
 preparing a virtual environment for it:</p>
 <pre><code>python3 -m venv env
 source env/bin/activate
@@ -1262,7 +1248,7 @@ transmited to the HTML writer.</p>
 
         <div>
           <p>def <span class="ident">walk</span>(</p>
-            <p>root, attr, max_depth=?)</p>
+            <p>root, attr, max_depth=-1)</p>
         </div>
       </div>
 
@@ -1466,22 +1452,6 @@ transmited to the HTML writer.</p>
         <div>
           <p>def <span class="ident">to_html</span>(</p>
             <p>self)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.models.Parameter.make_ast_default"
->
-            <div>@classmethod</div>
-
-        <div>
-          <p>def <span class="ident">make_ast_default</span>(</p>
-            <p>cls, node)</p>
         </div>
       </div>
 
@@ -2020,7 +1990,7 @@ transmited to the HTML writer.</p>
 
         <div>
           <p>def <span class="ident">iter_modules</span>(</p>
-            <p>self, max_depth=?)</p>
+            <p>self, max_depth=-1)</p>
         </div>
       </div>
 
@@ -2035,7 +2005,7 @@ transmited to the HTML writer.</p>
 
         <div>
           <p>def <span class="ident">iter_functions</span>(</p>
-            <p>self, max_depth=?)</p>
+            <p>self, max_depth=-1)</p>
         </div>
       </div>
 
@@ -2050,7 +2020,7 @@ transmited to the HTML writer.</p>
 
         <div>
           <p>def <span class="ident">iter_classes</span>(</p>
-            <p>self, max_depth=?)</p>
+            <p>self, max_depth=-1)</p>
         </div>
       </div>
 
@@ -2086,8 +2056,8 @@ transmited to the HTML writer.</p>
       <p>Command-line interface.</p>
 <p>This module provides CLI-related functionalities such as the various commands,
 arguments/options parsing and live CLI documentation.</p>
-<p>Since <em>docstrings</em> are used to provide live CLI documentation and may thus
-sound slightly out of tone.</p>
+<p>Since <em>docstrings</em> in this module are also used by <code>click</code> to provide live
+CLI documentation, they might sound slightly out of tone.</p>
 <p>This module also exports the program's entrypoint: <code>main</code>.</p>
 
         <h2 class="section-title">
@@ -2115,10 +2085,10 @@ sound slightly out of tone.</p>
       <div class="name def" 
   id="adoc.cli.html_command"
 >
-            <div>@main.command('html')</div>
-            <div>@click.option('--verbose', '-v', is_flag=)</div>
-            <div>@click.option('--output', '-o', default='-')</div>
-            <div>@click.argument('project_path', type=project_type)</div>
+            <div>@main.command(&#39;html&#39;)</div>
+            <div>@click.option(&#39;--verbose&#39;, &#39;-v&#39;, is_flag=True)</div>
+            <div>@click.option(&#39;--output&#39;, &#39;-o&#39;, default=&#39;-&#39;)</div>
+            <div>@click.argument(&#39;project_path&#39;, type=project_type)</div>
 
         <div>
           <p>def <span class="ident">html_command</span>(</p>
@@ -2134,11 +2104,11 @@ sound slightly out of tone.</p>
       <div class="name def" 
   id="adoc.cli.http_command"
 >
-            <div>@main.command('http')</div>
-            <div>@click.option('--verbose', '-v', is_flag=)</div>
-            <div>@click.option('--host', '-h', default='localhost')</div>
-            <div>@click.option('--port', '-p', default=8080, type=int)</div>
-            <div>@click.argument('project_path', type=project_type)</div>
+            <div>@main.command(&#39;http&#39;)</div>
+            <div>@click.option(&#39;--verbose&#39;, &#39;-v&#39;, is_flag=True)</div>
+            <div>@click.option(&#39;--host&#39;, &#39;-h&#39;, default=&#39;localhost&#39;)</div>
+            <div>@click.option(&#39;--port&#39;, &#39;-p&#39;, default=8080, type=int)</div>
+            <div>@click.argument(&#39;project_path&#39;, type=project_type)</div>
 
         <div>
           <p>def <span class="ident">http_command</span>(</p>
@@ -2337,19 +2307,51 @@ sound slightly out of tone.</p>
 <p>This module provides an HTTP server exclusively for the purpose of serving HTML
 documentation over HTTP.</p>
 
+
         <h2 class="section-title">
-          Functions
+          Classes
         </h2>
 
         
     <div class="item">
+      <p class="name" 
+  id="adoc.httpd.RequestHandler"
+>
+
+        class <span class="ident">RequestHandler</span>
+      </p>
+
+      <div class="desc">
+        <p>Documentation HTTP request handler.</p>
+<p>It will serve HTML documentation for the project at <code>project_path</code>. A
+documentation server will only accept <code>HEAD</code> and <code>GET</code> requests and reply
+with 404s for any request that's not made on <code>/</code>.</p>
+      </div>
+
+      <div class="class">
+          <h3>
+            Ancestors
+          </h3>
+
+          <ul class="class_list">
+              <li class="mono">
+                <a href="#ancestors">BaseHTTPRequestHandler</a>
+              </li>
+          </ul>
+
+          <h3>
+            Methods
+          </h3>
+
+          
+    <div class="item">
       <div class="name def" 
-  id="adoc.httpd._make_request_handler"
+  id="adoc.httpd.RequestHandler.send_headers"
 >
 
         <div>
-          <p>def <span class="ident">_make_request_handler</span>(</p>
-            <p>project_path)</p>
+          <p>def <span class="ident">send_headers</span>(</p>
+            <p>self)</p>
         </div>
       </div>
 
@@ -2357,13 +2359,40 @@ documentation over HTTP.</p>
         
       </div>
     </div>
+    <div class="item">
+      <div class="name def" 
+  id="adoc.httpd.RequestHandler.do_HEAD"
+>
 
+        <div>
+          <p>def <span class="ident">do_HEAD</span>(</p>
+            <p>self)</p>
+        </div>
+      </div>
 
-        <h2 class="section-title">
-          Classes
-        </h2>
+      <div class="desc">
+        <p>Respond to <code>HEAD</code> requests.</p>
+      </div>
+    </div>
+    <div class="item">
+      <div class="name def" 
+  id="adoc.httpd.RequestHandler.do_GET"
+>
 
-        
+        <div>
+          <p>def <span class="ident">do_GET</span>(</p>
+            <p>self)</p>
+        </div>
+      </div>
+
+      <div class="desc">
+        <p>Respond to <code>GET</code> requests.</p>
+<p>Only <code>/</code> will be served, other paths will result in 404s.</p>
+      </div>
+    </div>
+
+      </div>
+    </div>
     <div class="item">
       <p class="name" 
   id="adoc.httpd.Server"
@@ -2374,9 +2403,7 @@ documentation over HTTP.</p>
 
       <div class="desc">
         <p>Documentation HTTP server.</p>
-<p>It will serve HTML documentation for the project at <code>project_path</code>. A
-documentation server will only accept <code>HEAD</code> and <code>GET</code> requests and reply
-with 404s for any request that's not made on <code>/</code>.</p>
+<p>It will reponde to HTTP requests using <code>RequestHandler</code>.</p>
       </div>
 
       <div class="class">
@@ -2423,10 +2450,7 @@ with 404s for any request that's not made on <code>/</code>.</p>
         Module <code>adoc.codegen</code>
       </h2>
 
-      <p>AST code generation.</p>
-<p>This module is able to generate python code from an AST or part of an AST.</p>
-<p>The original code was written by Armin Ronacher and released under the BSD
-license.</p>
+      <p>Python source code generation.</p>
 
         <h2 class="section-title">
           Functions
@@ -2435,76 +2459,12 @@ license.</p>
         
     <div class="item">
       <div class="name def" 
-  id="adoc.codegen.to_source"
+  id="adoc.codegen.lookup"
 >
 
         <div>
-          <p>def <span class="ident">to_source</span>(</p>
-            <p>node, indent_with=False, add_line_information=?)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        <p>This function can convert a node tree back into python sourcecode.
-This is useful for debugging purposes, especially if you're dealing with
-custom asts not generated by python itself.</p>
-<p>It could be that the sourcecode is evaluable when the AST itself is not
-compilable / evaluable.  The reason for this is that the AST contains some
-more data than regular sourcecode does, which is dropped during
-conversion.</p>
-<p>Each level of indentation is replaced with <code>indent_with</code>.  Per default this
-parameter is equal to four spaces as suggested by PEP 8, but it might be
-adjusted to match the application's styleguide.</p>
-<p>If <code>add_line_information</code> is set to <code>True</code> comments for the line numbers
-of the nodes are added to the output.  This can be used to spot wrong line
-number information of statement nodes.</p>
-      </div>
-    </div>
-
-
-        <h2 class="section-title">
-          Classes
-        </h2>
-
-        
-    <div class="item">
-      <p class="name" 
-  id="adoc.codegen.SourceGenerator"
->
-
-        class <span class="ident">SourceGenerator</span>
-      </p>
-
-      <div class="desc">
-        <p>This visitor is able to transform a well formed syntax tree into python
-sourcecode.  For more details have a look at the docstring of the
-<code>node_to_source</code> function.</p>
-      </div>
-
-      <div class="class">
-          <h3>
-            Ancestors
-          </h3>
-
-          <ul class="class_list">
-              <li class="mono">
-                <a href="#ancestors">NodeVisitor</a>
-              </li>
-          </ul>
-
-          <h3>
-            Methods
-          </h3>
-
-          
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.__init__"
->
-
-        <div>
-          <p>def <span class="ident">__init__</span>(</p>
-            <p>self, indent_with, add_line_information=False)</p>
+          <p>def <span class="ident">lookup</span>(</p>
+            <p>mapping, atom)</p>
         </div>
       </div>
 
@@ -2514,862 +2474,20 @@ sourcecode.  For more details have a look at the docstring of the
     </div>
     <div class="item">
       <div class="name def" 
-  id="adoc.codegen.SourceGenerator.write"
+  id="adoc.codegen.make_python"
 >
 
         <div>
-          <p>def <span class="ident">write</span>(</p>
-            <p>self, x)</p>
+          <p>def <span class="ident">make_python</span>(</p>
+            <p>node)</p>
         </div>
       </div>
 
       <div class="desc">
-        
+        <p>Generate Python code from an AST node (a subtree).</p>
       </div>
     </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.newline"
->
 
-        <div>
-          <p>def <span class="ident">newline</span>(</p>
-            <p>self, node=0, extra=None)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.body"
->
-
-        <div>
-          <p>def <span class="ident">body</span>(</p>
-            <p>self, statements)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.body_or_else"
->
-
-        <div>
-          <p>def <span class="ident">body_or_else</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.signature"
->
-
-        <div>
-          <p>def <span class="ident">signature</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.decorators"
->
-
-        <div>
-          <p>def <span class="ident">decorators</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Assert"
->
-
-        <div>
-          <p>def <span class="ident">visit_Assert</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Assign"
->
-
-        <div>
-          <p>def <span class="ident">visit_Assign</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_AugAssign"
->
-
-        <div>
-          <p>def <span class="ident">visit_AugAssign</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_ImportFrom"
->
-
-        <div>
-          <p>def <span class="ident">visit_ImportFrom</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Import"
->
-
-        <div>
-          <p>def <span class="ident">visit_Import</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Expr"
->
-
-        <div>
-          <p>def <span class="ident">visit_Expr</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_FunctionDef"
->
-
-        <div>
-          <p>def <span class="ident">visit_FunctionDef</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_ClassDef"
->
-
-        <div>
-          <p>def <span class="ident">visit_ClassDef</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_If"
->
-
-        <div>
-          <p>def <span class="ident">visit_If</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_For"
->
-
-        <div>
-          <p>def <span class="ident">visit_For</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_While"
->
-
-        <div>
-          <p>def <span class="ident">visit_While</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_With"
->
-
-        <div>
-          <p>def <span class="ident">visit_With</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Pass"
->
-
-        <div>
-          <p>def <span class="ident">visit_Pass</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Print"
->
-
-        <div>
-          <p>def <span class="ident">visit_Print</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Delete"
->
-
-        <div>
-          <p>def <span class="ident">visit_Delete</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_TryExcept"
->
-
-        <div>
-          <p>def <span class="ident">visit_TryExcept</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_TryFinally"
->
-
-        <div>
-          <p>def <span class="ident">visit_TryFinally</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Global"
->
-
-        <div>
-          <p>def <span class="ident">visit_Global</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Nonlocal"
->
-
-        <div>
-          <p>def <span class="ident">visit_Nonlocal</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Return"
->
-
-        <div>
-          <p>def <span class="ident">visit_Return</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Break"
->
-
-        <div>
-          <p>def <span class="ident">visit_Break</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Continue"
->
-
-        <div>
-          <p>def <span class="ident">visit_Continue</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Raise"
->
-
-        <div>
-          <p>def <span class="ident">visit_Raise</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Attribute"
->
-
-        <div>
-          <p>def <span class="ident">visit_Attribute</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Call"
->
-
-        <div>
-          <p>def <span class="ident">visit_Call</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Name"
->
-
-        <div>
-          <p>def <span class="ident">visit_Name</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Str"
->
-
-        <div>
-          <p>def <span class="ident">visit_Str</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Bytes"
->
-
-        <div>
-          <p>def <span class="ident">visit_Bytes</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Num"
->
-
-        <div>
-          <p>def <span class="ident">visit_Num</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Tuple"
->
-
-        <div>
-          <p>def <span class="ident">visit_Tuple</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.sequence_visit"
->
-
-        <div>
-          <p>def <span class="ident">sequence_visit</span>(</p>
-            <p>left, right)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Dict"
->
-
-        <div>
-          <p>def <span class="ident">visit_Dict</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_BinOp"
->
-
-        <div>
-          <p>def <span class="ident">visit_BinOp</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_BoolOp"
->
-
-        <div>
-          <p>def <span class="ident">visit_BoolOp</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Compare"
->
-
-        <div>
-          <p>def <span class="ident">visit_Compare</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_UnaryOp"
->
-
-        <div>
-          <p>def <span class="ident">visit_UnaryOp</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Subscript"
->
-
-        <div>
-          <p>def <span class="ident">visit_Subscript</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Slice"
->
-
-        <div>
-          <p>def <span class="ident">visit_Slice</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_ExtSlice"
->
-
-        <div>
-          <p>def <span class="ident">visit_ExtSlice</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Yield"
->
-
-        <div>
-          <p>def <span class="ident">visit_Yield</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Lambda"
->
-
-        <div>
-          <p>def <span class="ident">visit_Lambda</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Ellipsis"
->
-
-        <div>
-          <p>def <span class="ident">visit_Ellipsis</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.generator_visit"
->
-
-        <div>
-          <p>def <span class="ident">generator_visit</span>(</p>
-            <p>left, right)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_DictComp"
->
-
-        <div>
-          <p>def <span class="ident">visit_DictComp</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_IfExp"
->
-
-        <div>
-          <p>def <span class="ident">visit_IfExp</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Starred"
->
-
-        <div>
-          <p>def <span class="ident">visit_Starred</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_Repr"
->
-
-        <div>
-          <p>def <span class="ident">visit_Repr</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_alias"
->
-
-        <div>
-          <p>def <span class="ident">visit_alias</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_comprehension"
->
-
-        <div>
-          <p>def <span class="ident">visit_comprehension</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_excepthandler"
->
-
-        <div>
-          <p>def <span class="ident">visit_excepthandler</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.codegen.SourceGenerator.visit_arguments"
->
-
-        <div>
-          <p>def <span class="ident">visit_arguments</span>(</p>
-            <p>self, node)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-
-      </div>
-    </div>
 
     </section>
 
@@ -3440,36 +2558,6 @@ sourcecode.  For more details have a look at the docstring of the
         <div>
           <p>def <span class="ident">memoized</span>(</p>
             <p>f)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.utils.compose"
->
-
-        <div>
-          <p>def <span class="ident">compose</span>(</p>
-            <p>*functions)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-      <div class="name def" 
-  id="adoc.utils.partial"
->
-
-        <div>
-          <p>def <span class="ident">partial</span>(</p>
-            <p>func, *args)</p>
         </div>
       </div>
 

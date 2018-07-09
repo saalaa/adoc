@@ -3,11 +3,12 @@
 This module provides CLI-related functionalities such as the various commands,
 arguments/options parsing and live CLI documentation.
 
-Since *docstrings* are used to provide live CLI documentation and may thus
-sound slightly out of tone.
+Since *docstrings* in this module are also used by `click` to provide live
+CLI documentation, they might sound slightly out of tone.
 
 This module also exports the program's entrypoint: `main`.
 """
+
 import sys
 import click
 import traceback
@@ -34,8 +35,7 @@ def main():
 @click.option('--output', '-o', default='-')
 @click.argument('project_path', type=project_type)
 def html_command(verbose, output, project_path):
-    """Render documentation as an HTML document.
-    """
+    """Render documentation as an HTML document."""
     try:
         project = parse(project_path)
     except:
@@ -65,8 +65,7 @@ def html_command(verbose, output, project_path):
 @click.option('--port', '-p', default=8080, type=int)
 @click.argument('project_path', type=project_type)
 def http_command(verbose, host, port, project_path):
-    """Serve HTML documentation over HTTP.
-    """
+    """Serve HTML documentation over HTTP."""
     server = Server(host, port, project_path)
 
     success('Starting up on %s:%s' % (host, port))
