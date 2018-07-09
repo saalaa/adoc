@@ -4,7 +4,17 @@ This program generates HTML documentation for Python projects by parsing the
 source code using Python's AST module. As such the source code is *not* loaded,
 it never reaches the interpreter and side-effects are effortlessly avoided.
 
-Current target is to support Python 3.5 and above.
+This projet targets Python 3.5 and above.
+
+
+## Goals
+
+- Improve function parameters support
+- Remove or improve decorators support
+- Add module inclusion/exclusion mechanism
+- Add a test suite (esp. metaclasses)
+- Support arbitrary Markdown files inclusion
+- Release a proper package
 
 
 ## Installation
