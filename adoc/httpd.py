@@ -34,7 +34,8 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.send_headers()
 
         if self.path == '/':
-            project = parse(self.server.project_path)
+            project = parse(self.server.args.project_path,
+                    self.server.args.ignore)
             contents = html(project)
 
             self.wfile.write(
@@ -47,8 +48,8 @@ class Server(HTTPServer):
 
     It will reponde to HTTP requests using `RequestHandler`.
     """
-    def __init__(self, host, port, project_path):
-        self.project_path = project_path
+    def __init__(self, host, port, args):
+        self.args = args
 
         super().__init__(
             (host, port), RequestHandler

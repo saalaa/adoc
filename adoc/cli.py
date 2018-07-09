@@ -9,78 +9,60 @@ CLI documentation, they might sound slightly out of tone.
 This module also exports the program's entrypoint: `main`.
 """
 
+import argparse
 import sys
-import click
 import traceback
 
-# from .models import walk
+from .ignores import merge_ignores, find_ignore, read_ignore
 from .parser import parse
 from .writer import html
 from .utils import error, success
 from .httpd import Server
 
 
-project_type = click.Path(exists=True, readable=True, resolve_path=True,
-        file_okay=False)
-
-
-@click.group()
 def main():
-    """A Python documentation generation tool."""
-    pass
+    argparser = argparse.ArgumentParser(prog='adoc', description='A Python '
+            'documentation generation tool')
+    argparser.add_argument('-v', action='store_true',
+            help='run in verbose mode')
+    argparser.add_argument('-i', '--ignore', type=str, action='append',
+            help='define ignored paths')
+    argparser.add_argument('--serve', action='store_true',
+            help='serve documentation over HTTP')
+    argparser.add_argument('--host', type=str, default='0.0.0.0',
+            help='HTTP server host, defaults to 0.0.0.0')
+    argparser.add_argument('--port', type=int, default='8080',
+            help='HTTP server port, defaults to 8080')
+    argparser.add_argument('project_path', metavar='PROJECT_PATH',
+            help='project path')
+    args = argparser.parse_args(sys.argv[1:])
 
-
-@main.command('html')
-@click.option('--verbose', '-v', is_flag=True)
-@click.option('--output', '-o', default='-')
-@click.argument('project_path', type=project_type)
-def html_command(verbose, output, project_path):
-    """Render documentation as an HTML document."""
-    try:
-        project = parse(project_path)
-    except:
-        if not verbose:
-            error('An exception occured, use `-v` if you want a traceback')
-        else:
-            error('An exception occured, traceback follows')
-            click.echo(
-                traceback.format_exc(), err=True
-            )
-
-        sys.exit(1)
-
-    if output == '-':
-        output = sys.stdout
-    else:
-        output = open(output, 'w')
-
-    click.echo(
-        html(project), file=output
+    args.ignore = merge_ignores(
+        args.ignore, read_ignore(
+            find_ignore(args.project_path)
+        )
     )
 
+    if args.serve:
+        server = Server(args.host, args.port, args)
 
-@main.command('http')
-@click.option('--verbose', '-v', is_flag=True)
-@click.option('--host', '-h', default='localhost')
-@click.option('--port', '-p', default=8080, type=int)
-@click.argument('project_path', type=project_type)
-def http_command(verbose, host, port, project_path):
-    """Serve HTML documentation over HTTP."""
-    server = Server(host, port, project_path)
+        success('Starting up on %s:%s' % (args.host, args.port))
 
-    success('Starting up on %s:%s' % (host, port))
+        try:
+            server.serve_forever()
+        except KeyboardInterrupt:
+            sys.exit(0)
+        except:
+            if not args.verbose:
+                error('An exception occured, use `-v` if you want a traceback')
+            else:
+                error('An exception occured, traceback follows')
+                traceback.print_exc(file=sys.stderr)
 
-    try:
-        server.serve_forever()
-    except KeyboardInterrupt:
-        sys.exit(0)
-    except:
-        if not verbose:
-            error('An exception occured, use `-v` if you want a traceback')
-        else:
-            error('An exception occured, traceback follows')
-            click.echo(
-                traceback.format_exc(), err=True
-            )
+            sys.exit(1)
+    else:
+        project = parse(args.project_path, args.ignore)
 
-        sys.exit(1)
+        sys.stdout.write(
+            html(project)
+        )

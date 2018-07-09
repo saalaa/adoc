@@ -7,14 +7,30 @@ it never reaches the interpreter and side-effects are effortlessly avoided.
 This projet targets Python 3.5 and above.
 
 
-## Goals
+# Features
 
-- Add module inclusion/exclusion mechanism
-- Add a test suite (esp. metaclasses)
-- Support arbitrary Markdown files inclusion
-- Resolve symbols (incl. in Markdown)
-- Drop empty modules (through a finalization phase?)
+- Reads common *ignore* files
+- AST-based Python parsing
+- Ability to start an HTTP server (rebuild on reload)
+- Markdown support
+- Single HTML artifact
+
+
+## Short-term Goals
+
+- Test suite (esp. metaclasses)
+- More documentation
 - Release a proper package
+
+
+## Long-term Goals
+
+- Code cleanup, it's kind of thrown together right now
+- Symbol resolution, allowing linking through symbols within the document
+- Arbitrary Markdown files inclusion, creating new sections as needed
+- JPEG/PNG media inclusion (only one final artifact)
+- Project information sniffing (license, project URL, CI jobs, etc...)
+- Support both Markdown and ReStructuredText
 
 
 ## Installation
@@ -34,7 +50,7 @@ preparing a virtual environment for it:
 
 To start a web server for this project:
 
-    python -m adoc http .
+    python -m adoc --serve .
 
 To generate this project's documentation:
 

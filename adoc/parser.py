@@ -1,22 +1,26 @@
-"""High-level parsing functions.
+"""High-level parsing functions."""
 
-Most of the source code parsing is not performed here. This is instead 
-"""
 import os
 import ast
 
 from .utils import warning
+from .ignores import matches
 from .models import (
     Project, Module
 )
 
 
-def parse(path):
-    return parse_project(path)
+def parse(path, ignores):
+    """Main parsing function"""
+    return parse_project(path, ignores)
 
 
-def parse_project(path):
-    name = os.path.basename(path)
+def parse_project(path, ignores):
+    """Parse a Python project."""
+    name = os.path.basename(
+        os.path.realpath(path)
+    )
+
     readme = os.path.join(path, 'README.md')
 
     doc = None
@@ -28,72 +32,66 @@ def parse_project(path):
 
     project = Project(name, doc)
 
-    # sources = os.path.join(path, name)
+    for item in os.listdir(path):
+        fullpath = os.path.join(path, item)
 
-    # for module in parse_module(path, name):
-    #     project.modules.append(module)
+        if matches(fullpath, item, ignores):
+            continue
 
-    project.add_module(
-        parse_module(path, name)
-    )
+        if not os.path.isdir(fullpath):
+            continue
 
-    # fullpath = os.path.join(path, 'docs')
-    # if os.path.isdir(fullpath):
-    #     for item in os.walk(fullpath):
-    #         print(item)
+        module = parse_module(path, item, ignores)
+
+        if not module.is_empty():
+            project.add_module(module)
 
     return project
 
 
-def parse_module(path, name):
-    """Parse a Python module.
+def parse_module(path, name, ignores):
+    """Parse a Python module."""
+    module_path = os.path.join(path, name)
 
-    """
-    fullpath = os.path.join(path, name)
+    current_module = Module(name)
 
-    if os.path.isfile(fullpath):
-        return parse_file(path, name)
+    init = os.path.join(module_path, '__init__.py')
+    if os.path.isfile(init):
+        current_module.merge(
+            parse_file(module_path, '__init__.py')
+        )
 
-    if os.path.isdir(fullpath):
-        module = Module(name)
+    for item in os.listdir(module_path):
+        item_path = os.path.join(module_path, item)
 
-        init = os.path.join(fullpath, '__init__.py')
-        if os.path.isfile(init):
-            module.merge(
-                parse_file(fullpath, '__init__.py')
-            )
+        if matches(item_path, item, ignores):
+            continue
 
-        path = os.path.join(path, name)
-        for item in os.listdir(path):
-            fullpath = os.path.join(path, item)
+        if os.path.isdir(item_path):
+            module = parse_module(module_path, item, ignores)
 
-            if fullpath.endswith('__init__.py'):
+            if not module.is_empty():
+                current_module.add_module(module)
+
+        if os.path.isfile(item_path):
+            if not item_path.endswith('.py'):
                 continue
-            if fullpath.endswith('__main__.py'):
+
+            if item_path.endswith('__init__.py'):
                 continue
-            if fullpath.endswith('__pycache__'):
+            if item_path.endswith('__main__.py'):
                 continue
 
-            if os.path.isdir(fullpath):
-                module.add_module(
-                    parse_module(path, item)
-                )
-            elif os.path.isfile(fullpath):
-                if not fullpath.endswith('.py'):
-                    continue
+            module = parse_file(module_path, item)
 
-                # FIXME Unncessary call to `parse_module()`, use `parse_file()`.
-                module.add_module(
-                    parse_module(path, item)
-                )
+            if not module.is_empty():
+                current_module.add_module(module)
 
-        return module
+    return current_module
 
 
 def parse_file(path, name):
-    """Parse a Python file.
-
-    """
+    """Parse a Python file."""
     fullpath = os.path.join(path, name)
     with open(fullpath) as file:
         contents = file.read()

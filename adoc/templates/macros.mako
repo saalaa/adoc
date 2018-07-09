@@ -2,10 +2,10 @@
   id="${atom.fully_qualified_name}"
 </%def>
 
-<%def name="link(atom)">
-  <a href="#${atom.fully_qualified_name}">
-    ${text or atom.name}
-  </a>
+<%def name="link(atom, text=None)">
+    <a href="#${atom.fully_qualified_name}" title="${atom.fully_qualified_name}">
+        ${text or atom.name}
+    </a>
 </%def>
 
 <%def name="show_inheritance(d)">
@@ -21,42 +21,38 @@
   % endif
 </%def>
 
-<%def name="show_modules(modules)">
-  % for module in modules:
-    <section class="section-items">
-      <h2 class="section-title" ${anchor(module)}>
-        Module <code>${module.fully_qualified_name}</code>
-      </h2>
-
-      ${format_doc(module)}
-
-      % if module.functions:
-        <h2 class="section-title">
-          Functions
+<%def name="show_modules(project)">
+    % for module in project.iter_modules():
+        <section class="section-items">
+        <h2 class="section-title" ${anchor(module)}>
+            Module <code>${module.fully_qualified_name}</code>
         </h2>
 
-        ${show_functions(module.functions)}
-      % endif
+        ${format_doc(module)}
 
-      % if module.classes:
-        <h2 class="section-title">
-          Classes
-        </h2>
+        % if module.functions:
+            <h2 class="section-title">
+                Functions
+            </h2>
 
-        ${show_classes(module.classes)}
-      % endif
-    </section>
+            ${show_functions(module.functions)}
+        % endif
 
-    % if module.modules:
-      ${show_modules(module.modules)}
-    % endif
-  % endfor
+        % if module.classes:
+            <h2 class="section-title">
+                Classes
+            </h2>
+
+            ${show_classes(module.classes)}
+        % endif
+        </section>
+    % endfor
 </%def>
 
 <%def name="show_functions(functions)">
   % for function in functions:
     <div class="item">
-      <div class="name def" ${anchor(function)}>
+        <div class="name def" ${anchor(function)} title="${function.fully_qualified_name}">
         % if function.decorators:
           % for decorator in function.decorators:
             <div>@${decorator.name | h}</div>
@@ -83,7 +79,7 @@
 <%def name="show_classes(classes)">
   % for klass in classes:
     <div class="item">
-      <p class="name" ${anchor(klass)}>
+      <p class="name" ${anchor(klass)} title="${klass.fully_qualified_name}">
         % if klass.decorators:
           % for decorator in klass.decorators:
             @${decorator.name}<br>
@@ -124,34 +120,34 @@
   % endfor
 </%def>
 
-<%def name="list_modules(modules)">
+<%def name="list_modules(root)">
   <ul>
-    % for module in modules:
-      <li class="mono">
-        ${link(module)}
-
-        % if module.modules:
-          ${list_modules(module.modules)}
-        % endif
-      </li>
-  % endfor
+      % for module in root.iter_modules():
+          <li class="mono">
+              ${link(module, module.fully_qualified_name)}
+          </li>
+      % endfor
   </ul>
 </%def>
 
 <%def name="list_functions(project)">
-    % for function in project.iter_functions():
-        <li class="mono">
-            ${link(function)}
-        </li>
-    % endfor
+    <ul>
+        % for function in project.iter_functions():
+            <li class="mono">
+                ${link(function)}
+            </li>
+        % endfor
+    </ul>
 </%def>
 
 <%def name="list_classes(modules)">
-    % for klass in project.iter_classes():
-        <li class="mono">
-            ${link(klass)}
-        </li>
-    % endfor
+    <ul>
+        % for klass in project.iter_classes():
+            <li class="mono">
+                ${link(klass)}
+            </li>
+        % endfor
+    </ul>
 </%def>
 
 <%def name="show_doc(article)">

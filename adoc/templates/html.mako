@@ -29,7 +29,7 @@
       <ul id="index">
         <li class="set">
           <h3>
-              <a href="#content">README</a>
+              <a href="#content">Introduction</a>
           </h3>
         </li>
 
@@ -39,16 +39,12 @@
           </h3>
         </li>
 
-        <li class="sep">
-          <hr>
-        </li>
-
         <li class="set">
           <h3 id="modules">
             <a href="#modules">Modules</a>
           </h3>
 
-          ${macros.list_modules(project.modules)}
+          ${macros.list_modules(project)}
         </li>
 
         <li class="set">
@@ -56,9 +52,7 @@
             <a href="#functions">Functions</a>
           </h3>
 
-          <ul>
-            ${macros.list_functions(project)}
-          </ul>
+          ${macros.list_functions(project)}
         </li>
 
         <li class="set">
@@ -66,9 +60,7 @@
             <a href="#classes">Classes</a>
           </h3>
 
-          <ul>
-            ${macros.list_classes(project)}
-          </ul>
+          ${macros.list_classes(project)}
         </li>
       </ul>
     </div>
@@ -81,7 +73,7 @@
           API Reference
         </h1>
 
-        ${macros.show_modules(project.modules)}
+        ${macros.show_modules(project)}
       </section>
     </article>
 
