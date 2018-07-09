@@ -8,7 +8,7 @@ transmited to the HTML writer.
 """
 import ast
 
-from .codegen import to_source
+from .codegen import make_python
 from .utils import memoized  # , warning
 
 
@@ -99,21 +99,6 @@ class Parameter(Atom):
         return self.name
 
     @classmethod
-    def make_ast_default(cls, node):
-        if node is None:
-            return ''
-        elif isinstance(node, ast.Num):
-            return repr(node.n)
-        elif isinstance(node, ast.NameConstant):
-            return repr(node.value)
-        elif isinstance(node, ast.Str):
-            return repr(node.s)
-        elif isinstance(node, ast.Bytes):
-            return repr(b'...')
-
-        return '?'
-
-    @classmethod
     def from_ast(cls, node):
         """Build `Parameter` instances from an AST node."""
         args = []
@@ -129,7 +114,7 @@ class Parameter(Atom):
             if node.args.defaults:
                 length = len(node.args.defaults)
                 for i in range(length):
-                    args[-(i + 1)].default = cls.make_ast_default(
+                    args[-(i + 1)].default = make_python(
                         node.args.defaults[i]
                     )
 
@@ -146,7 +131,7 @@ class Parameter(Atom):
             if node.args.kw_defaults:
                 length = len(node.args.kw_defaults)
                 for i in range(length):
-                    args[-(i + 1)].default = cls.make_ast_default(
+                    args[-(i + 1)].default = make_python(
                         node.args.defaults[i]
                     )
 
@@ -180,29 +165,8 @@ class Decorator(Atom):
     def from_ast(cls, node):
         """Build a `Decorator` instance from an AST node."""
         return cls(
-            to_source(node)
+            make_python(node)
         )
-
-        if isinstance(node, ast.Name):
-            return cls(node.id)
-
-        if isinstance(node, ast.Attribute):
-            return cls(
-                concat_ast_attr(node)
-            )
-
-        if isinstance(node, ast.Call):
-            if isinstance(node.func, ast.Name):
-                return cls(node.func)
-
-            if isinstance(node.func, ast.Attribute):
-                return cls(
-                    concat_ast_attr(node.func)
-                )
-
-        print(node)
-
-        return Decorator('unknown')
 
 
 class VariablesMixin:
@@ -411,35 +375,3 @@ def walk(root, attr, max_depth=-1):
 
     for item in getattr(root, attr) or []:
         yield from walk(item, attr, max_depth - 1)
-
-
-# def walk(item):
-#     """Walk through a hierarchy of models.
-
-#     This function will traverse a hierarchy of models, allowing to access
-#     all individual members regardless of their place in the hierarchy.
-
-#     This function is especially useful for debugging:
-
-#         #!python
-#         project = parse(project_path)
-#         for item in walk(project):
-#             print(item)
-#     """
-#     yield item
-
-#     if isinstance(item, ModulesMixin):
-#         for item in item.modules or []:
-#             yield from walk(item)
-
-#     if isinstance(item, VariablesMixin):
-#         for item in item.variables or []:
-#             yield from walk(item)
-
-#     if isinstance(item, ClassesMixin):
-#         for item in item.classes or []:
-#             yield from walk(item)
-
-#     if isinstance(item, FunctionsMixin):
-#         for item in item.functions or []:
-#             yield from walk(item)
