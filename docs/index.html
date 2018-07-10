@@ -856,13 +856,6 @@ table#module-list {
     </a>
 
             </li>
-            <li class="mono searchable" data-fqn="adoc.ignores">
-                
-    <a href="#adoc.ignores" title="adoc.ignores">
-        adoc.ignores
-    </a>
-
-            </li>
             <li class="mono searchable" data-fqn="adoc.models">
                 
     <a href="#adoc.models" title="adoc.models">
@@ -909,13 +902,6 @@ table#module-list {
     </a>
 
             </li>
-            <li class="mono searchable" data-fqn="adoc.ignores.find_ignore">
-                
-    <a href="#adoc.ignores.find_ignore" title="adoc.ignores.find_ignore">
-        find_ignore
-    </a>
-
-            </li>
             <li class="mono searchable" data-fqn="adoc.writer.format_doc">
                 
     <a href="#adoc.writer.format_doc" title="adoc.writer.format_doc">
@@ -958,31 +944,10 @@ table#module-list {
     </a>
 
             </li>
-            <li class="mono searchable" data-fqn="adoc.ignores.matches">
-                
-    <a href="#adoc.ignores.matches" title="adoc.ignores.matches">
-        matches
-    </a>
-
-            </li>
             <li class="mono searchable" data-fqn="adoc.utils.memoized">
                 
     <a href="#adoc.utils.memoized" title="adoc.utils.memoized">
         memoized
-    </a>
-
-            </li>
-            <li class="mono searchable" data-fqn="adoc.ignores.merge_ignores">
-                
-    <a href="#adoc.ignores.merge_ignores" title="adoc.ignores.merge_ignores">
-        merge_ignores
-    </a>
-
-            </li>
-            <li class="mono searchable" data-fqn="adoc.ignores.read_ignore">
-                
-    <a href="#adoc.ignores.read_ignore" title="adoc.ignores.read_ignore">
-        read_ignore
     </a>
 
             </li>
@@ -1131,18 +1096,13 @@ table#module-list {
 source code using Python's AST module. As such the source code is <em>not</em> loaded,
 it never reaches the interpreter and side-effects are effortlessly avoided.</p>
 <p>This projet targets Python 3.5 and above.</p>
-<h1>Features</h1>
+<h2>Features</h2>
 <ul>
-<li>Reads common <em>ignore</em> files</li>
 <li>AST-based Python parsing</li>
-<li>Ability to start an HTTP server (rebuild on reload)</li>
+<li>Fully <code>setup.py</code> -based configuration</li>
+<li>Ability to start an HTTP live-server</li>
 <li>Markdown support</li>
 <li>Single HTML artifact</li>
-</ul>
-<h2>Short-term Goals</h2>
-<ul>
-<li>More documentation</li>
-<li>Release a proper package</li>
 </ul>
 <h2>Long-term Goals</h2>
 <ul>
@@ -1151,6 +1111,21 @@ it never reaches the interpreter and side-effects are effortlessly avoided.</p>
 <li>JPEG/PNG media inclusion (only one final artifact)</li>
 <li>Support both Markdown and ReStructuredText</li>
 </ul>
+<h2>CLI</h2>
+<p>The following command line arguments are supported:</p>
+<ul>
+<li><code>--no-setup</code>: disable parsing of <code>setup.py</code></li>
+<li><code>--name NAME</code>: override project name</li>
+<li><code>--version VERSION</code>: override project version</li>
+<li><code>--package-dir PACKAGE_DIR</code>: override package directory</li>
+<li><code>--packages PACKAGES</code>: override packages</li>
+<li><code>--find-packages</code>: force-find packages using setuptools</li>
+<li><code>--exclude EXCLUDE</code>: set excluded packages</li>
+<li><code>--serve</code>: serve documentation over HTTP</li>
+<li><code>--host HOST</code>: live-server host, defaults to 0.0.0.0</li>
+<li><code>--port PORT</code>: live-server port, defaults to 8080</li>
+</ul>
+<p>A positional argument is also necessary, indicating the path to the project.</p>
 <h2>Installation</h2>
 <p>There is no release available yet. At this point, the project is essentially a
 preview.</p>
@@ -1166,6 +1141,35 @@ pip install -r requirements.txt
 </code></pre>
 <p>To generate this project's documentation:</p>
 <pre><code>python -m adoc html . &gt; adoc.html
+</code></pre>
+<p>To get help:</p>
+<pre><code>python -m adoc html -h
+usage: adoc [-h] [-v] [--no-setup] [--name NAME]
+            [--version VERSION] [--package-dir PACKAGE_DIR]
+            [--packages PACKAGES] [--find-packages]
+            [--exclude EXCLUDE] [--serve] [--host HOST]
+            [--port PORT]
+            PROJECT_PATH
+
+A Python documentation generation tool
+
+positional arguments:
+  PROJECT_PATH          project path
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -v                    run in verbose mode
+  --no-setup            disable parsing of `setup.py`
+  --name NAME           override project name
+  --version VERSION     override project version
+  --package-dir PACKAGE_DIR
+                        override package directory
+  --packages PACKAGES   override packages
+  --find-packages       force-find packages using setuptools
+  --exclude EXCLUDE     set excluded packages
+  --serve               serve documentation over HTTP
+  --host HOST           live-server host, defaults to 0.0.0.0
+  --port PORT           live-server port, defaults to 8080
 </code></pre>
   </section>
 
@@ -1216,12 +1220,8 @@ pip install -r requirements.txt
 
       <div class="desc">
         <p>Program entry point.</p>
-<p>This function is responsible for reading command line arguments and
-supports the following:</p>
-<ul>
-<li><code>-v</code>: run in verbose mode</li>
-<li><code>--no-setup</code>: disable parsing of <code>setup.py</code></li>
-</ul>
+<p>This is where command line arguments are configured and read. Then the
+configuration is fine-tuned for execution.</p>
       </div>
     </div>
 
@@ -1440,94 +1440,6 @@ with 404s for any request that's not made on <code>/</code>.</p>
 
       </div>
     </div>
-
-        </section>
-        <section class="section-items">
-        <h2 class="section-title" 
-  id="adoc.ignores"
->
-            Module <code>adoc.ignores</code>
-        </h2>
-
-        
-
-            <h2 class="section-title">
-                Functions
-            </h2>
-
-            
-    <div class="item">
-        <div class="name def" 
-  id="adoc.ignores.merge_ignores"
- title="adoc.ignores.merge_ignores">
-
-        <div>
-          <p>def <span class="ident">merge_ignores</span>(</p>
-
-            <p>*ignores)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-        <div class="name def" 
-  id="adoc.ignores.find_ignore"
- title="adoc.ignores.find_ignore">
-
-        <div>
-          <p>def <span class="ident">find_ignore</span>(</p>
-
-            <p>path)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        <p>Find an ignore file through a series of heuristics.</p>
-<p>The following common ignore files are probed:</p>
-<ul>
-<li><code>.gitignore</code></li>
-<li><code>.hgignore</code></li>
-<li><code>.agignore</code></li>
-<li><code>.ignore</code></li>
-</ul>
-      </div>
-    </div>
-    <div class="item">
-        <div class="name def" 
-  id="adoc.ignores.read_ignore"
- title="adoc.ignores.read_ignore">
-
-        <div>
-          <p>def <span class="ident">read_ignore</span>(</p>
-
-            <p>filename)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-        <div class="name def" 
-  id="adoc.ignores.matches"
- title="adoc.ignores.matches">
-
-        <div>
-          <p>def <span class="ident">matches</span>(</p>
-
-            <p>filepath, basename, ignores)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-
 
         </section>
         <section class="section-items">
