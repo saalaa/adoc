@@ -21,9 +21,9 @@ This projet targets Python 3.5 and above.
 ## Long-term Goals
 
 - Symbol resolution, allowing linking through symbols within the document
+- Arbitrary Markdown files inclusion, creating new sections as needed
 - Provide graceful support for common Sphinx directives
 - JPEG/PNG media inclusion (only one final artifact)
-- Support both Markdown and ReStructuredText
 
 
 ## CLI
