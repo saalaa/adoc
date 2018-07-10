@@ -795,6 +795,7 @@ table#module-list {
 
             <li><a href="https://github.com/saalaa/adoc">Project page</a></li>
 
+              <li><a href="https://saalaa.github.io/adoc">Documentation</a></li>
               <li><a href="https://github.com/saalaa/adoc/issues">Issues</a></li>
         </ul>
 
@@ -1110,13 +1111,12 @@ it never reaches the interpreter and side-effects are effortlessly avoided.</p>
 <li>Built-in HTTP live-server</li>
 <li>Single HTML artifact</li>
 </ul>
-<h2>Long-term Goals</h2>
-<ul>
-<li>Symbol resolution, allowing linking through symbols within the document</li>
-<li>Arbitrary Markdown files inclusion, creating new sections as needed</li>
-<li>Provide graceful support for common Sphinx directives</li>
-<li>JPEG/PNG media inclusion (only one final artifact)</li>
-</ul>
+<h2>Installation</h2>
+<p>This is fairly straighforward:</p>
+<div class="codehilite"><pre><span></span>pip install adoc
+</pre></div>
+
+
 <h2>CLI</h2>
 <p>The following command line arguments are supported:</p>
 <ul>
@@ -1133,25 +1133,33 @@ it never reaches the interpreter and side-effects are effortlessly avoided.</p>
 <li><code>--port PORT</code>: live-server port, defaults to 8080</li>
 </ul>
 <p>A positional argument is also necessary, indicating the path to the project.</p>
-<h2>Installation</h2>
-<p>There is no release available yet. At this point, the project is essentially a
-preview.</p>
-<p>The only way to test this project is through cloning this repository and
-preparing a virtual environment for it:</p>
+<p>Sample usage:</p>
+<div class="codehilite"><pre><span></span>adoc --serve .
+</pre></div>
+
+
+<h2>Long-term Goals</h2>
+<ul>
+<li>Symbol resolution, allowing linking through symbols within the document</li>
+<li>Arbitrary Markdown files inclusion, creating new sections as needed</li>
+<li>Provide graceful support for common Sphinx directives</li>
+<li>JPEG/PNG media inclusion (only one final artifact)</li>
+</ul>
+<h2>Hacking on the project</h2>
+<p>Prepare a virtual environment:</p>
 <div class="codehilite"><pre><span></span>python3 -m venv env
 source env/bin/activate
-pip install -r requirements.txt
+pip install -r requirements-test.txt
 </pre></div>
 
 
-<h2>Usage</h2>
-<p>To start a web server for this project:</p>
+<p>Run the test suite:</p>
+<div class="codehilite"><pre><span></span>pytest .
+</pre></div>
+
+
+<p>To start the web server:</p>
 <div class="codehilite"><pre><span></span>python -m adoc --serve .
-</pre></div>
-
-
-<p>To generate this project's documentation:</p>
-<div class="codehilite"><pre><span></span>python -m adoc html . &gt; adoc.html
 </pre></div>
       </section>
 

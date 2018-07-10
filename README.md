@@ -18,12 +18,11 @@ This projet targets Python 3.5 and above.
 - Single HTML artifact
 
 
-## Long-term Goals
+## Installation
 
-- Symbol resolution, allowing linking through symbols within the document
-- Arbitrary Markdown files inclusion, creating new sections as needed
-- Provide graceful support for common Sphinx directives
-- JPEG/PNG media inclusion (only one final artifact)
+This is fairly straighforward:
+
+    pip install adoc
 
 
 ## CLI
@@ -44,26 +43,31 @@ The following command line arguments are supported:
 
 A positional argument is also necessary, indicating the path to the project.
 
+Sample usage:
 
-## Installation
+    adoc --serve .
 
-There is no release available yet. At this point, the project is essentially a
-preview.
 
-The only way to test this project is through cloning this repository and
-preparing a virtual environment for it:
+## Long-term Goals
+
+- Symbol resolution, allowing linking through symbols within the document
+- Arbitrary Markdown files inclusion, creating new sections as needed
+- Provide graceful support for common Sphinx directives
+- JPEG/PNG media inclusion (only one final artifact)
+
+
+## Hacking on the project
+
+Prepare a virtual environment:
 
     python3 -m venv env
     source env/bin/activate
-    pip install -r requirements.txt
+    pip install -r requirements-test.txt
 
+Run the test suite:
 
-## Usage
+    pytest .
 
-To start a web server for this project:
+To start the web server:
 
     python -m adoc --serve .
-
-To generate this project's documentation:
-
-    python -m adoc html . > adoc.html

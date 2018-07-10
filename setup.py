@@ -15,13 +15,14 @@ setup(
     author_email='benoit@myard.xyz',
     url='https://github.com/saalaa/adoc',
     project_urls={
+        'Documentation': 'https://saalaa.github.io/adoc',
         'Issues': 'https://github.com/saalaa/adoc/issues'
     },
     description='Python code documentation generator',
     long_description='See https://github.com/saalaa/adoc',
-    include_package_data=True,
     install_requires=requirements,
     packages=find_packages(),
+    include_package_data=True,
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Environment :: Web Environment',
@@ -42,7 +43,7 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python',
-        'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
+        'Topic :: Internet :: WWW/HTTP :: Dynamic Content'
     ],
     entry_points={
         'console_scripts': [
