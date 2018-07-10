@@ -9,19 +9,13 @@ it never reaches the interpreter and side-effects are effortlessly avoided.
 This projet targets Python 3.5 and above.
 
 
-# Features
+## Features
 
-- Reads common *ignore* files
 - AST-based Python parsing
-- Ability to start an HTTP server (rebuild on reload)
+- Fully `setup.py` -based configuration
+- Ability to start an HTTP live-server
 - Markdown support
 - Single HTML artifact
-
-
-## Short-term Goals
-
-- More documentation
-- Release a proper package
 
 
 ## Long-term Goals
@@ -30,6 +24,24 @@ This projet targets Python 3.5 and above.
 - Arbitrary Markdown files inclusion, creating new sections as needed
 - JPEG/PNG media inclusion (only one final artifact)
 - Support both Markdown and ReStructuredText
+
+
+## CLI
+
+The following command line arguments are supported:
+
+- `--no-setup`: disable parsing of `setup.py`
+- `--name NAME`: override project name
+- `--version VERSION`: override project version
+- `--package-dir PACKAGE_DIR`: override package directory
+- `--packages PACKAGES`: override packages
+- `--find-packages`: force-find packages using setuptools
+- `--exclude EXCLUDE`: set excluded packages
+- `--serve`: serve documentation over HTTP
+- `--host HOST`: live-server host, defaults to 0.0.0.0
+- `--port PORT`: live-server port, defaults to 8080
+
+A positional argument is also necessary, indicating the path to the project.
 
 
 ## Installation
@@ -54,3 +66,34 @@ To start a web server for this project:
 To generate this project's documentation:
 
     python -m adoc html . > adoc.html
+
+To get help:
+
+    python -m adoc html -h
+    usage: adoc [-h] [-v] [--no-setup] [--name NAME]
+                [--version VERSION] [--package-dir PACKAGE_DIR]
+                [--packages PACKAGES] [--find-packages]
+                [--exclude EXCLUDE] [--serve] [--host HOST]
+                [--port PORT]
+                PROJECT_PATH
+
+    A Python documentation generation tool
+
+    positional arguments:
+      PROJECT_PATH          project path
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      -v                    run in verbose mode
+      --no-setup            disable parsing of `setup.py`
+      --name NAME           override project name
+      --version VERSION     override project version
+      --package-dir PACKAGE_DIR
+                            override package directory
+      --packages PACKAGES   override packages
+      --find-packages       force-find packages using setuptools
+      --exclude EXCLUDE     set excluded packages
+      --serve               serve documentation over HTTP
+      --host HOST           live-server host, defaults to 0.0.0.0
+      --port PORT           live-server port, defaults to 8080
+

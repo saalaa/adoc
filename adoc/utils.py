@@ -1,3 +1,4 @@
+import os
 import sys
 
 from functools import wraps
@@ -36,3 +37,15 @@ def memoized(f):
         return value
 
     return wrapper
+
+
+class WorkingDirectory:
+    def __init__(self, directory):
+        self.target_wd = directory
+        self.initial_wd = os.getcwd()
+    
+    def __enter__(self):
+        os.chdir(self.target_wd)
+
+    def __exit__(self, *args):
+        os.chdir(self.initial_wd)

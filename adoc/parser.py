@@ -3,112 +3,147 @@
 import os
 import json
 import ast
+import sys
+import unittest.mock
+import setuptools
+import importlib
+import fnmatch
 
-from .utils import warning
-from .ignores import matches
+from .utils import warning, WorkingDirectory
 from .models import (
     Project, Module
 )
 
 
-def parse(path, ignores):
-    """Main parsing function"""
-    return parse_project(path, ignores)
+class ProjectParser:
+    module = None
 
+    def __init__(self, path, overrides, no_setup=False,
+            force_find_packages=False, exclude=None):
+        self.path = path
+        self.overrides = overrides
+        self.no_setup = no_setup
+        self.force_find_packages = force_find_packages
+        self.exclude = exclude or []
 
-def parse_project(path, ignores):
-    """Parse a Python project."""
-    name = os.path.basename(
-        os.path.realpath(path)
-    )
+    def parse(self):
+        """Parse a project, setting the current working directiory."""
+        with WorkingDirectory(self.path):
+            return self.parse_project()
 
-    readme_file = os.path.join(path, 'README.md')
+    def parse_project(self):
+        """Parse a Python project in the current working directory."""
+        readme = self.parse_readme()
 
-    readme = None
-    if os.path.isfile(readme_file):
-        with open(readme_file) as fh:
-            readme = fh.read()
-    else:
-        warning('README.md not found in project')
+        metadata = {}
 
-    metadata_file = os.path.join(path, '.adoc.json')
+        if not self.no_setup:
+            metadata.update(
+                self.parse_setup()
+            )
 
-    metadata = None
-    if os.path.isfile(metadata_file):
-        with open(metadata_file) as fh:
-            metadata = json.load(fh)
+        metadata.update(self.overrides)
 
-    if metadata and 'name' in metadata:
-        name = metadata['name']
+        if 'name' not in metadata:
+            metadata['name'] = os.path.basename(
+                os.path.realpath(self.path)
+            )
 
-    project = Project(name, readme, metadata)
+        if 'package_dir' not in metadata:
+            metadata['package_dir'] = {
+                '': '.'  # By default, all packages are in the current directory
+            }
 
-    for item in os.listdir(path):
-        fullpath = os.path.join(path, item)
+        if 'packages' not in metadata or self.force_find_packages:
+            metadata['packages'] = setuptools.find_packages(
+                metadata['package_dir'].get('', ''), exclude=self.exclude
+            )
 
-        if matches(fullpath, item, ignores):
-            continue
+        project = Project(metadata['name'], readme, metadata)
 
-        if not os.path.isdir(fullpath):
-            continue
+        for package in metadata['packages']:
+            parts = package.split('.')
+            dir = metadata['package_dir'].get(
+                package, metadata['package_dir'].get('')
+            )
 
-        module = parse_module(path, item, ignores)
+            package_path = os.path.join(dir, *parts)
 
-        if not module.is_empty():
-            project.add_module(module)
+            if not os.path.isdir(package_path):
+                continue
 
-    return project
-
-
-def parse_module(path, name, ignores):
-    """Parse a Python module."""
-    module_path = os.path.join(path, name)
-
-    current_module = Module(name)
-
-    init = os.path.join(module_path, '__init__.py')
-    if os.path.isfile(init):
-        current_module.merge(
-            parse_file(module_path, '__init__.py')
-        )
-
-    for item in os.listdir(module_path):
-        item_path = os.path.join(module_path, item)
-
-        if matches(item_path, item, ignores):
-            continue
-
-        if os.path.isdir(item_path):
-            module = parse_module(module_path, item, ignores)
+            module = self.parse_module(package_path, package)
 
             if not module.is_empty():
-                current_module.add_module(module)
+                project.add_module(module)
 
-        if os.path.isfile(item_path):
+        return project
+
+    def parse_readme(self):
+        """Parse a `README.md` file in the current working directory."""
+        if not os.path.isfile('README.md'):
+            return None
+
+        with open('README.md') as fh:
+            return fh.read()
+
+    def parse_setup(self):
+        """Parse a `setup.py` file in the current working directory."""
+        if not os.path.isfile('setup.py'):
+            return {}
+
+        with unittest.mock.patch.object(setuptools, 'setup') as mock_setup:
+            if not self.module:
+                self.module = importlib.import_module('setup')
+            else:
+                importlib.reload(self.module)
+
+        args, kwargs = mock_setup.call_args
+
+        return kwargs
+
+    def parse_module(self, path, name):
+        """Parse a Python module."""
+        current_module = Module(name)
+
+        for item in os.listdir(path):
+            item_path = os.path.join(path, item)
+
+            if not os.path.isfile(item_path):
+                continue
+
             if not item_path.endswith('.py'):
                 continue
 
             if item_path.endswith('__init__.py'):
                 continue
+
             if item_path.endswith('__main__.py'):
                 continue
 
-            module = parse_file(module_path, item)
+            excluded = any(
+                fnmatch.fnmatchcase(item, pat=excl) for excl in self.exclude
+            )
 
-            if not module.is_empty():
+            if excluded:
+                continue
+
+            module = self.parse_file(item_path, item)
+
+            if item == '__init__.py':
+                current_module.merge(module)
+            elif not module.is_empty():
                 current_module.add_module(module)
 
-    return current_module
+        return current_module
 
+    def parse_file(self, path, name):
+        """Parse a Python file."""
+        with open(path) as fh:
+            contents = fh.read()
 
-def parse_file(path, name):
-    """Parse a Python file."""
-    fullpath = os.path.join(path, name)
-    with open(fullpath) as fh:
-        contents = fh.read()
+        name, ext = os.path.splitext(name)
 
-    name, ext = os.path.splitext(name)
+        root = ast.parse(contents)
 
-    root = ast.parse(contents)
-
-    return Module.from_ast(root, name)
+        return Module.from_ast(root, name)

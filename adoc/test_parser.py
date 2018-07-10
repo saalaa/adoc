@@ -1,35 +1,28 @@
-from .parser import parse
+from .parser import ProjectParser
 from .writer import html
-from .ignores import (
-    merge_ignores, find_ignore, read_ignore
-)
 
 
 def test_parse(capsys):
     project_path = '.'
-    ignore = merge_ignores(
-        read_ignore(
-            find_ignore(project_path)
-        )
-    )
 
-    project = parse(
-        project_path, ignore
-    )
+    parser = ProjectParser(project_path, {}, exclude=['*.tests', '*.tests.*',
+        'tests.*', 'tests', 'test_*'])
+
+    project = parser.parse()
 
     assert project
 
     assert 'Project' in str(project)
 
-    assert 9 == len(
+    assert 8 == len(
         project.iter_modules()
     )
 
-    assert 19 == len(
+    assert 11 == len(
         project.iter_functions()
     )
 
-    assert 12 == len(
+    assert 14 == len(
         project.iter_classes()
     )
 

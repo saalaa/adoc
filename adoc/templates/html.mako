@@ -19,7 +19,6 @@
   </style>
 </head>
 <body>
-
   <a href="#" id="top">Top</a>
 
   <div id="container">
@@ -32,18 +31,46 @@
         % endif
       </h2>
 
-      % if project.has_meta('author', 'license', 'urls'):
+      % if project.has_meta('description'):
+        <p>${project.get_meta('description')}</p>
+      % endif
+
+      % if project.has_meta('author', 'author_email', 'license', 'url', 'project_urls'):
         <ul class="metadata">
           % if project.has_meta('author'):
-            <li>${project.get_meta('author') | h}</li>
+            % if project.has_meta('author_email'):
+              <li>
+                <a href="mailto:${project.get_meta('author_email')}">
+                  ${project.get_meta('author') | h}
+                </a>
+              </li>
+            % else:
+              <li>${project.get_meta('author') | h}</li>
+            % endif
+          % endif
+
+          % if project.has_meta('maintainer'):
+            % if project.has_meta('maintainer_email'):
+              <li>
+                <a href="mailto:${project.get_meta('maintainer_email')}">
+                  ${project.get_meta('maintainer') | h}
+                </a>
+              </li>
+            % else:
+              <li>${project.get_meta('maintainer') | h}</li>
+            % endif
           % endif
 
           % if project.has_meta('license'):
             <li>${project.get_meta('license') | h}</li>
           % endif
 
-          % if project.has_meta('urls'):
-            % for key, value in project.get_meta('urls').items():
+          % if project.has_meta('url'):
+            <li><a href="${project.get_meta('url')}">Project page</a></li>
+          % endif
+
+          % if project.has_meta('project_urls'):
+            % for key, value in project.get_meta('project_urls').items():
               <li><a href="${value}">${key | h}</a></li>
             % endfor
           % endif

@@ -771,7 +771,6 @@ table#module-list {
   </style>
 </head>
 <body>
-
   <a href="#" id="top">Top</a>
 
   <div id="container">
@@ -782,12 +781,20 @@ table#module-list {
           (<small>0.1.0</small>)
       </h2>
 
+        <p>Python code documentation generator</p>
+
         <ul class="metadata">
-            <li>Benoit Myard &lt;benoit@myard.xyz&gt;</li>
+              <li>
+                <a href="mailto:benoit@myard.xyz">
+                  Benoit Myard
+                </a>
+              </li>
 
-            <li>BSD 2-Clause License</li>
 
-              <li><a href="https://github.com/saalaa/adoc">Homepage</a></li>
+            <li>BSD</li>
+
+            <li><a href="https://github.com/saalaa/adoc">Project page</a></li>
+
               <li><a href="https://github.com/saalaa/adoc/issues">Issues</a></li>
         </ul>
 
@@ -972,34 +979,6 @@ table#module-list {
     </a>
 
             </li>
-            <li class="mono searchable" data-fqn="adoc.parser.parse">
-                
-    <a href="#adoc.parser.parse" title="adoc.parser.parse">
-        parse
-    </a>
-
-            </li>
-            <li class="mono searchable" data-fqn="adoc.parser.parse_file">
-                
-    <a href="#adoc.parser.parse_file" title="adoc.parser.parse_file">
-        parse_file
-    </a>
-
-            </li>
-            <li class="mono searchable" data-fqn="adoc.parser.parse_module">
-                
-    <a href="#adoc.parser.parse_module" title="adoc.parser.parse_module">
-        parse_module
-    </a>
-
-            </li>
-            <li class="mono searchable" data-fqn="adoc.parser.parse_project">
-                
-    <a href="#adoc.parser.parse_project" title="adoc.parser.parse_project">
-        parse_project
-    </a>
-
-            </li>
             <li class="mono searchable" data-fqn="adoc.ignores.read_ignore">
                 
     <a href="#adoc.ignores.read_ignore" title="adoc.ignores.read_ignore">
@@ -1109,6 +1088,13 @@ table#module-list {
     </a>
 
             </li>
+            <li class="mono searchable" data-fqn="adoc.parser.projectparser">
+                
+    <a href="#adoc.parser.ProjectParser" title="adoc.parser.ProjectParser">
+        ProjectParser
+    </a>
+
+            </li>
             <li class="mono searchable" data-fqn="adoc.httpd.requesthandler">
                 
     <a href="#adoc.httpd.RequestHandler" title="adoc.httpd.RequestHandler">
@@ -1120,6 +1106,13 @@ table#module-list {
                 
     <a href="#adoc.httpd.Server" title="adoc.httpd.Server">
         Server
+    </a>
+
+            </li>
+            <li class="mono searchable" data-fqn="adoc.utils.workingdirectory">
+                
+    <a href="#adoc.utils.WorkingDirectory" title="adoc.utils.WorkingDirectory">
+        WorkingDirectory
     </a>
 
             </li>
@@ -1190,7 +1183,7 @@ pip install -r requirements.txt
             Module <code>adoc</code>
         </h2>
 
-        <p>Main package.</p>
+        
 
 
         </section>
@@ -1202,11 +1195,7 @@ pip install -r requirements.txt
         </h2>
 
         <p>Command-line interface.</p>
-<p>This module provides CLI-related functionalities such as the various commands,
-arguments/options parsing and live CLI documentation.</p>
-<p>Since <em>docstrings</em> in this module are also used by <code>click</code> to provide live
-CLI documentation, they might sound slightly out of tone.</p>
-<p>This module also exports the program's entrypoint: <code>main</code>.</p>
+<p>This module exports the program's entry point: <code>main</code>.</p>
 
             <h2 class="section-title">
                 Functions
@@ -1226,7 +1215,13 @@ CLI documentation, they might sound slightly out of tone.</p>
       </div>
 
       <div class="desc">
-        
+        <p>Program entry point.</p>
+<p>This function is responsible for reading command line arguments and
+supports the following:</p>
+<ul>
+<li><code>-v</code>: run in verbose mode</li>
+<li><code>--no-setup</code>: disable parsing of <code>setup.py</code></li>
+</ul>
       </div>
     </div>
 
@@ -1434,7 +1429,7 @@ with 404s for any request that's not made on <code>/</code>.</p>
         <div>
           <p>def <span class="ident">__init__</span>(</p>
 
-            <p>self, host, port, args)</p>
+            <p>self, host, port, parser)</p>
         </div>
       </div>
 
@@ -2275,52 +2270,120 @@ transmited to the HTML writer.</p>
 
         <p>High-level parsing functions.</p>
 
+
             <h2 class="section-title">
-                Functions
+                Classes
             </h2>
 
             
     <div class="item">
+      <p class="name" 
+  id="adoc.parser.ProjectParser"
+ title="adoc.parser.ProjectParser">
+
+        class <span class="ident">ProjectParser</span>
+      </p>
+
+      <div class="desc">
+        
+      </div>
+
+      <div class="class">
+
+          <h3>
+            Methods
+          </h3>
+
+          
+    <div class="item">
         <div class="name def" 
-  id="adoc.parser.parse"
- title="adoc.parser.parse">
+  id="adoc.parser.ProjectParser.__init__"
+ title="adoc.parser.ProjectParser.__init__">
+
+        <div>
+          <p>def <span class="ident">__init__</span>(</p>
+
+            <p>self, path, overrides, no_setup=False, force_find_packages=False, exclude=None)</p>
+        </div>
+      </div>
+
+      <div class="desc">
+        
+      </div>
+    </div>
+    <div class="item">
+        <div class="name def" 
+  id="adoc.parser.ProjectParser.parse"
+ title="adoc.parser.ProjectParser.parse">
 
         <div>
           <p>def <span class="ident">parse</span>(</p>
 
-            <p>path, ignores)</p>
+            <p>self)</p>
         </div>
       </div>
 
       <div class="desc">
-        <p>Main parsing function</p>
+        <p>Parse a project, setting the current working directiory.</p>
       </div>
     </div>
     <div class="item">
         <div class="name def" 
-  id="adoc.parser.parse_project"
- title="adoc.parser.parse_project">
+  id="adoc.parser.ProjectParser.parse_project"
+ title="adoc.parser.ProjectParser.parse_project">
 
         <div>
           <p>def <span class="ident">parse_project</span>(</p>
 
-            <p>path, ignores)</p>
+            <p>self)</p>
         </div>
       </div>
 
       <div class="desc">
-        <p>Parse a Python project.</p>
+        <p>Parse a Python project in the current working directory.</p>
       </div>
     </div>
     <div class="item">
         <div class="name def" 
-  id="adoc.parser.parse_module"
- title="adoc.parser.parse_module">
+  id="adoc.parser.ProjectParser.parse_readme"
+ title="adoc.parser.ProjectParser.parse_readme">
+
+        <div>
+          <p>def <span class="ident">parse_readme</span>(</p>
+
+            <p>self)</p>
+        </div>
+      </div>
+
+      <div class="desc">
+        <p>Parse a <code>README.md</code> file in the current working directory.</p>
+      </div>
+    </div>
+    <div class="item">
+        <div class="name def" 
+  id="adoc.parser.ProjectParser.parse_setup"
+ title="adoc.parser.ProjectParser.parse_setup">
+
+        <div>
+          <p>def <span class="ident">parse_setup</span>(</p>
+
+            <p>self)</p>
+        </div>
+      </div>
+
+      <div class="desc">
+        <p>Parse a <code>setup.py</code> file in the current working directory.</p>
+      </div>
+    </div>
+    <div class="item">
+        <div class="name def" 
+  id="adoc.parser.ProjectParser.parse_module"
+ title="adoc.parser.ProjectParser.parse_module">
 
         <div>
           <p>def <span class="ident">parse_module</span>(</p>
 
-            <p>path, name, ignores)</p>
+            <p>self, path, name)</p>
         </div>
       </div>
 
@@ -2330,13 +2393,13 @@ transmited to the HTML writer.</p>
     </div>
     <div class="item">
         <div class="name def" 
-  id="adoc.parser.parse_file"
- title="adoc.parser.parse_file">
+  id="adoc.parser.ProjectParser.parse_file"
+ title="adoc.parser.ProjectParser.parse_file">
 
         <div>
           <p>def <span class="ident">parse_file</span>(</p>
 
-            <p>path, name)</p>
+            <p>self, path, name)</p>
         </div>
       </div>
 
@@ -2345,6 +2408,8 @@ transmited to the HTML writer.</p>
       </div>
     </div>
 
+      </div>
+    </div>
 
         </section>
         <section class="section-items">
@@ -2426,6 +2491,82 @@ transmited to the HTML writer.</p>
       </div>
     </div>
 
+
+            <h2 class="section-title">
+                Classes
+            </h2>
+
+            
+    <div class="item">
+      <p class="name" 
+  id="adoc.utils.WorkingDirectory"
+ title="adoc.utils.WorkingDirectory">
+
+        class <span class="ident">WorkingDirectory</span>
+      </p>
+
+      <div class="desc">
+        
+      </div>
+
+      <div class="class">
+
+          <h3>
+            Methods
+          </h3>
+
+          
+    <div class="item">
+        <div class="name def" 
+  id="adoc.utils.WorkingDirectory.__init__"
+ title="adoc.utils.WorkingDirectory.__init__">
+
+        <div>
+          <p>def <span class="ident">__init__</span>(</p>
+
+            <p>self, directory)</p>
+        </div>
+      </div>
+
+      <div class="desc">
+        
+      </div>
+    </div>
+    <div class="item">
+        <div class="name def" 
+  id="adoc.utils.WorkingDirectory.__enter__"
+ title="adoc.utils.WorkingDirectory.__enter__">
+
+        <div>
+          <p>def <span class="ident">__enter__</span>(</p>
+
+            <p>self)</p>
+        </div>
+      </div>
+
+      <div class="desc">
+        
+      </div>
+    </div>
+    <div class="item">
+        <div class="name def" 
+  id="adoc.utils.WorkingDirectory.__exit__"
+ title="adoc.utils.WorkingDirectory.__exit__">
+
+        <div>
+          <p>def <span class="ident">__exit__</span>(</p>
+
+            <p>self, *args)</p>
+        </div>
+      </div>
+
+      <div class="desc">
+        
+      </div>
+    </div>
+
+      </div>
+    </div>
 
         </section>
         <section class="section-items">
