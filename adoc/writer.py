@@ -10,10 +10,12 @@ template_lookup = mako.lookup.TemplateLookup(directories=[template_path])
 
 
 def format_doc(atom):
-    return markdown.markdown(atom.doc, extentions=[
+    md = markdown.Markdown(extensions=[
         'markdown.extensions.extra',
         'markdown.extensions.codehilite'
     ])
+
+    return md.convert(atom.doc)
 
 
 def html(project):
