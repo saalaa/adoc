@@ -902,10 +902,17 @@ table#module-list {
     </a>
 
             </li>
-            <li class="mono searchable" data-fqn="adoc.writer.format_doc">
+            <li class="mono searchable" data-fqn="adoc.writer.format_md">
                 
-    <a href="#adoc.writer.format_doc" title="adoc.writer.format_doc">
-        format_doc
+    <a href="#adoc.writer.format_md" title="adoc.writer.format_md">
+        format_md
+    </a>
+
+            </li>
+            <li class="mono searchable" data-fqn="adoc.writer.format_rst">
+                
+    <a href="#adoc.writer.format_rst" title="adoc.writer.format_rst">
+        format_rst
     </a>
 
             </li>
@@ -1088,9 +1095,8 @@ table#module-list {
     </div>
 
     <article id="content">
-      
-  <section>
-    <p><a href="https://travis-ci.org/saalaa/adoc"><img alt="Build Status" src="https://travis-ci.org/saalaa/adoc.svg?branch=master" /></a></p>
+      <section>
+        <p><a href="https://travis-ci.org/saalaa/adoc"><img alt="Build Status" src="https://travis-ci.org/saalaa/adoc.svg?branch=master" /></a></p>
 <h1><strong>adoc</strong> project</h1>
 <p>This program generates HTML documentation for Python projects by parsing the
 source code using Python's AST module. As such the source code is <em>not</em> loaded,
@@ -1100,20 +1106,21 @@ it never reaches the interpreter and side-effects are effortlessly avoided.</p>
 <ul>
 <li>AST-based Python parsing</li>
 <li>Fully <code>setup.py</code> -based configuration</li>
-<li>Ability to start an HTTP live-server</li>
-<li>Markdown support</li>
+<li>Markdown and RST support</li>
+<li>Built-in HTTP live-server</li>
 <li>Single HTML artifact</li>
 </ul>
 <h2>Long-term Goals</h2>
 <ul>
 <li>Symbol resolution, allowing linking through symbols within the document</li>
-<li>Arbitrary Markdown files inclusion, creating new sections as needed</li>
+<li>Provide graceful support for common Sphinx directives</li>
 <li>JPEG/PNG media inclusion (only one final artifact)</li>
 <li>Support both Markdown and ReStructuredText</li>
 </ul>
 <h2>CLI</h2>
 <p>The following command line arguments are supported:</p>
 <ul>
+<li><code>--rst-docstrings</code>: format docstrings using RST</li>
 <li><code>--no-setup</code>: disable parsing of <code>setup.py</code></li>
 <li><code>--name NAME</code>: override project name</li>
 <li><code>--version VERSION</code>: override project version</li>
@@ -1131,48 +1138,22 @@ it never reaches the interpreter and side-effects are effortlessly avoided.</p>
 preview.</p>
 <p>The only way to test this project is through cloning this repository and
 preparing a virtual environment for it:</p>
-<pre><code>python3 -m venv env
+<div class="codehilite"><pre><span></span>python3 -m venv env
 source env/bin/activate
 pip install -r requirements.txt
-</code></pre>
+</pre></div>
+
+
 <h2>Usage</h2>
 <p>To start a web server for this project:</p>
-<pre><code>python -m adoc --serve .
-</code></pre>
+<div class="codehilite"><pre><span></span>python -m adoc --serve .
+</pre></div>
+
+
 <p>To generate this project's documentation:</p>
-<pre><code>python -m adoc html . &gt; adoc.html
-</code></pre>
-<p>To get help:</p>
-<pre><code>python -m adoc html -h
-usage: adoc [-h] [-v] [--no-setup] [--name NAME]
-            [--version VERSION] [--package-dir PACKAGE_DIR]
-            [--packages PACKAGES] [--find-packages]
-            [--exclude EXCLUDE] [--serve] [--host HOST]
-            [--port PORT]
-            PROJECT_PATH
-
-A Python documentation generation tool
-
-positional arguments:
-  PROJECT_PATH          project path
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -v                    run in verbose mode
-  --no-setup            disable parsing of `setup.py`
-  --name NAME           override project name
-  --version VERSION     override project version
-  --package-dir PACKAGE_DIR
-                        override package directory
-  --packages PACKAGES   override packages
-  --find-packages       force-find packages using setuptools
-  --exclude EXCLUDE     set excluded packages
-  --serve               serve documentation over HTTP
-  --host HOST           live-server host, defaults to 0.0.0.0
-  --port PORT           live-server port, defaults to 8080
-</code></pre>
-  </section>
-
+<div class="codehilite"><pre><span></span>python -m adoc html . &gt; adoc.html
+</pre></div>
+      </section>
 
       <section>
         <h1 class="section-title" id="api-reference">
@@ -1429,7 +1410,7 @@ with 404s for any request that's not made on <code>/</code>.</p>
         <div>
           <p>def <span class="ident">__init__</span>(</p>
 
-            <p>self, host, port, parser)</p>
+            <p>self, host, port, parser, rst_docstrings)</p>
         </div>
       </div>
 
@@ -2497,13 +2478,29 @@ transmited to the HTML writer.</p>
             
     <div class="item">
         <div class="name def" 
-  id="adoc.writer.format_doc"
- title="adoc.writer.format_doc">
+  id="adoc.writer.format_md"
+ title="adoc.writer.format_md">
 
         <div>
-          <p>def <span class="ident">format_doc</span>(</p>
+          <p>def <span class="ident">format_md</span>(</p>
 
-            <p>atom)</p>
+            <p>text)</p>
+        </div>
+      </div>
+
+      <div class="desc">
+        
+      </div>
+    </div>
+    <div class="item">
+        <div class="name def" 
+  id="adoc.writer.format_rst"
+ title="adoc.writer.format_rst">
+
+        <div>
+          <p>def <span class="ident">format_rst</span>(</p>
+
+            <p>text)</p>
         </div>
       </div>
 
@@ -2519,7 +2516,7 @@ transmited to the HTML writer.</p>
         <div>
           <p>def <span class="ident">html</span>(</p>
 
-            <p>project)</p>
+            <p>project, docstring_format=&#39;md&#39;)</p>
         </div>
       </div>
 

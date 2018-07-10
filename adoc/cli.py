@@ -25,6 +25,9 @@ def main():
     argparser.add_argument('-v', action='store_true', help='run in verbose '
             'mode')
 
+    argparser.add_argument('--rst-docstrings', action='store_true',
+            help='format docstrings using RST')
+
     argparser.add_argument('--no-setup', action='store_true', help='disable '
             'parsing of `setup.py`')
 
@@ -54,6 +57,8 @@ def main():
 
     args = argparser.parse_args(sys.argv[1:])
 
+    docstrings_format = 'rst' if args.rst_docstrings else 'md'
+
     metadata = {}
 
     if args.name:
@@ -74,7 +79,7 @@ def main():
             force_find_packages=args.find_packages, exclude=exclude)
 
     if args.serve:
-        server = Server(args.host, args.port, parser)
+        server = Server(args.host, args.port, parser, docstrings_format)
 
         success('Starting up on %s:%s' % (args.host, args.port))
 
@@ -94,7 +99,7 @@ def main():
         project = parser.parse()
 
         sys.stdout.write(
-            html(project)
+            html(project, docstrings_format)
         )
 
         return 0

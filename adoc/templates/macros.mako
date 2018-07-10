@@ -28,7 +28,7 @@
             Module <code>${module.fully_qualified_name}</code>
         </h2>
 
-        ${format_doc(module)}
+        ${format_doc(module.doc)}
 
         % if module.functions:
             <h2 class="section-title">
@@ -71,7 +71,7 @@
       </div>
 
       <div class="desc">
-        ${format_doc(function)}
+        ${format_doc(function.doc)}
       </div>
     </div>
   % endfor
@@ -91,7 +91,7 @@
       </p>
 
       <div class="desc">
-        ${format_doc(klass)}
+        ${format_doc(klass.doc)}
       </div>
 
       <div class="class">
@@ -152,7 +152,4 @@
 </%def>
 
 <%def name="show_doc(article)">
-  <section>
-    ${format_doc(article)}
-  </section>
 </%def>

@@ -127,7 +127,9 @@
     </div>
 
     <article id="content">
-      ${macros.show_doc(project)}
+      <section>
+        ${format_md(project.doc)}
+      </section>
 
       <section>
         <h1 class="section-title" id="api-reference">

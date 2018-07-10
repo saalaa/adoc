@@ -18,7 +18,7 @@ def test_parse(capsys):
         project.iter_modules()
     )
 
-    assert 11 == len(
+    assert 12 == len(
         project.iter_functions()
     )
 

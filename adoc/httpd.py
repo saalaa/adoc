@@ -34,7 +34,7 @@ class RequestHandler(BaseHTTPRequestHandler):
 
         if self.path == '/':
             contents = html(
-                self.server.parser.parse()
+                self.server.parser.parse(), self.server.docstrings_format
             )
 
             self.wfile.write(
@@ -47,8 +47,9 @@ class Server(HTTPServer):
 
     It will reponde to HTTP requests using `RequestHandler`.
     """
-    def __init__(self, host, port, parser):
+    def __init__(self, host, port, parser, rst_docstrings):
         self.parser = parser
+        self.docstrings_format = 'rst'
 
         super().__init__(
             (host, port), RequestHandler
