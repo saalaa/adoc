@@ -93,10 +93,9 @@ class ProjectParser:
             return {}
 
         with unittest.mock.patch.object(setuptools, 'setup') as mock_setup:
-            if not self.module:
-                self.module = importlib.import_module('setup')
-            else:
-                importlib.reload(self.module)
+            spec = importlib.util.spec_from_file_location('setup', 'setup.py')
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
 
         args, kwargs = mock_setup.call_args
 
