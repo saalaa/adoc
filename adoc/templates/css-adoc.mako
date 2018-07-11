@@ -109,7 +109,7 @@ pre {
   background: #fefefe;
   border: 1px solid #ddd;
   box-shadow: 2px 2px 0 #f3f3f3;
-  margin: 0 30px;
+  margin: 0 30px 10px;
   padding: 15px 30px;
 }
 
@@ -200,6 +200,7 @@ table#module-list {
     border-radius: 3px;
     display: inline-block;
     min-width: 40%;
+    margin-bottom: 10px;
   }
     .item .name:hover {
       background: #f6f6f6;

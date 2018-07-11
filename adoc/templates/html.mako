@@ -15,6 +15,7 @@
 <%include file="css-pygments.mako" />
 <%include file="css-normalize.mako" />
 <%include file="css-adoc.mako" />
+<%include file="css-rst.mako" />
 <%include file="css-print.mako" />
   </style>
 </head>
