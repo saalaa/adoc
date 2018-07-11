@@ -9,7 +9,7 @@ with open('requirements.txt') as fh:
 
 setup(
     name='adoc',
-    version='0.1.0',
+    version='0.1.1',
     license='BSD',
     author='Benoit Myard',
     author_email='benoit@myard.xyz',
