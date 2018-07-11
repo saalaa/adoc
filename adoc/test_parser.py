@@ -1,12 +1,9 @@
 from .parser import ProjectParser
-from .writer import html
 
 
 def test_parse(capsys):
-    project_path = '.'
-
-    parser = ProjectParser(project_path, {}, exclude=['*.tests', '*.tests.*',
-        'tests.*', 'tests', 'test_*'])
+    parser = ProjectParser('.', {}, exclude=['*.tests', '*.tests.*', 'tests.*',
+        'tests', 'test_*'])
 
     project = parser.parse()
 
@@ -14,15 +11,15 @@ def test_parse(capsys):
 
     assert 'Project' in str(project)
 
-    assert 8 == len(
+    assert 11 == len(
         project.iter_modules()
     )
 
-    assert 12 == len(
+    assert 15 == len(
         project.iter_functions()
     )
 
-    assert 14 == len(
+    assert 16 == len(
         project.iter_classes()
     )
 
@@ -30,5 +27,3 @@ def test_parse(capsys):
 
     assert not cap.err
     assert not cap.out
-
-    assert '<!doctype html>' in html(project)
