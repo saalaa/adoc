@@ -1,31 +1,14 @@
 import os
-import markdown
 import mako.lookup
 
-from docutils import core
-from docutils.writers.html4css1 import Writer
+from .formats import (
+    format_md, format_rst
+)
 
 
 TEMPLATE_PATH = os.path.join(
     os.path.dirname(__file__), 'templates'
 )
-
-
-def format_md(text):
-    md = markdown.Markdown(extensions=[
-        'markdown.extensions.extra',
-        'markdown.extensions.codehilite'
-    ])
-
-    return md.convert(text)
-
-
-def format_rst(text):
-    parts = core.publish_parts(
-        text, writer=Writer()
-    )
-
-    return parts['fragment']
 
 
 def html(project, docstring_format='md'):
