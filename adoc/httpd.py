@@ -47,9 +47,9 @@ class Server(HTTPServer):
 
     It will reponde to HTTP requests using `RequestHandler`.
     """
-    def __init__(self, host, port, parser, rst_docstrings):
+    def __init__(self, host, port, parser, docstrings_format):
         self.parser = parser
-        self.docstrings_format = 'rst'
+        self.docstrings_format = docstrings_format
 
         super().__init__(
             (host, port), RequestHandler
