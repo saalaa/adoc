@@ -29,6 +29,7 @@ This is fairly straighforward:
 
 The following command line arguments are supported:
 
+- `-o OUTPUT`: output file
 - `--rst-docstrings`: format docstrings using RST
 - `--no-setup`: disable parsing of `setup.py`
 - `--name NAME`: override project name
@@ -52,7 +53,6 @@ Sample usage:
 
 - Symbol resolution, allowing linking through symbols within the document
 - Arbitrary Markdown files inclusion, creating new sections as needed
-- Provide graceful support for common Sphinx directives
 - JPEG/PNG media inclusion (only one final artifact)
 
 

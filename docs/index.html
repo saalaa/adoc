@@ -492,7 +492,7 @@ pre {
   background: #fefefe;
   border: 1px solid #ddd;
   box-shadow: 2px 2px 0 #f3f3f3;
-  margin: 0 30px;
+  margin: 0 30px 10px;
   padding: 15px 30px;
 }
 
@@ -583,6 +583,7 @@ table#module-list {
     border-radius: 3px;
     display: inline-block;
     min-width: 40%;
+    margin-bottom: 10px;
   }
     .item .name:hover {
       background: #f6f6f6;
@@ -688,6 +689,21 @@ table#module-list {
     display: block;
     margin: inherit;
   }
+}
+
+.system-message {
+    background-color: salmon;
+    padding: 0.5em 1em;
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.system-message-title {
+    font-weight: bolder;
+}
+
+.versionmodified {
+    font-style: italic;
 }
 
 /*
@@ -850,6 +866,27 @@ table#module-list {
     </a>
 
             </li>
+            <li class="mono searchable" data-fqn="adoc.formats">
+                
+    <a href="#adoc.formats" title="adoc.formats">
+        adoc.formats
+    </a>
+
+            </li>
+            <li class="mono searchable" data-fqn="adoc.formats.md">
+                
+    <a href="#adoc.formats.md" title="adoc.formats.md">
+        adoc.formats.md
+    </a>
+
+            </li>
+            <li class="mono searchable" data-fqn="adoc.formats.rst">
+                
+    <a href="#adoc.formats.rst" title="adoc.formats.rst">
+        adoc.formats.rst
+    </a>
+
+            </li>
             <li class="mono searchable" data-fqn="adoc.httpd">
                 
     <a href="#adoc.httpd" title="adoc.httpd">
@@ -896,6 +933,20 @@ table#module-list {
 
           
     <ul>
+            <li class="mono searchable" data-fqn="adoc.formats.rst.dummy_role">
+                
+    <a href="#adoc.formats.rst.dummy_role" title="adoc.formats.rst.dummy_role">
+        dummy_role
+    </a>
+
+            </li>
+            <li class="mono searchable" data-fqn="adoc.formats.rst.emphasis">
+                
+    <a href="#adoc.formats.rst.emphasis" title="adoc.formats.rst.emphasis">
+        emphasis
+    </a>
+
+            </li>
             <li class="mono searchable" data-fqn="adoc.utils.error">
                 
     <a href="#adoc.utils.error" title="adoc.utils.error">
@@ -903,16 +954,16 @@ table#module-list {
     </a>
 
             </li>
-            <li class="mono searchable" data-fqn="adoc.writer.format_md">
+            <li class="mono searchable" data-fqn="adoc.formats.md.format_md">
                 
-    <a href="#adoc.writer.format_md" title="adoc.writer.format_md">
+    <a href="#adoc.formats.md.format_md" title="adoc.formats.md.format_md">
         format_md
     </a>
 
             </li>
-            <li class="mono searchable" data-fqn="adoc.writer.format_rst">
+            <li class="mono searchable" data-fqn="adoc.formats.rst.format_rst">
                 
-    <a href="#adoc.writer.format_rst" title="adoc.writer.format_rst">
+    <a href="#adoc.formats.rst.format_rst" title="adoc.formats.rst.format_rst">
         format_rst
     </a>
 
@@ -966,6 +1017,13 @@ table#module-list {
     </a>
 
             </li>
+            <li class="mono searchable" data-fqn="adoc.formats.rst.symbol_lookup">
+                
+    <a href="#adoc.formats.rst.symbol_lookup" title="adoc.formats.rst.symbol_lookup">
+        symbol_lookup
+    </a>
+
+            </li>
             <li class="mono searchable" data-fqn="adoc.models.walk">
                 
     <a href="#adoc.models.walk" title="adoc.models.walk">
@@ -1016,6 +1074,13 @@ table#module-list {
                 
     <a href="#adoc.models.DecoratorsMixin" title="adoc.models.DecoratorsMixin">
         DecoratorsMixin
+    </a>
+
+            </li>
+            <li class="mono searchable" data-fqn="adoc.formats.rst.dummydirective">
+                
+    <a href="#adoc.formats.rst.DummyDirective" title="adoc.formats.rst.DummyDirective">
+        DummyDirective
     </a>
 
             </li>
@@ -1082,6 +1147,13 @@ table#module-list {
     </a>
 
             </li>
+            <li class="mono searchable" data-fqn="adoc.formats.rst.versionadmonition">
+                
+    <a href="#adoc.formats.rst.VersionAdmonition" title="adoc.formats.rst.VersionAdmonition">
+        VersionAdmonition
+    </a>
+
+            </li>
             <li class="mono searchable" data-fqn="adoc.utils.workingdirectory">
                 
     <a href="#adoc.utils.WorkingDirectory" title="adoc.utils.WorkingDirectory">
@@ -1120,6 +1192,7 @@ it never reaches the interpreter and side-effects are effortlessly avoided.</p>
 <h2>CLI</h2>
 <p>The following command line arguments are supported:</p>
 <ul>
+<li><code>-o OUTPUT</code>: output file</li>
 <li><code>--rst-docstrings</code>: format docstrings using RST</li>
 <li><code>--no-setup</code>: disable parsing of <code>setup.py</code></li>
 <li><code>--name NAME</code>: override project name</li>
@@ -1142,7 +1215,6 @@ it never reaches the interpreter and side-effects are effortlessly avoided.</p>
 <ul>
 <li>Symbol resolution, allowing linking through symbols within the document</li>
 <li>Arbitrary Markdown files inclusion, creating new sections as needed</li>
-<li>Provide graceful support for common Sphinx directives</li>
 <li>JPEG/PNG media inclusion (only one final artifact)</li>
 </ul>
 <h2>Hacking on the project</h2>
@@ -1283,6 +1355,251 @@ configuration is fine-tuned for execution.</p>
         </section>
         <section class="section-items">
         <h2 class="section-title" 
+  id="adoc.formats"
+>
+            Module <code>adoc.formats</code>
+        </h2>
+
+        
+
+
+        </section>
+        <section class="section-items">
+        <h2 class="section-title" 
+  id="adoc.formats.md"
+>
+            Module <code>adoc.formats.md</code>
+        </h2>
+
+        <p>Markdown formatter.</p>
+
+            <h2 class="section-title">
+                Functions
+            </h2>
+
+            
+    <div class="item">
+        <div class="name def" 
+  id="adoc.formats.md.format_md"
+ title="adoc.formats.md.format_md">
+
+        <div>
+          <p>def <span class="ident">format_md</span>(</p>
+
+            <p>text)</p>
+        </div>
+      </div>
+
+      <div class="desc">
+        
+      </div>
+    </div>
+
+
+        </section>
+        <section class="section-items">
+        <h2 class="section-title" 
+  id="adoc.formats.rst"
+>
+            Module <code>adoc.formats.rst</code>
+        </h2>
+
+        <p>reStructuredText formatter.</p>
+<p>This module aims to bring a decent level of compatibility with Sphinx without
+relying on anything except <code>docutils</code>.</p>
+<p>This is obviously still a work in progress.</p>
+<p>Docutils resources:</p>
+<ul>
+<li>https://docutils.readthedocs.io/en/sphinx-docs/howto/rst-directives.html</li>
+<li>https://docutils.readthedocs.io/en/sphinx-docs/howto/rst-roles.html</li>
+</ul>
+<p>Sphinx resources:</p>
+<ul>
+<li>http://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html</li>
+<li>http://www.sphinx-doc.org/en/master/usage/restructuredtext/roles.html</li>
+<li>http://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html</li>
+<li>http://www.sphinx-doc.org/en/master/usage/restructuredtext/field-lists.html</li>
+<li>http://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html</li>
+</ul>
+
+            <h2 class="section-title">
+                Functions
+            </h2>
+
+            
+    <div class="item">
+        <div class="name def" 
+  id="adoc.formats.rst.dummy_role"
+ title="adoc.formats.rst.dummy_role">
+
+        <div>
+          <p>def <span class="ident">dummy_role</span>(</p>
+
+            <p>role, rawtext, text, lineno, inliner, options={}, content=[])</p>
+        </div>
+      </div>
+
+      <div class="desc">
+        
+      </div>
+    </div>
+    <div class="item">
+        <div class="name def" 
+  id="adoc.formats.rst.symbol_lookup"
+ title="adoc.formats.rst.symbol_lookup">
+
+        <div>
+          <p>def <span class="ident">symbol_lookup</span>(</p>
+
+            <p>role, rawtext, text, lineno, inliner, options={}, content=[])</p>
+        </div>
+      </div>
+
+      <div class="desc">
+        
+      </div>
+    </div>
+    <div class="item">
+        <div class="name def" 
+  id="adoc.formats.rst.emphasis"
+ title="adoc.formats.rst.emphasis">
+
+        <div>
+          <p>def <span class="ident">emphasis</span>(</p>
+
+            <p>role, rawtext, text, lineno, inliner, options={}, content=[])</p>
+        </div>
+      </div>
+
+      <div class="desc">
+        
+      </div>
+    </div>
+    <div class="item">
+        <div class="name def" 
+  id="adoc.formats.rst.format_rst"
+ title="adoc.formats.rst.format_rst">
+
+        <div>
+          <p>def <span class="ident">format_rst</span>(</p>
+
+            <p>text)</p>
+        </div>
+      </div>
+
+      <div class="desc">
+        
+      </div>
+    </div>
+
+
+            <h2 class="section-title">
+                Classes
+            </h2>
+
+            
+    <div class="item">
+      <p class="name" 
+  id="adoc.formats.rst.DummyDirective"
+ title="adoc.formats.rst.DummyDirective">
+
+        class <span class="ident">DummyDirective</span>
+      </p>
+
+      <div class="desc">
+        
+      </div>
+
+      <div class="class">
+          <h3>
+            Ancestors
+          </h3>
+
+          <ul class="class_list">
+              <li class="mono">
+                <a href="#ancestors">Directive</a>
+              </li>
+          </ul>
+
+          <h3>
+            Methods
+          </h3>
+
+          
+    <div class="item">
+        <div class="name def" 
+  id="adoc.formats.rst.DummyDirective.run"
+ title="adoc.formats.rst.DummyDirective.run">
+
+        <div>
+          <p>def <span class="ident">run</span>(</p>
+
+            <p>self)</p>
+        </div>
+      </div>
+
+      <div class="desc">
+        
+      </div>
+    </div>
+
+      </div>
+    </div>
+    <div class="item">
+      <p class="name" 
+  id="adoc.formats.rst.VersionAdmonition"
+ title="adoc.formats.rst.VersionAdmonition">
+
+        class <span class="ident">VersionAdmonition</span>
+      </p>
+
+      <div class="desc">
+        <p>Version-based admonitions.</p>
+<p>Supports the following construction:</p>
+<div class="codehilite"><pre><span></span><span class="p">..</span> <span class="ow">deprecated</span><span class="p">::</span> 0.1
+    This method is ...
+</pre></div>
+      </div>
+
+      <div class="class">
+          <h3>
+            Ancestors
+          </h3>
+
+          <ul class="class_list">
+              <li class="mono">
+                <a href="#ancestors">Directive</a>
+              </li>
+          </ul>
+
+          <h3>
+            Methods
+          </h3>
+
+          
+    <div class="item">
+        <div class="name def" 
+  id="adoc.formats.rst.VersionAdmonition.run"
+ title="adoc.formats.rst.VersionAdmonition.run">
+
+        <div>
+          <p>def <span class="ident">run</span>(</p>
+
+            <p>self)</p>
+        </div>
+      </div>
+
+      <div class="desc">
+        
+      </div>
+    </div>
+
+      </div>
+    </div>
+
+        </section>
+        <section class="section-items">
+        <h2 class="section-title" 
   id="adoc.httpd"
 >
             Module <code>adoc.httpd</code>
@@ -1418,7 +1735,7 @@ with 404s for any request that's not made on <code>/</code>.</p>
         <div>
           <p>def <span class="ident">__init__</span>(</p>
 
-            <p>self, host, port, parser, rst_docstrings)</p>
+            <p>self, host, port, parser, docstrings_format)</p>
         </div>
       </div>
 
@@ -2484,38 +2801,6 @@ transmited to the HTML writer.</p>
             </h2>
 
             
-    <div class="item">
-        <div class="name def" 
-  id="adoc.writer.format_md"
- title="adoc.writer.format_md">
-
-        <div>
-          <p>def <span class="ident">format_md</span>(</p>
-
-            <p>text)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
-    <div class="item">
-        <div class="name def" 
-  id="adoc.writer.format_rst"
- title="adoc.writer.format_rst">
-
-        <div>
-          <p>def <span class="ident">format_rst</span>(</p>
-
-            <p>text)</p>
-        </div>
-      </div>
-
-      <div class="desc">
-        
-      </div>
-    </div>
     <div class="item">
         <div class="name def" 
   id="adoc.writer.html"

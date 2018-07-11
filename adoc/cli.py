@@ -24,6 +24,7 @@ def main():
 
     argparser.add_argument('-v', action='store_true', help='run in verbose '
             'mode')
+    argparser.add_argument('-o', '--output', type=str, help='output file')
 
     argparser.add_argument('--rst-docstrings', action='store_true',
             help='format docstrings using RST')
@@ -98,7 +99,11 @@ def main():
     else:
         project = parser.parse()
 
-        sys.stdout.write(
+        output = sys.stdout
+        if args.output:
+            output = open(args.output, 'w')
+
+        output.write(
             html(project, docstrings_format)
         )
 
