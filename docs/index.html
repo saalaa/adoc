@@ -813,9 +813,17 @@ table#module-list {
           </h3>
 
           <ul>
+              <li>
+                <a href="#doc-faq">FAQ</a>
+              </li>
           </ul>
         </li>
 
+          <li class="set">
+            <h3>
+              <a href="#doc-faq">FAQ</a>
+            </h3>
+          </li>
 
         <li class="set">
           <h3>
@@ -1235,6 +1243,34 @@ pip install -r requirements-test.txt
 </pre></div>
       </section>
 
+        <section id="doc-faq">
+          <h1>FAQ</h1>
+<h2>Why aren't my Python packages discovered properly?</h2>
+<p><strong>adoc</strong> relies on either <code>setup.py</code> or <code>setuptools.find_packages()</code> for
+package discovery. If you have any issue, you may want to check these places
+first.</p>
+<p>The result of <code>find_packages()</code> is easy to reproduce:</p>
+<div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">find_packages</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">find_packages</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="p">[</span><span class="s1">&#39;adoc&#39;</span><span class="p">,</span> <span class="s1">&#39;adoc.formats&#39;</span><span class="p">]</span>
+</pre></div>
+
+
+<p>If a package appears missing even though it's a valid package, you'll probably
+want to make sure it contains <code>__init__.py</code> since <code>find_packages()</code> relies on
+these files to determine what is a package and what is not (even though they
+are not required in recent Python versions).</p>
+<h2>Why is one of my packages not showing up at all?</h2>
+<p><strong>adoc</strong> is probably detecting that your package is empty. Here's the
+definition of an empty package:</p>
+<ul>
+<li>Your package does not hold any <em>function</em></li>
+<li>Your package does not hold any <em>class</em></li>
+<li>Your package does not hold any <em>package</em></li>
+</ul>
+<p>That definition is recursive so that a package holding empty packages is
+considered empty</p>
+        </section>
 
       <section>
         <h1 class="section-title" id="api-reference">

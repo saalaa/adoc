@@ -1,7 +1,10 @@
-default: docs
+ADOC_OPTS=-d docs/faq.md
 
-docs:
-	python -m adoc -o docs/index.html .
+default:
+	python -m adoc $(ADOC_OPTS) -o docs/index.html .
+
+serve:
+	python -m adoc $(ADOC_OPTS) --serve .
 
 clean:
 	rm -rf .pytest_cache .eggs .coverage adoc.egg-info build dist __pycache__ adoc/__pycache__

@@ -7,6 +7,7 @@ import argparse
 import sys
 import traceback
 
+from .version import version
 from .writer import html
 from .utils import error, success
 from .parser import ProjectParser
@@ -21,6 +22,9 @@ def main():
     """
     ap = argparse.ArgumentParser(prog='adoc', description='A Python '
                                  'documentation generation tool')
+
+    ap.add_argument('--version', action='version',
+                    version='%(prog)s ' + version)
 
     ap.add_argument('-v', action='store_true',
                     help='run in verbose mode')
@@ -37,10 +41,10 @@ def main():
     ap.add_argument('--no-setup', action='store_true',
                     help='disable parsing of `setup.py`')
 
-    ap.add_argument('--name', type=str,
+    ap.add_argument('--project-name', type=str,
                     help='override project name')
 
-    ap.add_argument('--version', type=str,
+    ap.add_argument('--project-version', type=str,
                     help='override project version')
 
     ap.add_argument('--package-dir', type=str,
@@ -73,11 +77,11 @@ def main():
 
     metadata = {}
 
-    if args.name:
-        metadata['name'] = args.name
+    if args.project_name:
+        metadata['name'] = args.project_name
 
-    if args.version:
-        metadata['version'] = args.version
+    if args.project_version:
+        metadata['version'] = args.project_version
 
     if args.package_dir:
         metadata['package_dir'] = {

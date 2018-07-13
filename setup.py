@@ -1,7 +1,10 @@
+import importlib
+
 from setuptools import (
     setup, find_packages
 )
 
+version = importlib.import_module('adoc.version').version
 
 with open('requirements.txt') as fh:
     requirements = fh.read() \
@@ -9,7 +12,7 @@ with open('requirements.txt') as fh:
 
 setup(
     name='adoc',
-    version='0.1.1',
+    version=version,
     license='BSD',
     author='Benoit Myard',
     author_email='benoit@myard.xyz',
