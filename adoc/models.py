@@ -167,7 +167,7 @@ class Class(DecoratorsMixin, FunctionsMixin, Atom):
 
         for base in node.bases:
             klass.add_base(
-                base.id
+                make_python(base)
             )
 
         for child in ast.iter_child_nodes(node):
