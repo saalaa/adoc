@@ -1,7 +1,7 @@
 import ast
 import textwrap
 
-from .codegen import make_python
+from adoc.codegen import make_python
 
 
 def test_unsupported(capsys):
@@ -13,6 +13,7 @@ def test_unsupported(capsys):
     assert make_python(root) == "???"
 
     assert 'unsupported' in capsys.readouterr().err.lower()
+
 
 def test_function():
     source = '''
@@ -160,5 +161,9 @@ def test_function_decorators():
     assert isinstance(node, ast.FunctionDef)
     assert make_python(node.args) == "bar, *baz, **quux"
     assert make_python(node.decorator_list[0]) == "quux.okay"
-    assert make_python(node.decorator_list[1]) == "baz(((True and False) or {1, 2, 3}))"
-    assert make_python(node.decorator_list[2]) == "bar(-1, 2.3, nope={True: None})"
+    assert make_python(node.decorator_list[1]) == (
+            "baz(((True and False) or {1, 2, 3}))"
+    )
+    assert make_python(node.decorator_list[2]) == (
+            "bar(-1, 2.3, nope={True: None})"
+    )

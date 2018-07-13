@@ -166,12 +166,9 @@ class Class(DecoratorsMixin, FunctionsMixin, Atom):
         )
 
         for base in node.bases:
-            try:
-                klass.add_base(
-                    base.id
-                )
-            except:
-                continue
+            klass.add_base(
+                base.id
+            )
 
         for child in ast.iter_child_nodes(node):
             if isinstance(child, ast.FunctionDef):

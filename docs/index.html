@@ -416,15 +416,6 @@ body {
   margin: 0 0 15px 0;
 }
 
-#top {
-  display: block;
-  position: fixed;
-  bottom: 5px;
-  right: 15px;
-  font-size: .85em;
-  text-transform: uppercase;
-}
-
 #footer {
   font-size: .75em;
   padding: 5px 30px;
@@ -787,14 +778,12 @@ table#module-list {
   </style>
 </head>
 <body>
-  <a href="#" id="top">Top</a>
-
   <div id="container">
     <div id="sidebar">
       <h2>
         <strong>adoc</strong>
 
-          (<small>0.1.0</small>)
+          (<small>0.1.1</small>)
       </h2>
 
         <p>Python code documentation generator</p>
@@ -822,7 +811,11 @@ table#module-list {
           <h3>
             <a href="#content">Introduction</a>
           </h3>
+
+          <ul>
+          </ul>
         </li>
+
 
         <li class="set">
           <h3>
@@ -1077,6 +1070,13 @@ table#module-list {
     </a>
 
             </li>
+            <li class="mono searchable" data-fqn="adoc.models.document">
+                
+    <a href="#adoc.models.Document" title="adoc.models.Document">
+        Document
+    </a>
+
+            </li>
             <li class="mono searchable" data-fqn="adoc.formats.rst.dummydirective">
                 
     <a href="#adoc.formats.rst.DummyDirective" title="adoc.formats.rst.DummyDirective">
@@ -1214,8 +1214,8 @@ it never reaches the interpreter and side-effects are effortlessly avoided.</p>
 <h2>Long-term Goals</h2>
 <ul>
 <li>Symbol resolution, allowing linking through symbols within the document</li>
-<li>Arbitrary Markdown files inclusion, creating new sections as needed</li>
 <li>JPEG/PNG media inclusion (only one final artifact)</li>
+<li>In-document Graphviz processing</li>
 </ul>
 <h2>Hacking on the project</h2>
 <p>Prepare a virtual environment:</p>
@@ -1234,6 +1234,7 @@ pip install -r requirements-test.txt
 <div class="codehilite"><pre><span></span>python -m adoc --serve .
 </pre></div>
       </section>
+
 
       <section>
         <h1 class="section-title" id="api-reference">
@@ -2386,7 +2387,23 @@ transmited to the HTML writer.</p>
         <div>
           <p>def <span class="ident">__init__</span>(</p>
 
-            <p>self, name, doc, metadata)</p>
+            <p>self, name, doc, metadata=None)</p>
+        </div>
+      </div>
+
+      <div class="desc">
+        
+      </div>
+    </div>
+    <div class="item">
+        <div class="name def" 
+  id="adoc.models.Project.add_document"
+ title="adoc.models.Project.add_document">
+
+        <div>
+          <p>def <span class="ident">add_document</span>(</p>
+
+            <p>self, document)</p>
         </div>
       </div>
 
@@ -2477,6 +2494,80 @@ transmited to the HTML writer.</p>
 
       </div>
     </div>
+    <div class="item">
+      <p class="name" 
+  id="adoc.models.Document"
+ title="adoc.models.Document">
+
+        class <span class="ident">Document</span>
+      </p>
+
+      <div class="desc">
+        
+      </div>
+
+      <div class="class">
+
+          <h3>
+            Methods
+          </h3>
+
+          
+    <div class="item">
+        <div class="name def" 
+  id="adoc.models.Document.__init__"
+ title="adoc.models.Document.__init__">
+
+        <div>
+          <p>def <span class="ident">__init__</span>(</p>
+
+            <p>self, filename)</p>
+        </div>
+      </div>
+
+      <div class="desc">
+        
+      </div>
+    </div>
+    <div class="item">
+        <div class="name def" 
+  id="adoc.models.Document.html"
+ title="adoc.models.Document.html">
+            <div>@property</div>
+            <div>@memoized</div>
+
+        <div>
+          <p>def <span class="ident">html</span>(</p>
+
+            <p>self)</p>
+        </div>
+      </div>
+
+      <div class="desc">
+        
+      </div>
+    </div>
+    <div class="item">
+        <div class="name def" 
+  id="adoc.models.Document.title"
+ title="adoc.models.Document.title">
+            <div>@property</div>
+            <div>@memoized</div>
+
+        <div>
+          <p>def <span class="ident">title</span>(</p>
+
+            <p>self)</p>
+        </div>
+      </div>
+
+      <div class="desc">
+        
+      </div>
+    </div>
+
+      </div>
+    </div>
 
         </section>
         <section class="section-items">
@@ -2521,7 +2612,7 @@ transmited to the HTML writer.</p>
         <div>
           <p>def <span class="ident">__init__</span>(</p>
 
-            <p>self, path, overrides, no_setup=False, force_find_packages=False, exclude=None)</p>
+            <p>self, path, overrides, no_setup=False, exclude=None, force_find_packages=False, documents=None)</p>
         </div>
       </div>
 

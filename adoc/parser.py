@@ -52,7 +52,7 @@ class ProjectParser:
 
         if 'package_dir' not in metadata:
             metadata['package_dir'] = {
-                '': '.'  # By default, all packages are in the current directory
+                '': '.'  # All packages in current directory by default
             }
 
         if 'packages' not in metadata or self.force_find_packages:

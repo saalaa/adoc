@@ -68,8 +68,9 @@ class VersionAdmonition(Directive):
         )
 
         if len(self.arguments) == 2:
-            inodes, messages = self.state.inline_text(self.arguments[1],
-                    self.lineno + 1)
+            inodes, messages = self.state.inline_text(
+                self.arguments[1], self.lineno + 1
+            )
 
             node.append(
                 nodes.paragraph(self.arguments[1], '', *inodes)
@@ -101,7 +102,7 @@ def dummy_role(role, rawtext, text, lineno, inliner, options={}, content=[]):
 
 
 def symbol_lookup(role, rawtext, text, lineno, inliner, options={},
-        content=[]):
+                  content=[]):
     rawtext.find('`')
     text = rawtext.split('`')[1]
     text = text.lstrip('~')

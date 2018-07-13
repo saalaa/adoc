@@ -127,8 +127,8 @@ def make_python(node):
         )
     elif isinstance(node, ast.Dict):
         items = [
-            '{}: {}'.format(make_python(key), make_python(value)) \
-                    for key, value in zip(node.keys, node.values)
+            '{}: {}'.format(make_python(key), make_python(value))
+            for key, value in zip(node.keys, node.values)
         ]
 
         return '{{{}}}'.format(

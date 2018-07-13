@@ -20,5 +20,9 @@ def html(project, docstring_format='md'):
     else:
         format_doc = format_md
 
-    return template.render(project=project, format_md=format_md,
-            format_rst=format_rst, format_doc=format_doc)
+    return template.render(
+        project=project,
+        format_md=format_md,
+        format_rst=format_rst,
+        format_doc=format_doc
+    )

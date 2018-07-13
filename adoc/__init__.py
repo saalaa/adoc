@@ -1,5 +1,5 @@
-"""Main package.
-"""
+"""Main package."""
+
 import sys
 
 from .cli import main

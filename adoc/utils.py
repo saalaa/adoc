@@ -43,7 +43,7 @@ class WorkingDirectory:
     def __init__(self, directory):
         self.target_wd = directory
         self.initial_wd = os.getcwd()
-    
+
     def __enter__(self):
         os.chdir(self.target_wd)
 

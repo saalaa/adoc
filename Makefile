@@ -6,4 +6,12 @@ docs:
 clean:
 	rm -rf .pytest_cache .eggs .coverage adoc.egg-info build dist __pycache__ adoc/__pycache__
 
-.PHONY: help docs clean
+build:
+	python setup.py bdist_wheel
+
+upload:
+	twine upload dist/*
+
+release: build upload
+
+.PHONY: help docs clean build upload release

@@ -1,10 +1,8 @@
-from .parser import ProjectParser
+from adoc.parser import ProjectParser
 
 
 def test_parse(capsys):
-    parser = ProjectParser('.', {}, exclude=['*.tests', '*.tests.*', 'tests.*',
-        'tests', 'test_*'])
-
+    parser = ProjectParser('.', {})
     project = parser.parse()
 
     assert project
@@ -19,7 +17,7 @@ def test_parse(capsys):
         project.iter_functions()
     )
 
-    assert 16 == len(
+    assert 17 == len(
         project.iter_classes()
     )
 

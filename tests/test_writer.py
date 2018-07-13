@@ -1,11 +1,9 @@
-from .parser import ProjectParser
-from .writer import html
+from adoc.parser import ProjectParser
+from adoc.writer import html
 
 
 def test_html_md(capsys):
-    parser = ProjectParser('.', {}, exclude=['*.tests', '*.tests.*', 'tests.*',
-        'tests', 'test_*'])
-
+    parser = ProjectParser('.', {})
     project = parser.parse()
 
     assert project
@@ -19,9 +17,7 @@ def test_html_md(capsys):
 
 
 def test_html_rst(capsys):
-    parser = ProjectParser('.', {}, exclude=['*.tests', '*.tests.*', 'tests.*',
-        'tests', 'test_*'])
-
+    parser = ProjectParser('.', {})
     project = parser.parse()
 
     assert project

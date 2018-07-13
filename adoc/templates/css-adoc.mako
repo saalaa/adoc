@@ -33,15 +33,6 @@ body {
   margin: 0 0 15px 0;
 }
 
-#top {
-  display: block;
-  position: fixed;
-  bottom: 5px;
-  right: 15px;
-  font-size: .85em;
-  text-transform: uppercase;
-}
-
 #footer {
   font-size: .75em;
   padding: 5px 30px;

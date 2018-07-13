@@ -52,8 +52,8 @@ Sample usage:
 ## Long-term Goals
 
 - Symbol resolution, allowing linking through symbols within the document
-- Arbitrary Markdown files inclusion, creating new sections as needed
 - JPEG/PNG media inclusion (only one final artifact)
+- In-document Graphviz processing
 
 
 ## Hacking on the project
