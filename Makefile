@@ -15,6 +15,6 @@ build:
 upload:
 	twine upload dist/*
 
-release: build upload
+release: clean build upload
 
 .PHONY: help docs clean build upload release
