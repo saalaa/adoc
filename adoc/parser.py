@@ -1,30 +1,31 @@
 """High-level parsing functions."""
 
 import os
-import json
 import ast
-import sys
 import unittest.mock
 import setuptools
 import importlib
 import fnmatch
 
-from .utils import warning, WorkingDirectory
+from .utils import WorkingDirectory
 from .models import (
-    Project, Module
+    Project, Module, Document
 )
+
+DEFAULT_EXCLUDE = ['*.tests', '*.tests.*', 'tests.*', 'tests', 'test_*']
 
 
 class ProjectParser:
     module = None
 
-    def __init__(self, path, overrides, no_setup=False,
-            force_find_packages=False, exclude=None):
+    def __init__(self, path, overrides, no_setup=False, exclude=None,
+                 force_find_packages=False, documents=None):
         self.path = path
         self.overrides = overrides
         self.no_setup = no_setup
         self.force_find_packages = force_find_packages
-        self.exclude = exclude or []
+        self.exclude = exclude or DEFAULT_EXCLUDE
+        self.documents = documents or []
 
     def parse(self):
         """Parse a project, setting the current working directiory."""
@@ -61,6 +62,11 @@ class ProjectParser:
 
         project = Project(metadata['name'], readme, metadata)
 
+        for document in self.documents:
+            project.add_document(
+                Document(document)
+            )
+
         for package in metadata['packages']:
             parts = package.split('.')
             dir = metadata['package_dir'].get(
@@ -84,8 +90,7 @@ class ProjectParser:
         if not os.path.isfile('README.md'):
             return None
 
-        with open('README.md') as fh:
-            return fh.read()
+        return Document('README.md')
 
     def parse_setup(self):
         """Parse a `setup.py` file in the current working directory."""

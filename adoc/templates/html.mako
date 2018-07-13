@@ -20,8 +20,6 @@
   </style>
 </head>
 <body>
-  <a href="#" id="top">Top</a>
-
   <div id="container">
     <div id="sidebar">
       <h2>
@@ -85,7 +83,23 @@
           <h3>
             <a href="#content">Introduction</a>
           </h3>
+
+          <ul>
+            % for document in project.documents:
+              <li>
+                <a href="#doc-${document.name}">${document.title}</a>
+              </li>
+            % endfor
+          </ul>
         </li>
+
+        % for document in project.documents:
+          <li class="set">
+            <h3>
+              <a href="#doc-${document.name}">${document.title}</a>
+            </h3>
+          </li>
+        % endfor
 
         <li class="set">
           <h3>
@@ -129,8 +143,14 @@
 
     <article id="content">
       <section>
-        ${format_md(project.doc)}
+        ${project.doc.html}
       </section>
+
+      % for document in project.documents:
+        <section id="doc-${document.name}">
+          ${document.html}
+        </section>
+      % endfor
 
       <section>
         <h1 class="section-title" id="api-reference">

@@ -7,8 +7,12 @@ They are handled mostly while parsing a project's source code and later
 transmited to the HTML writer.
 """
 
+import os
 import ast
 
+from bs4 import BeautifulSoup
+
+from .formats import format_md, format_rst
 from .utils import memoized
 from .codegen import (
     make_python, make_signature
@@ -238,13 +242,18 @@ class Project(ModulesMixin, Atom):
     """Representation of a project."""
     name = None
     metadata = None
+    documents = None
 
-    def __init__(self, name, doc, metadata):
+    def __init__(self, name, doc, metadata=None):
         super().__init__(
             name, doc
         )
 
         self.metadata = metadata or {}
+        self.documents = []
+
+    def add_document(self, document):
+        self.documents.append(document)
 
     def has_meta(self, *keys):
         for key in keys:
@@ -285,3 +294,49 @@ class Project(ModulesMixin, Atom):
         return sorted(
             classes, key=lambda c: c.name
         )
+
+
+class Document:
+    filename = None
+    name = None
+    ext = None
+
+    def __init__(self, filename):
+        self.filename = filename
+
+        self.name, self.ext = os.path.splitext(
+            os.path.basename(self.filename)
+        )
+
+    @property
+    @memoized
+    def html(self):
+        def format_html(x):
+            return x
+
+        if self.ext not in ('.html', '.md', '.rst'):
+            raise Exception(
+                'Unsupported document format: {}{}'.format(self.name, self.ext)
+            )
+        elif self.ext == '.html':
+            format_func = format_html
+        elif self.ext == '.md':
+            format_func = format_md
+        elif self.ext == '.rst':
+            format_func = format_rst
+
+        with open(self.filename) as fh:
+            return format_func(
+                fh.read()
+            )
+
+    @property
+    @memoized
+    def title(self):
+        soup = BeautifulSoup(self.html, 'html.parser')
+
+        headings = soup.find_all('h1')
+        if len(headings):
+            return ' '.join(headings[0].contents)
+
+        return self.name
