@@ -93,14 +93,6 @@
           </ul>
         </li>
 
-        % for document in project.documents:
-          <li class="set">
-            <h3>
-              <a href="#doc-${document.name}">${document.title}</a>
-            </h3>
-          </li>
-        % endfor
-
         <li class="set">
           <h3>
             <a href="#api-reference">API Reference</a>
