@@ -12,7 +12,18 @@ from .models import (
     Project, Module, Document
 )
 
-DEFAULT_EXCLUDE = ['*.tests', '*.tests.*', 'tests.*', 'tests', 'test_*']
+DEFAULT_EXCLUDE = [
+    '*.tests',
+    '*.tests.*',
+    'tests.*',
+    'tests',
+    'test_*',
+    '*.migrations',
+    '*.migrations.*',
+    'migrations.*',
+    'migrations',
+    'migration_*'
+]
 
 
 class ProjectParser:
