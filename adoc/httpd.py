@@ -4,12 +4,16 @@ This module provides an HTTP server exclusively for the purpose of serving HTML
 documentation over HTTP.
 """
 
-from http.server import BaseHTTPRequestHandler, HTTPServer
+import logging
+
+from http import server
 
 from .writer import html
 
+logger = logging.getLogger(__name__)
 
-class RequestHandler(BaseHTTPRequestHandler):
+
+class RequestHandler(server.BaseHTTPRequestHandler):
     """Documentation HTTP request handler.
 
     It will serve HTML documentation for the project at `project_path`. A
@@ -33,8 +37,10 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.send_headers()
 
         if self.path == '/':
+            project = self.server.parser.parse()
+
             contents = html(
-                self.server.parser.parse(), self.server.docstrings_format
+                project, self.server.docstrings_format
             )
 
             self.wfile.write(
@@ -42,7 +48,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             )
 
 
-class Server(HTTPServer):
+class Server(server.HTTPServer):
     """Documentation HTTP server.
 
     It will reponde to HTTP requests using `RequestHandler`.

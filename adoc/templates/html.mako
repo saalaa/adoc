@@ -134,9 +134,11 @@
     </div>
 
     <article id="content">
-      <section>
-        ${project.doc.html}
-      </section>
+      % if project.doc:
+        <section>
+          ${project.doc.html}
+        </section>
+      % endif
 
       % for document in project.documents:
         <section id="doc-${document.name}">

@@ -28,7 +28,9 @@
             Module <code>${module.fully_qualified_name}</code>
         </h2>
 
-        ${format_doc(module.doc)}
+        % if module.doc:
+          ${format_doc(module.doc)}
+        % endif
 
         % if module.functions:
             <h2 class="section-title">
@@ -70,9 +72,11 @@
         </div>
       </div>
 
-      <div class="desc">
-        ${format_doc(function.doc)}
-      </div>
+      % if function.doc:
+        <div class="desc">
+          ${format_doc(function.doc)}
+        </div>
+      % endif
     </div>
   % endfor
 </%def>
@@ -90,9 +94,11 @@
         class <span class="ident">${klass.name}</span>
       </p>
 
-      <div class="desc">
-        ${format_doc(klass.doc)}
-      </div>
+      % if klass.doc:
+        <div class="desc">
+          ${format_doc(klass.doc)}
+        </div>
+      % endif
 
       <div class="class">
         % if klass.bases:

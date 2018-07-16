@@ -38,7 +38,7 @@ class Atom:
 
     def __init__(self, name, doc=None):
         self.name = name
-        self.doc = doc or ''
+        self.doc = doc
 
     def __str__(self):
         return '<%s:%s>' % (self.type, self.name)

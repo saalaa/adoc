@@ -1,5 +1,6 @@
 import os
 import mako.lookup
+import mako.exceptions
 
 from .formats import (
     format_md, format_rst
@@ -26,3 +27,11 @@ def html(project, docstring_format='md'):
         format_rst=format_rst,
         format_doc=format_doc
     )
+
+    # TODO Stop leaking Mako exceptions
+
+    # try:
+    # except:
+    #     print(
+    #         mako.exceptions.text_error_template().render()
+    #     )
