@@ -783,7 +783,7 @@ table#module-list {
       <h2>
         <strong>adoc</strong>
 
-          (<small>0.1.3</small>)
+          (<small>0.1.4</small>)
       </h2>
 
         <p>Python code documentation generator</p>
@@ -818,12 +818,6 @@ table#module-list {
               </li>
           </ul>
         </li>
-
-          <li class="set">
-            <h3>
-              <a href="#doc-faq">FAQ</a>
-            </h3>
-          </li>
 
         <li class="set">
           <h3>
@@ -1176,8 +1170,8 @@ table#module-list {
     </div>
 
     <article id="content">
-      <section>
-        <p><a href="https://travis-ci.org/saalaa/adoc"><img alt="Build Status" src="https://travis-ci.org/saalaa/adoc.svg?branch=master" /></a></p>
+        <section>
+          <p><a href="https://travis-ci.org/saalaa/adoc"><img alt="Build Status" src="https://travis-ci.org/saalaa/adoc.svg?branch=master" /></a></p>
 <h1><strong>adoc</strong> project</h1>
 <p>This program generates HTML documentation for Python projects by parsing the
 source code using Python's AST module. As such the source code is <em>not</em> loaded,
@@ -1255,7 +1249,7 @@ pip install -r requirements-test.txt
 <p>To start the web server:</p>
 <div class="codehilite"><pre><span></span>python -m adoc --serve .
 </pre></div>
-      </section>
+        </section>
 
         <section id="doc-faq">
           <h1>FAQ</h1>
@@ -1299,7 +1293,6 @@ considered empty</p>
             Module <code>adoc</code>
         </h2>
 
-        
 
 
         </section>
@@ -1310,7 +1303,7 @@ considered empty</p>
             Module <code>adoc.cli</code>
         </h2>
 
-        <p>Command-line interface.</p>
+          <p>Command-line interface.</p>
 <p>This module exports the program's entry point: <code>main</code>.</p>
 
             <h2 class="section-title">
@@ -1330,11 +1323,11 @@ considered empty</p>
         </div>
       </div>
 
-      <div class="desc">
-        <p>Program entry point.</p>
+        <div class="desc">
+          <p>Program entry point.</p>
 <p>This is where command line arguments are configured and read. Then the
 configuration is fine-tuned for execution.</p>
-      </div>
+        </div>
     </div>
 
 
@@ -1346,7 +1339,7 @@ configuration is fine-tuned for execution.</p>
             Module <code>adoc.codegen</code>
         </h2>
 
-        <p>Python source code generation.</p>
+          <p>Python source code generation.</p>
 
             <h2 class="section-title">
                 Functions
@@ -1365,9 +1358,6 @@ configuration is fine-tuned for execution.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -1381,9 +1371,6 @@ configuration is fine-tuned for execution.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -1397,9 +1384,9 @@ configuration is fine-tuned for execution.</p>
         </div>
       </div>
 
-      <div class="desc">
-        <p>Generate Python code from an AST node (a subtree).</p>
-      </div>
+        <div class="desc">
+          <p>Generate Python code from an AST node (a subtree).</p>
+        </div>
     </div>
 
 
@@ -1411,7 +1398,6 @@ configuration is fine-tuned for execution.</p>
             Module <code>adoc.formats</code>
         </h2>
 
-        
 
 
         </section>
@@ -1422,7 +1408,7 @@ configuration is fine-tuned for execution.</p>
             Module <code>adoc.formats.md</code>
         </h2>
 
-        <p>Markdown formatter.</p>
+          <p>Markdown formatter.</p>
 
             <h2 class="section-title">
                 Functions
@@ -1441,9 +1427,6 @@ configuration is fine-tuned for execution.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
 
 
@@ -1455,7 +1438,7 @@ configuration is fine-tuned for execution.</p>
             Module <code>adoc.formats.rst</code>
         </h2>
 
-        <p>reStructuredText formatter.</p>
+          <p>reStructuredText formatter.</p>
 <p>This module aims to bring a decent level of compatibility with Sphinx without
 relying on anything except <code>docutils</code>.</p>
 <p>This is obviously still a work in progress.</p>
@@ -1490,9 +1473,6 @@ relying on anything except <code>docutils</code>.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -1506,9 +1486,6 @@ relying on anything except <code>docutils</code>.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -1522,9 +1499,6 @@ relying on anything except <code>docutils</code>.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -1538,9 +1512,6 @@ relying on anything except <code>docutils</code>.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
 
 
@@ -1557,9 +1528,6 @@ relying on anything except <code>docutils</code>.</p>
         class <span class="ident">DummyDirective</span>
       </p>
 
-      <div class="desc">
-        
-      </div>
 
       <div class="class">
           <h3>
@@ -1589,9 +1557,6 @@ relying on anything except <code>docutils</code>.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
 
       </div>
@@ -1604,13 +1569,13 @@ relying on anything except <code>docutils</code>.</p>
         class <span class="ident">VersionAdmonition</span>
       </p>
 
-      <div class="desc">
-        <p>Version-based admonitions.</p>
+        <div class="desc">
+          <p>Version-based admonitions.</p>
 <p>Supports the following construction:</p>
 <div class="codehilite"><pre><span></span><span class="p">..</span> <span class="ow">deprecated</span><span class="p">::</span> 0.1
     This method is ...
 </pre></div>
-      </div>
+        </div>
 
       <div class="class">
           <h3>
@@ -1640,9 +1605,6 @@ relying on anything except <code>docutils</code>.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
 
       </div>
@@ -1656,7 +1618,7 @@ relying on anything except <code>docutils</code>.</p>
             Module <code>adoc.httpd</code>
         </h2>
 
-        <p>Documentaion HTTP server.</p>
+          <p>Documentaion HTTP server.</p>
 <p>This module provides an HTTP server exclusively for the purpose of serving HTML
 documentation over HTTP.</p>
 
@@ -1674,12 +1636,12 @@ documentation over HTTP.</p>
         class <span class="ident">RequestHandler</span>
       </p>
 
-      <div class="desc">
-        <p>Documentation HTTP request handler.</p>
+        <div class="desc">
+          <p>Documentation HTTP request handler.</p>
 <p>It will serve HTML documentation for the project at <code>project_path</code>. A
 documentation server will only accept <code>HEAD</code> and <code>GET</code> requests and reply
 with 404s for any request that's not made on <code>/</code>.</p>
-      </div>
+        </div>
 
       <div class="class">
           <h3>
@@ -1688,7 +1650,7 @@ with 404s for any request that's not made on <code>/</code>.</p>
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">BaseHTTPRequestHandler</a>
+                <a href="#ancestors">server.BaseHTTPRequestHandler</a>
               </li>
           </ul>
 
@@ -1709,9 +1671,6 @@ with 404s for any request that's not made on <code>/</code>.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -1725,9 +1684,9 @@ with 404s for any request that's not made on <code>/</code>.</p>
         </div>
       </div>
 
-      <div class="desc">
-        <p>Respond to <code>HEAD</code> requests.</p>
-      </div>
+        <div class="desc">
+          <p>Respond to <code>HEAD</code> requests.</p>
+        </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -1741,10 +1700,10 @@ with 404s for any request that's not made on <code>/</code>.</p>
         </div>
       </div>
 
-      <div class="desc">
-        <p>Respond to <code>GET</code> requests.</p>
+        <div class="desc">
+          <p>Respond to <code>GET</code> requests.</p>
 <p>Only <code>/</code> will be served, other paths will result in 404s.</p>
-      </div>
+        </div>
     </div>
 
       </div>
@@ -1757,10 +1716,10 @@ with 404s for any request that's not made on <code>/</code>.</p>
         class <span class="ident">Server</span>
       </p>
 
-      <div class="desc">
-        <p>Documentation HTTP server.</p>
+        <div class="desc">
+          <p>Documentation HTTP server.</p>
 <p>It will reponde to HTTP requests using <code>RequestHandler</code>.</p>
-      </div>
+        </div>
 
       <div class="class">
           <h3>
@@ -1769,7 +1728,7 @@ with 404s for any request that's not made on <code>/</code>.</p>
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">HTTPServer</a>
+                <a href="#ancestors">server.HTTPServer</a>
               </li>
           </ul>
 
@@ -1790,9 +1749,6 @@ with 404s for any request that's not made on <code>/</code>.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
 
       </div>
@@ -1806,7 +1762,7 @@ with 404s for any request that's not made on <code>/</code>.</p>
             Module <code>adoc.models</code>
         </h2>
 
-        <p>Project modelisation objects.</p>
+          <p>Project modelisation objects.</p>
 <p>These data structures allow the modelisation of a project's documentation and
 source code.</p>
 <p>They are handled mostly while parsing a project's source code and later
@@ -1829,9 +1785,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
 
 
@@ -1848,9 +1801,9 @@ transmited to the HTML writer.</p>
         class <span class="ident">Atom</span>
       </p>
 
-      <div class="desc">
-        <p>Lowest-level unit representing a source code unit.</p>
-      </div>
+        <div class="desc">
+          <p>Lowest-level unit representing a source code unit.</p>
+        </div>
 
       <div class="class">
 
@@ -1871,9 +1824,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -1887,9 +1837,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -1904,9 +1851,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -1922,9 +1866,9 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        <p>Recursively generate an <code>Atom</code>'s fully qualified name.</p>
-      </div>
+        <div class="desc">
+          <p>Recursively generate an <code>Atom</code>'s fully qualified name.</p>
+        </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -1939,9 +1883,9 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        <p>Build <code>Atom</code> instances from an AST node.</p>
-      </div>
+        <div class="desc">
+          <p>Build <code>Atom</code> instances from an AST node.</p>
+        </div>
     </div>
 
       </div>
@@ -1954,9 +1898,9 @@ transmited to the HTML writer.</p>
         class <span class="ident">ParametersMixin</span>
       </p>
 
-      <div class="desc">
-        <p>Mixin for classes that hold parameters.</p>
-      </div>
+        <div class="desc">
+          <p>Mixin for classes that hold parameters.</p>
+        </div>
 
       <div class="class">
 
@@ -1977,9 +1921,9 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        <p>Add parameters representation (ie. <code>str</code>).</p>
-      </div>
+        <div class="desc">
+          <p>Add parameters representation (ie. <code>str</code>).</p>
+        </div>
     </div>
 
       </div>
@@ -1992,9 +1936,9 @@ transmited to the HTML writer.</p>
         class <span class="ident">DecoratorsMixin</span>
       </p>
 
-      <div class="desc">
-        <p>Mixin for classes that hold decorators.</p>
-      </div>
+        <div class="desc">
+          <p>Mixin for classes that hold decorators.</p>
+        </div>
 
       <div class="class">
 
@@ -2015,9 +1959,9 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        <p>Add decorators, (ie. <code>str</code>).</p>
-      </div>
+        <div class="desc">
+          <p>Add decorators, (ie. <code>str</code>).</p>
+        </div>
     </div>
 
       </div>
@@ -2030,9 +1974,9 @@ transmited to the HTML writer.</p>
         class <span class="ident">FunctionsMixin</span>
       </p>
 
-      <div class="desc">
-        <p>Mixin for classes that hold <code>Function</code> instances.</p>
-      </div>
+        <div class="desc">
+          <p>Mixin for classes that hold <code>Function</code> instances.</p>
+        </div>
 
       <div class="class">
 
@@ -2053,9 +1997,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -2069,9 +2010,9 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        <p>Add a <code>Function</code> instance, setting <code>self</code> as its parent.</p>
-      </div>
+        <div class="desc">
+          <p>Add a <code>Function</code> instance, setting <code>self</code> as its parent.</p>
+        </div>
     </div>
 
       </div>
@@ -2084,9 +2025,6 @@ transmited to the HTML writer.</p>
         class <span class="ident">Function</span>
       </p>
 
-      <div class="desc">
-        
-      </div>
 
       <div class="class">
           <h3>
@@ -2123,9 +2061,9 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        <p>Build a <code>Function</code> instance from an AST node.</p>
-      </div>
+        <div class="desc">
+          <p>Build a <code>Function</code> instance from an AST node.</p>
+        </div>
     </div>
 
       </div>
@@ -2138,9 +2076,9 @@ transmited to the HTML writer.</p>
         class <span class="ident">ClassesMixin</span>
       </p>
 
-      <div class="desc">
-        <p>Mixin for classes that hold <code>Class</code> instances.</p>
-      </div>
+        <div class="desc">
+          <p>Mixin for classes that hold <code>Class</code> instances.</p>
+        </div>
 
       <div class="class">
 
@@ -2161,9 +2099,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -2177,9 +2112,9 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        <p>Add a <code>Class</code> instance, setting <code>self</code> as its parent.</p>
-      </div>
+        <div class="desc">
+          <p>Add a <code>Class</code> instance, setting <code>self</code> as its parent.</p>
+        </div>
     </div>
 
       </div>
@@ -2192,9 +2127,6 @@ transmited to the HTML writer.</p>
         class <span class="ident">Class</span>
       </p>
 
-      <div class="desc">
-        
-      </div>
 
       <div class="class">
           <h3>
@@ -2230,9 +2162,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -2247,9 +2176,9 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        <p>Build a <code>Class</code> instance from an AST node.</p>
-      </div>
+        <div class="desc">
+          <p>Build a <code>Class</code> instance from an AST node.</p>
+        </div>
     </div>
 
       </div>
@@ -2262,9 +2191,9 @@ transmited to the HTML writer.</p>
         class <span class="ident">ModulesMixin</span>
       </p>
 
-      <div class="desc">
-        <p>Mixin for classes that hold <code>Module</code> instances.</p>
-      </div>
+        <div class="desc">
+          <p>Mixin for classes that hold <code>Module</code> instances.</p>
+        </div>
 
       <div class="class">
 
@@ -2285,9 +2214,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -2301,9 +2227,9 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        <p>Add a <code>Module</code> instance, setting <code>self</code> as its parent.</p>
-      </div>
+        <div class="desc">
+          <p>Add a <code>Module</code> instance, setting <code>self</code> as its parent.</p>
+        </div>
     </div>
 
       </div>
@@ -2316,10 +2242,10 @@ transmited to the HTML writer.</p>
         class <span class="ident">Module</span>
       </p>
 
-      <div class="desc">
-        <p>Representation of a module.</p>
+        <div class="desc">
+          <p>Representation of a module.</p>
 <p>No distinction is made between modules and packages.</p>
-      </div>
+        </div>
 
       <div class="class">
           <h3>
@@ -2358,9 +2284,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -2374,9 +2297,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -2391,9 +2311,9 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        <p>Build a <code>Module</code> instance from an AST node.</p>
-      </div>
+        <div class="desc">
+          <p>Build a <code>Module</code> instance from an AST node.</p>
+        </div>
     </div>
 
       </div>
@@ -2406,9 +2326,9 @@ transmited to the HTML writer.</p>
         class <span class="ident">Project</span>
       </p>
 
-      <div class="desc">
-        <p>Representation of a project.</p>
-      </div>
+        <div class="desc">
+          <p>Representation of a project.</p>
+        </div>
 
       <div class="class">
           <h3>
@@ -2441,9 +2361,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -2457,9 +2374,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -2473,9 +2387,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -2489,9 +2400,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -2505,9 +2413,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -2521,9 +2426,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -2537,9 +2439,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
 
       </div>
@@ -2552,9 +2451,6 @@ transmited to the HTML writer.</p>
         class <span class="ident">Document</span>
       </p>
 
-      <div class="desc">
-        
-      </div>
 
       <div class="class">
 
@@ -2575,9 +2471,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -2593,9 +2486,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -2611,9 +2501,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
 
       </div>
@@ -2627,7 +2514,7 @@ transmited to the HTML writer.</p>
             Module <code>adoc.parser</code>
         </h2>
 
-        <p>High-level parsing functions.</p>
+          <p>High-level parsing functions.</p>
 
 
             <h2 class="section-title">
@@ -2643,9 +2530,6 @@ transmited to the HTML writer.</p>
         class <span class="ident">ProjectParser</span>
       </p>
 
-      <div class="desc">
-        
-      </div>
 
       <div class="class">
 
@@ -2666,9 +2550,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -2682,9 +2563,9 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        <p>Parse a project, setting the current working directiory.</p>
-      </div>
+        <div class="desc">
+          <p>Parse a project, setting the current working directiory.</p>
+        </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -2698,9 +2579,9 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        <p>Parse a Python project in the current working directory.</p>
-      </div>
+        <div class="desc">
+          <p>Parse a Python project in the current working directory.</p>
+        </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -2714,9 +2595,9 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        <p>Parse a <code>README.md</code> file in the current working directory.</p>
-      </div>
+        <div class="desc">
+          <p>Parse a <code>README.md</code> file in the current working directory.</p>
+        </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -2730,9 +2611,9 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        <p>Parse a <code>setup.py</code> file in the current working directory.</p>
-      </div>
+        <div class="desc">
+          <p>Parse a <code>setup.py</code> file in the current working directory.</p>
+        </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -2746,9 +2627,9 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        <p>Parse a Python module.</p>
-      </div>
+        <div class="desc">
+          <p>Parse a Python module.</p>
+        </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -2762,9 +2643,9 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        <p>Parse a Python file.</p>
-      </div>
+        <div class="desc">
+          <p>Parse a Python file.</p>
+        </div>
     </div>
 
       </div>
@@ -2778,7 +2659,6 @@ transmited to the HTML writer.</p>
             Module <code>adoc.utils</code>
         </h2>
 
-        
 
             <h2 class="section-title">
                 Functions
@@ -2797,9 +2677,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -2813,9 +2690,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -2829,9 +2703,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -2845,9 +2716,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
 
 
@@ -2864,9 +2732,6 @@ transmited to the HTML writer.</p>
         class <span class="ident">WorkingDirectory</span>
       </p>
 
-      <div class="desc">
-        
-      </div>
 
       <div class="class">
 
@@ -2887,9 +2752,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -2903,9 +2765,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -2919,9 +2778,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
 
       </div>
@@ -2935,7 +2791,6 @@ transmited to the HTML writer.</p>
             Module <code>adoc.writer</code>
         </h2>
 
-        
 
             <h2 class="section-title">
                 Functions
@@ -2954,9 +2809,6 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
-      <div class="desc">
-        
-      </div>
     </div>
 
 
