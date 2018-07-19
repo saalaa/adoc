@@ -14,7 +14,7 @@ from .parser import ProjectParser
 from .httpd import Server
 
 
-def main():
+def main(args=None):
     """Program entry point.
 
     This is where command line arguments are configured and read. Then the
@@ -71,7 +71,7 @@ def main():
     ap.add_argument('project_path', metavar='PROJECT_PATH',
                     help='project path')
 
-    args = ap.parse_args(sys.argv[1:])
+    args = ap.parse_args(args or sys.argv[1:])
 
     docstrings_format = 'rst' if args.rst_docstrings else 'md'
 
