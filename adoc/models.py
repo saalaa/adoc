@@ -299,8 +299,7 @@ class Document:
     ext = None
 
     def __init__(self, filename):
-        self.filename = filename
-
+        self.filename = os.path.realpath(filename)
         self.name, self.ext = os.path.splitext(
             os.path.basename(self.filename)
         )
