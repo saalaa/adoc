@@ -37,31 +37,31 @@
       % if project.has_meta('author', 'author_email', 'license', 'url', 'project_urls'):
         <ul class="metadata">
           % if project.has_meta('author'):
+            <li>Author:
             % if project.has_meta('author_email'):
-              <li>
                 <a href="mailto:${project.get_meta('author_email')}">
                   ${project.get_meta('author') | h}
                 </a>
-              </li>
             % else:
-              <li>${project.get_meta('author') | h}</li>
+              ${project.get_meta('author') | h}
             % endif
+            </li>
           % endif
 
           % if project.has_meta('maintainer'):
+            <li>Maintainer:
             % if project.has_meta('maintainer_email'):
-              <li>
-                <a href="mailto:${project.get_meta('maintainer_email')}">
-                  ${project.get_meta('maintainer') | h}
-                </a>
-              </li>
+              <a href="mailto:${project.get_meta('maintainer_email')}">
+                ${project.get_meta('maintainer') | h}
+              </a>
             % else:
-              <li>${project.get_meta('maintainer') | h}</li>
+              ${project.get_meta('maintainer') | h}
             % endif
+            </li>
           % endif
 
           % if project.has_meta('license'):
-            <li>${project.get_meta('license') | h}</li>
+              <li>License: ${project.get_meta('license') | h}</li>
           % endif
 
           % if project.has_meta('url'):

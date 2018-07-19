@@ -85,7 +85,7 @@ pre, code, .mono, .name {
 article h1 strong {
   font-weight: bold;
 }
-.section-title {
+section {
   margin-top: 2em;
 }
 .ident {
