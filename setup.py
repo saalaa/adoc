@@ -23,6 +23,7 @@ setup(
     },
     description='Python code documentation generator',
     long_description='See https://github.com/saalaa/adoc',
+    python_requires='~=3.5',
     install_requires=requirements,
     packages=find_packages(),
     include_package_data=True,
