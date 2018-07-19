@@ -1271,9 +1271,8 @@ still command line overrides as well.</p>
 documentation</a> to get an
 idea.</p>
 <h2>Why aren't my Python packages discovered properly?</h2>
-<p><strong>adoc</strong> relies on either <code>setup.py</code> or <code>setuptools.find_packages()</code> for
-package discovery. If you have any issue, you may want to check these places
-first.</p>
+<p><strong>adoc</strong> relies on either <code>setup.py</code> or <code>find_packages()</code> for package
+discovery. If you have any issue, you may want to check these places first.</p>
 <p>The result of <code>find_packages()</code> is easy to reproduce:</p>
 <div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">find_packages</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">find_packages</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
@@ -1336,7 +1335,7 @@ considered empty</p>
         <div>
           <p>def <span class="ident">main</span>(</p>
 
-            <p>)</p>
+            <p>args=None)</p>
         </div>
       </div>
 
