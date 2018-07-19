@@ -1,7 +1,12 @@
 ADOC_OPTS=-d docs/faq.md
 
-default:
-	python -m adoc $(ADOC_OPTS) -o docs/index.html .
+default: docs/index.html docs/django-project.html
+
+docs/index.html:
+	python -m adoc $(ADOC_OPTS) -o $@ .
+
+docs/django-project.html:
+	python -m adoc -o $@ examples/django-project
 
 serve:
 	python -m adoc $(ADOC_OPTS) --serve .
@@ -18,3 +23,7 @@ upload:
 release: clean build upload
 
 .PHONY: help docs clean build upload release
+
+# Documentation is phony as well.
+.PHONY: docs/index.html
+.PHONY: docs/django-project.html

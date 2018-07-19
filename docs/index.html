@@ -1253,6 +1253,23 @@ pip install -r requirements-test.txt
 
         <section id="doc-faq">
           <h1>FAQ</h1>
+<h2>I don't have a <code>setup.py</code>, what do I do?</h2>
+<p>Worry not. Although <strong>adoc</strong> will attempt to rely on <code>setup.py</code> as much as
+possible, it will resort to <em>bare</em> <code>find_packages()</code> if it has to and there are
+still command line overrides as well.</p>
+<p>On a typical project, there wouldn't be any noticeable difference:</p>
+<div class="codehilite"><pre><span></span>adoc --serve .
+</pre></div>
+
+
+<p>However, you may be needed to adjust a couple of things:</p>
+<div class="codehilite"><pre><span></span>adoc --packages-dir=src --serve .
+</pre></div>
+
+
+<p>See <code>examples/django-project</code> and the corresponding <a href="https://saalaa.github.io/adoc/django-project.html">HTML
+documentation</a> to get an
+idea.</p>
 <h2>Why aren't my Python packages discovered properly?</h2>
 <p><strong>adoc</strong> relies on either <code>setup.py</code> or <code>setuptools.find_packages()</code> for
 package discovery. If you have any issue, you may want to check these places
