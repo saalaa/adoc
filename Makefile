@@ -1,4 +1,4 @@
-ADOC_OPTS=-d docs/faq.md
+ADOC_OPTS=-d docs/faq.md -d docs/examples.md
 
 default: docs/index.html docs/django-project.html
 

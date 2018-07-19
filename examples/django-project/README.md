@@ -1,5 +1,8 @@
 # **epicerie** Django Project
 
+This is a sample Python project, part of the **adoc** project.
+
+
 ## Getting started
 
 Prepare a Python virtual environment:
