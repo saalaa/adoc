@@ -1,25 +1,6 @@
 # FAQ
 
 
-## I don't have a `setup.py`, what do I do?
-
-Worry not. Although **adoc** will attempt to rely on `setup.py` as much as
-possible, it will resort to *bare* `find_packages()` if it has to and there are
-still command line overrides as well.
-
-On a typical project, there wouldn't be any noticeable difference:
-
-    adoc --serve .
-
-However, you may be needed to adjust a couple of things:
-
-    adoc --packages-dir=src --serve .
-
-See `examples/django-project` and the corresponding [HTML
-documentation](https://saalaa.github.io/adoc/django-project.html) to get an
-idea.
-
-
 ## Why aren't my Python packages discovered properly?
 
 **adoc** relies on either `setup.py` or `find_packages()` for package
@@ -48,3 +29,45 @@ definition of an empty package:
 
 That definition is recursive so that a package holding empty packages is
 considered empty
+
+
+## My `setup.py` is weird, I don't want to rely on it.
+
+**adoc** allows you to override most relevant directives:
+
+- `--package-dir`: where packages are located.
+- `--packages`: manually list packages.
+- `--no-setup`: ignore `setup.py` altogether.
+- `--find-packages`: force-discover packages.
+
+
+## I don't have a `setup.py`.
+
+**adoc** will attempt to rely on `setup.py` as much as possible, but it will
+resort to `find_packages()` if it has to (and there are still command line
+overrides as well).
+
+On a typical project, there wouldn't be any noticeable difference:
+
+    adoc --serve .
+
+However, you may need to adjust a couple of things if the documentaion comes
+out as expected:
+
+    adoc --package-dir=src --serve .
+
+See `examples/django-project` and the corresponding [HTML
+documentation](https://saalaa.github.io/adoc/django-project.html) to get an
+idea.
+
+
+## My project is just a bunch of scripts.
+
+**adoc** supports scripts declared in `setup.py` and these can be specified
+manually on the command-line as well:
+
+    adoc --scripts=main.py --serve .
+
+See `examples/appengine-project` and the corresponding [HTML
+documentation](https://saalaa.github.io/adoc/appengine-project.html) to get an
+idea.

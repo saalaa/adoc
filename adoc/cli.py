@@ -50,6 +50,9 @@ def main(args=None):
     ap.add_argument('--package-dir', type=str,
                     help='override package directory')
 
+    ap.add_argument('--scripts', type=str,
+                    help='override scripts')
+
     ap.add_argument('--packages', type=str,
                     help='override packages')
 
@@ -83,13 +86,20 @@ def main(args=None):
     if args.project_version:
         metadata['version'] = args.project_version
 
+    if args.scripts:
+        metadata['scripts'] = [
+            script for script in args.scripts.split(',') if script
+        ]
+
     if args.package_dir:
         metadata['package_dir'] = {
             '': args.package_dir
         }
 
     if args.packages:
-        metadata['packages'] = args.packages.split(',')
+        metadata['packages'] = [
+            package for package in args.packages.split(',') if package
+        ]
 
     exclude = None
     if args.exclude:

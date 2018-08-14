@@ -1232,23 +1232,6 @@ pip install -r requirements-test.txt
 
         <section id="doc-faq">
           <h1>FAQ</h1>
-<h2>I don't have a <code>setup.py</code>, what do I do?</h2>
-<p>Worry not. Although <strong>adoc</strong> will attempt to rely on <code>setup.py</code> as much as
-possible, it will resort to <em>bare</em> <code>find_packages()</code> if it has to and there are
-still command line overrides as well.</p>
-<p>On a typical project, there wouldn't be any noticeable difference:</p>
-<div class="codehilite"><pre><span></span>adoc --serve .
-</pre></div>
-
-
-<p>However, you may be needed to adjust a couple of things:</p>
-<div class="codehilite"><pre><span></span>adoc --packages-dir=src --serve .
-</pre></div>
-
-
-<p>See <code>examples/django-project</code> and the corresponding <a href="https://saalaa.github.io/adoc/django-project.html">HTML
-documentation</a> to get an
-idea.</p>
 <h2>Why aren't my Python packages discovered properly?</h2>
 <p><strong>adoc</strong> relies on either <code>setup.py</code> or <code>find_packages()</code> for package
 discovery. If you have any issue, you may want to check these places first.</p>
@@ -1273,12 +1256,50 @@ definition of an empty package:</p>
 </ul>
 <p>That definition is recursive so that a package holding empty packages is
 considered empty</p>
+<h2>My <code>setup.py</code> is weird, I don't want to rely on it.</h2>
+<p><strong>adoc</strong> allows you to override most relevant directives:</p>
+<ul>
+<li><code>--package-dir</code>: where packages are located.</li>
+<li><code>--packages</code>: manually list packages.</li>
+<li><code>--no-setup</code>: ignore <code>setup.py</code> altogether.</li>
+<li><code>--find-packages</code>: force-discover packages.</li>
+</ul>
+<h2>I don't have a <code>setup.py</code>.</h2>
+<p><strong>adoc</strong> will attempt to rely on <code>setup.py</code> as much as possible, but it will
+resort to <code>find_packages()</code> if it has to (and there are still command line
+overrides as well).</p>
+<p>On a typical project, there wouldn't be any noticeable difference:</p>
+<div class="codehilite"><pre><span></span>adoc --serve .
+</pre></div>
+
+
+<p>However, you may need to adjust a couple of things if the documentaion comes
+out as expected:</p>
+<div class="codehilite"><pre><span></span>adoc --package-dir=src --serve .
+</pre></div>
+
+
+<p>See <code>examples/django-project</code> and the corresponding <a href="https://saalaa.github.io/adoc/django-project.html">HTML
+documentation</a> to get an
+idea.</p>
+<h2>My project is just a bunch of scripts.</h2>
+<p><strong>adoc</strong> supports scripts declared in <code>setup.py</code> and these can be specified
+manually on the command-line as well:</p>
+<div class="codehilite"><pre><span></span>adoc --scripts=main.py --serve .
+</pre></div>
+
+
+<p>See <code>examples/appengine-project</code> and the corresponding <a href="https://saalaa.github.io/adoc/appengine-project.html">HTML
+documentation</a> to get an
+idea.</p>
         </section>
         <section id="doc-examples">
           <h1>Examples</h1>
 <ul>
 <li><a href="https://saalaa.github.io/adoc/django-project.html">examples/django-project</a>:
   Django project, no <code>setup.py</code></li>
+<li><a href="https://saalaa.github.io/adoc/appengine-project.html">examples/appengine-project</a>:
+  AppEngine project, no <code>setup.py</code>, no module</li>
 </ul>
         </section>
 
@@ -2641,7 +2662,7 @@ transmited to the HTML writer.</p>
         <div>
           <p>def <span class="ident">parse_file</span>(</p>
 
-            <p>self, path, name)</p>
+            <p>self, path, name, strip_ext=True)</p>
         </div>
       </div>
 

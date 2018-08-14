@@ -7,7 +7,7 @@ import setuptools
 import importlib
 import fnmatch
 
-from .utils import WorkingDirectory
+from .utils import WorkingDirectory, warning
 from .models import (
     Project, Module, Document
 )
@@ -18,11 +18,13 @@ DEFAULT_EXCLUDE = [
     'tests.*',
     'tests',
     'test_*',
+    '*_test.*',
     '*.migrations',
     '*.migrations.*',
     'migrations.*',
     'migrations',
-    'migration_*'
+    'migration_*',
+    'conftest.*',
 ]
 
 
@@ -77,6 +79,21 @@ class ProjectParser:
             project.add_document(
                 Document(document)
             )
+
+        for script in metadata.get('scripts', []):
+            try:
+                module = self.parse_file(script, script, strip_ext=False)
+            except SyntaxError:
+                warning(
+                    '{} does not appear to be a Python script'.format(script)
+                )
+
+                continue
+
+            if not module.is_empty():
+                project.add_module(
+                    module
+                )
 
         for package in metadata['packages']:
             parts = package.split('.')
@@ -152,12 +169,13 @@ class ProjectParser:
 
         return current_module
 
-    def parse_file(self, path, name):
+    def parse_file(self, path, name, strip_ext=True):
         """Parse a Python file."""
         with open(path) as fh:
             contents = fh.read()
 
-        name, ext = os.path.splitext(name)
+        if strip_ext:
+            name, ext = os.path.splitext(name)
 
         root = ast.parse(contents)
 
