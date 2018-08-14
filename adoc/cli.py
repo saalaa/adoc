@@ -89,7 +89,7 @@ def main(args=None):
         }
 
     if args.packages:
-        metadata['packages'] = args.packages.split(',')        
+        metadata['packages'] = args.packages.split(',')
 
     exclude = None
     if args.exclude:
