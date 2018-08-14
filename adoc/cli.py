@@ -88,6 +88,9 @@ def main(args=None):
             '': args.package_dir
         }
 
+    if args.packages:
+        metadata['packages'] = args.packages.split(',')        
+
     exclude = None
     if args.exclude:
         exclude = args.exclude.split(',')
