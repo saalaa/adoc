@@ -1,25 +1,30 @@
 import os
 import sys
+import crayons
 
 from functools import wraps
 
 
 def success(message):
-    print(
-        message, file=sys.stdout
+    sys.stdout.write(
+        message
     )
 
 
 def warning(message):
-    print(
-        'Warning: {}'.format(message), file=sys.stderr
+    label = crayons.yellow('Warning')
+    sys.stdout.write(
+        '{}: {}\n'.format(label, message)
     )
 
 
 def error(message):
-    print(
-        'Error: {}'.format(message), file=sys.stderr
+    label = crayons.red('Error')
+    sys.stderr.write(
+        '{}: {}\n'.format(label, message)
     )
+
+    return 1
 
 
 def memoized(f):

@@ -5,3 +5,5 @@ Mako==1.0.7
 Markdown==2.6.11
 MarkupSafe==1.0
 Pygments==2.2.0
+colorama==0.3.9
+crayons==0.1.2
