@@ -41,7 +41,7 @@ class Atom:
         self.doc = doc
 
     def __str__(self):
-        return '<%s:%s>' % (self.type, self.name)
+        return '<{}:{}>'.format(self.type, self.name)
 
     @property
     def type(self):

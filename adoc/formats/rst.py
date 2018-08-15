@@ -81,13 +81,13 @@ class VersionAdmonition(Directive):
 
         if len(node):
             label = nodes.inline(
-                '', '%s: ' % label, classes=['versionmodified']
+                '', '{}: '.format(label), classes=['versionmodified']
             )
 
             node[0].insert(0, label)
         else:
             label = nodes.inline(
-                '', '%s.' % label, classes=['versionmodified']
+                '', '{}.'.format(label), classes=['versionmodified']
             )
 
             node.append(
