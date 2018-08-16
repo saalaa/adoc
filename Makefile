@@ -2,6 +2,9 @@ ADOC_OPTS=-d docs/faq.md -d docs/examples.md
 
 default: docs/index.html docs/django-project.html docs/appengine-project.html
 
+serve:
+	python -m adoc -v $(ADOC_OPTS) --http .
+
 docs/index.html:
 	python -m adoc -v $(ADOC_OPTS) --html $@ .
 
@@ -10,9 +13,6 @@ docs/django-project.html:
 
 docs/appengine-project.html:
 	python -m adoc -v -s main.py --html $@ examples/appengine-project
-
-serve:
-	python -m adoc -v $(ADOC_OPTS) --http .
 
 clean:
 	rm -rf .pytest_cache .eggs .coverage adoc.egg-info build dist __pycache__ \
