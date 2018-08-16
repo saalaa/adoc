@@ -4,11 +4,13 @@ This module provides an HTTP server exclusively for the purpose of serving HTML
 documentation over HTTP.
 """
 
+import logging
+
 from http import server
 
 from .writer import html
 
-# TODO Bypass http's built-in logging
+logger = logging.getLogger(__name__)
 
 
 class RequestHandler(server.BaseHTTPRequestHandler):
@@ -44,6 +46,15 @@ class RequestHandler(server.BaseHTTPRequestHandler):
             self.wfile.write(
                 contents.encode('utf-8')
             )
+
+    def log_message(self, format, *args):
+        requestline, code, size = args
+
+        logging_func = logger.error
+        if int(code) // 100 == 2:
+            logging_func = logger.info
+
+        logging_func(format, requestline, code, size)
 
 
 class Server(server.HTTPServer):

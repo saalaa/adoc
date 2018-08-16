@@ -3,6 +3,8 @@
 import ast
 import logging
 
+logger = logging.getLogger(__name__)
+
 
 BINARY_OP_MAPPING = {
     ast.Add: '+',
@@ -201,7 +203,7 @@ def make_python(node):
             make_signature(node)
         )
 
-    logging.error(
+    logger.error(
         'unsupported node: {}'.format(node)
     )
 

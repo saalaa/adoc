@@ -16,6 +16,8 @@ from .models import (
 # TODO Improve error handling but stick to basic logging here
 # TODO Raise exceptions when/where needed
 
+logger = logging.getLogger(__name__)
+
 
 DEFAULT_EXCLUDE = [
     '*.tests',
@@ -47,7 +49,7 @@ class ProjectParser:
 
     def parse(self):
         """Parse a project, setting the current working directiory."""
-        logging.debug(
+        logger.debug(
             'entering {}'.format(self.path)
         )
 
@@ -59,7 +61,7 @@ class ProjectParser:
         metadata = {}
 
         if not self.no_setup and self.setup_exists():
-            logging.debug('loading setup.py')
+            logger.debug('loading setup.py')
             metadata.update(
                 self.load_setup()
             )
@@ -72,20 +74,20 @@ class ProjectParser:
             }
 
         if 'name' not in metadata:
-            logging.debug('guessing project name')
+            logger.debug('guessing project name')
             metadata['name'] = os.path.basename(
                 os.path.realpath(self.path)
             )
 
         if 'packages' not in metadata or self.find_packages:
-            logging.debug('guessing packages')
+            logger.debug('guessing packages')
             metadata['packages'] = setuptools.find_packages(
                 metadata['package_dir'].get('', ''), exclude=self.exclude
             )
 
         readme = self.find_readme()
         if readme:
-            logging.debug(
+            logger.debug(
                 'found {}'.format(readme)
             )
 
@@ -94,7 +96,7 @@ class ProjectParser:
         project = Project(metadata['name'], readme, metadata)
 
         for document in self.documents:
-            logging.debug(
+            logger.debug(
                 'adding document {}'.format(document)
             )
 
@@ -103,14 +105,14 @@ class ProjectParser:
             )
 
         for script in metadata.get('scripts', []):
-            logging.debug(
+            logger.debug(
                 'parsing script {}'.format(script)
             )
 
             try:
                 module = self.parse_file(script, script, strip_ext=False)
             except SyntaxError:
-                logging.error(
+                logger.error(
                     '{} does not appear to be a Python script'.format(script)
                 )
 
@@ -122,7 +124,7 @@ class ProjectParser:
                 )
 
         for package in metadata.get('packages', []):
-            logging.debug(
+            logger.debug(
                 'parsing package {}'.format(package)
             )
 

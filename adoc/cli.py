@@ -16,6 +16,8 @@ from .writer import html
 # TODO Try to merge --http-host and --http-port into --http before release
 # TODO Rework writer module and implement --pdf
 
+logger = logging.getLogger(__name__)
+
 
 class SplitAppend(argparse.Action):
     """Argument parsing action for repeatable csv strings."""
@@ -94,7 +96,7 @@ def cli_setup():
 def cli_compat(ap):
     """CLI backward compatibility."""
     def warning(old_flag, new_flag):
-        logging.warning(
+        logger.warning(
             '`{}` is deprecated, use `{}` instead'.format(old_flag, new_flag)
         )
 
@@ -124,7 +126,7 @@ def cli_compat(ap):
             args.http_port = args.port
 
         if warnings:
-            logging.warning(
+            logger.warning(
                 'support for deprecated flags will be dropped soon'
             )
 
@@ -142,19 +144,20 @@ def cli_compat(ap):
 
 
 def logging_setup(verbose):
+    format = '%(log_color)s%(message)s%(reset)s'
+
+    if verbose:
+        format = '%(log_color)s%(levelname)s%(reset)s %(name)s %(message)s'
+
     handler = colorlog.StreamHandler()
     handler.setFormatter(
         colorlog.ColoredFormatter(
-            '%(log_color)s%(levelname)s%(reset)s %(message)s'
+            format
         )
     )
 
     logger = colorlog.getLogger()
     logger.addHandler(handler)
-
-    logging.basicConfig(
-        format='%(levelname)s %(message)s'
-    )
 
     logging.getLogger().setLevel(
         logging.DEBUG if verbose else logging.INFO
@@ -203,8 +206,8 @@ def main(args=None):
         server = Server(args.http_host, args.http_port, parser,
                         args.docstrings_format)
 
-        logging.info(
-            'HTTP server live at http://{}:{}'.format(
+        logger.info(
+            'server live at http://{}:{}'.format(
                 args.http_host, args.http_port
             )
         )
@@ -214,13 +217,13 @@ def main(args=None):
         except KeyboardInterrupt:
             return 0
         except Exception:
-            logging.exception('uncaught exception')
+            logger.exception('uncaught exception')
             return 1
     else:
         filename = args.html  # or args.pdf
 
         if not filename:
-            logging.error('no output format specified, use `--html`')
+            logger.error('no output format specified, use `--html`')
             return 1
 
         project = parser.parse()
@@ -230,7 +233,7 @@ def main(args=None):
                 html(project, args.docstrings_format)
             )
 
-        logging.info(
+        logger.info(
             'written {}'.format(filename)
         )
 
