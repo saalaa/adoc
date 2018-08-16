@@ -1219,12 +1219,12 @@ it never reaches the interpreter and side-effects are effortlessly avoided.</p>
 
 <h2>Usage</h2>
 <p>For iteractive generation:</p>
-<div class="codehilite"><pre><span></span>adoc --serve .
+<div class="codehilite"><pre><span></span>adoc --http .
 </pre></div>
 
 
 <p>For an HTML export:</p>
-<div class="codehilite"><pre><span></span>adoc -o docs/index.html .
+<div class="codehilite"><pre><span></span>adoc --html docs/index.html .
 </pre></div>
 
 
@@ -1242,7 +1242,7 @@ pip install -r requirements-test.txt
 
 
 <p>To start the web server:</p>
-<div class="codehilite"><pre><span></span>python -m adoc --serve .
+<div class="codehilite"><pre><span></span>python -m adoc --http .
 </pre></div>
         </section>
 

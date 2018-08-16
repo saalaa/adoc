@@ -37,11 +37,11 @@ This is fairly straighforward:
 
 For iteractive generation:
 
-    adoc --serve .
+    adoc --http .
 
 For an HTML export:
 
-    adoc -o docs/index.html .
+    adoc --html docs/index.html .
 
 
 ## Hacking on the project
@@ -58,4 +58,4 @@ Run the test suite:
 
 To start the web server:
 
-    python -m adoc --serve .
+    python -m adoc --http .
