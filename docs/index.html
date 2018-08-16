@@ -773,6 +773,15 @@ table#module-list {
     h3 {
         page-break-after: avoid;
     }
+
+    article {
+        border: 0 !important;
+        page-break-before: always;
+    }
+
+    .no-print {
+        display: none;
+    }
 }
 
   </style>
@@ -828,7 +837,7 @@ table#module-list {
           </h3>
         </li>
 
-        <li class="set">
+        <li class="set no-print">
           <h3>
             Filter Symbols
           </h3>
@@ -931,6 +940,20 @@ table#module-list {
 
           
     <ul>
+            <li class="mono searchable" data-fqn="adoc.cli.cli_compat">
+                
+    <a href="#adoc.cli.cli_compat" title="adoc.cli.cli_compat">
+        cli_compat
+    </a>
+
+            </li>
+            <li class="mono searchable" data-fqn="adoc.cli.cli_setup">
+                
+    <a href="#adoc.cli.cli_setup" title="adoc.cli.cli_setup">
+        cli_setup
+    </a>
+
+            </li>
             <li class="mono searchable" data-fqn="adoc.formats.rst.dummy_role">
                 
     <a href="#adoc.formats.rst.dummy_role" title="adoc.formats.rst.dummy_role">
@@ -942,13 +965,6 @@ table#module-list {
                 
     <a href="#adoc.formats.rst.emphasis" title="adoc.formats.rst.emphasis">
         emphasis
-    </a>
-
-            </li>
-            <li class="mono searchable" data-fqn="adoc.utils.error">
-                
-    <a href="#adoc.utils.error" title="adoc.utils.error">
-        error
     </a>
 
             </li>
@@ -970,6 +986,13 @@ table#module-list {
                 
     <a href="#adoc.writer.html" title="adoc.writer.html">
         html
+    </a>
+
+            </li>
+            <li class="mono searchable" data-fqn="adoc.cli.logging_setup">
+                
+    <a href="#adoc.cli.logging_setup" title="adoc.cli.logging_setup">
+        logging_setup
     </a>
 
             </li>
@@ -1008,13 +1031,6 @@ table#module-list {
     </a>
 
             </li>
-            <li class="mono searchable" data-fqn="adoc.utils.success">
-                
-    <a href="#adoc.utils.success" title="adoc.utils.success">
-        success
-    </a>
-
-            </li>
             <li class="mono searchable" data-fqn="adoc.formats.rst.symbol_lookup">
                 
     <a href="#adoc.formats.rst.symbol_lookup" title="adoc.formats.rst.symbol_lookup">
@@ -1026,13 +1042,6 @@ table#module-list {
                 
     <a href="#adoc.models.walk" title="adoc.models.walk">
         walk
-    </a>
-
-            </li>
-            <li class="mono searchable" data-fqn="adoc.utils.warning">
-                
-    <a href="#adoc.utils.warning" title="adoc.utils.warning">
-        warning
     </a>
 
             </li>
@@ -1149,6 +1158,13 @@ table#module-list {
                 
     <a href="#adoc.httpd.Server" title="adoc.httpd.Server">
         Server
+    </a>
+
+            </li>
+            <li class="mono searchable" data-fqn="adoc.cli.splitappend">
+                
+    <a href="#adoc.cli.SplitAppend" title="adoc.cli.SplitAppend">
+        SplitAppend
     </a>
 
             </li>
@@ -1336,6 +1352,51 @@ idea.</p>
             
     <div class="item">
         <div class="name def" 
+  id="adoc.cli.cli_setup"
+ title="adoc.cli.cli_setup">
+
+        <div>
+          <p>def <span class="ident">cli_setup</span>(</p>
+
+            <p>)</p>
+        </div>
+      </div>
+
+        <div class="desc">
+          <p>CLI arguments parser setup.</p>
+        </div>
+    </div>
+    <div class="item">
+        <div class="name def" 
+  id="adoc.cli.cli_compat"
+ title="adoc.cli.cli_compat">
+
+        <div>
+          <p>def <span class="ident">cli_compat</span>(</p>
+
+            <p>ap)</p>
+        </div>
+      </div>
+
+        <div class="desc">
+          <p>CLI backward compatibility.</p>
+        </div>
+    </div>
+    <div class="item">
+        <div class="name def" 
+  id="adoc.cli.logging_setup"
+ title="adoc.cli.logging_setup">
+
+        <div>
+          <p>def <span class="ident">logging_setup</span>(</p>
+
+            <p>verbose)</p>
+        </div>
+      </div>
+
+    </div>
+    <div class="item">
+        <div class="name def" 
   id="adoc.cli.main"
  title="adoc.cli.main">
 
@@ -1353,6 +1414,56 @@ configuration is fine-tuned for execution.</p>
         </div>
     </div>
 
+
+            <h2 class="section-title">
+                Classes
+            </h2>
+
+            
+    <div class="item">
+      <p class="name" 
+  id="adoc.cli.SplitAppend"
+ title="adoc.cli.SplitAppend">
+
+        class <span class="ident">SplitAppend</span>
+      </p>
+
+        <div class="desc">
+          <p>Argument parsing action for repeatable csv strings.</p>
+        </div>
+
+      <div class="class">
+          <h3>
+            Ancestors
+          </h3>
+
+          <ul class="class_list">
+              <li class="mono">
+                <a href="#ancestors">argparse.Action</a>
+              </li>
+          </ul>
+
+          <h3>
+            Methods
+          </h3>
+
+          
+    <div class="item">
+        <div class="name def" 
+  id="adoc.cli.SplitAppend.__call__"
+ title="adoc.cli.SplitAppend.__call__">
+
+        <div>
+          <p>def <span class="ident">__call__</span>(</p>
+
+            <p>self, parser, namespace, values, option_string=None)</p>
+        </div>
+      </div>
+
+    </div>
+
+      </div>
+    </div>
 
         </section>
         <section class="section-items">
@@ -1450,6 +1561,9 @@ configuration is fine-tuned for execution.</p>
         </div>
       </div>
 
+        <div class="desc">
+          <p>Format Markdown text to HTML.</p>
+        </div>
     </div>
 
 
@@ -1535,6 +1649,9 @@ relying on anything except <code>docutils</code>.</p>
         </div>
       </div>
 
+        <div class="desc">
+          <p>Format reStructuredText text to HTML.</p>
+        </div>
     </div>
 
 
@@ -1551,6 +1668,9 @@ relying on anything except <code>docutils</code>.</p>
         class <span class="ident">DummyDirective</span>
       </p>
 
+        <div class="desc">
+          <p>Generic directive that does nothing.</p>
+        </div>
 
       <div class="class">
           <h3>
@@ -2048,6 +2168,9 @@ transmited to the HTML writer.</p>
         class <span class="ident">Function</span>
       </p>
 
+        <div class="desc">
+          <p>Representation of a function.</p>
+        </div>
 
       <div class="class">
           <h3>
@@ -2150,6 +2273,9 @@ transmited to the HTML writer.</p>
         class <span class="ident">Class</span>
       </p>
 
+        <div class="desc">
+          <p>Representation of a class.</p>
+        </div>
 
       <div class="class">
           <h3>
@@ -2474,6 +2600,10 @@ transmited to the HTML writer.</p>
         class <span class="ident">Document</span>
       </p>
 
+        <div class="desc">
+          <p>Representation of a document.</p>
+<p>Supported document formats are <code>html</code>, <code>md</code> and <code>rst</code>.</p>
+        </div>
 
       <div class="class">
 
@@ -2509,6 +2639,10 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
+        <div class="desc">
+          <p>Format a document to HTML.</p>
+<p>The value of this property is cached for better performances.</p>
+        </div>
     </div>
     <div class="item">
         <div class="name def" 
@@ -2524,6 +2658,11 @@ transmited to the HTML writer.</p>
         </div>
       </div>
 
+        <div class="desc">
+          <p>Extract a document's title.</p>
+<p>For this to be possible, it has first to formatted to HTML.</p>
+<p>The value of this property is cached for better performances.</p>
+        </div>
     </div>
 
       </div>
@@ -2569,7 +2708,7 @@ transmited to the HTML writer.</p>
         <div>
           <p>def <span class="ident">__init__</span>(</p>
 
-            <p>self, path, overrides, no_setup=False, exclude=None, force_find_packages=False, documents=None)</p>
+            <p>self, path, overrides, no_setup=False, exclude=None, find_packages=False, documents=None)</p>
         </div>
       </div>
 
@@ -2608,27 +2747,40 @@ transmited to the HTML writer.</p>
     </div>
     <div class="item">
         <div class="name def" 
-  id="adoc.parser.ProjectParser.parse_readme"
- title="adoc.parser.ProjectParser.parse_readme">
+  id="adoc.parser.ProjectParser.find_readme"
+ title="adoc.parser.ProjectParser.find_readme">
 
         <div>
-          <p>def <span class="ident">parse_readme</span>(</p>
+          <p>def <span class="ident">find_readme</span>(</p>
 
             <p>self)</p>
         </div>
       </div>
 
         <div class="desc">
-          <p>Parse a <code>README.md</code> file in the current working directory.</p>
+          <p>Parse a README file in the current working directory.</p>
         </div>
     </div>
     <div class="item">
         <div class="name def" 
-  id="adoc.parser.ProjectParser.parse_setup"
- title="adoc.parser.ProjectParser.parse_setup">
+  id="adoc.parser.ProjectParser.setup_exists"
+ title="adoc.parser.ProjectParser.setup_exists">
 
         <div>
-          <p>def <span class="ident">parse_setup</span>(</p>
+          <p>def <span class="ident">setup_exists</span>(</p>
+
+            <p>self)</p>
+        </div>
+      </div>
+
+    </div>
+    <div class="item">
+        <div class="name def" 
+  id="adoc.parser.ProjectParser.load_setup"
+ title="adoc.parser.ProjectParser.load_setup">
+
+        <div>
+          <p>def <span class="ident">load_setup</span>(</p>
 
             <p>self)</p>
         </div>
@@ -2688,45 +2840,6 @@ transmited to the HTML writer.</p>
             </h2>
 
             
-    <div class="item">
-        <div class="name def" 
-  id="adoc.utils.success"
- title="adoc.utils.success">
-
-        <div>
-          <p>def <span class="ident">success</span>(</p>
-
-            <p>message)</p>
-        </div>
-      </div>
-
-    </div>
-    <div class="item">
-        <div class="name def" 
-  id="adoc.utils.warning"
- title="adoc.utils.warning">
-
-        <div>
-          <p>def <span class="ident">warning</span>(</p>
-
-            <p>message)</p>
-        </div>
-      </div>
-
-    </div>
-    <div class="item">
-        <div class="name def" 
-  id="adoc.utils.error"
- title="adoc.utils.error">
-
-        <div>
-          <p>def <span class="ident">error</span>(</p>
-
-            <p>message)</p>
-        </div>
-      </div>
-
-    </div>
     <div class="item">
         <div class="name def" 
   id="adoc.utils.memoized"
@@ -2814,6 +2927,7 @@ transmited to the HTML writer.</p>
             Module <code>adoc.writer</code>
         </h2>
 
+          <p>HTML writer.</p>
 
             <h2 class="section-title">
                 Functions

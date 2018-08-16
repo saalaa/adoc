@@ -110,6 +110,7 @@ class FunctionsMixin:
 
 
 class Function(ParametersMixin, DecoratorsMixin, Atom):
+    """Representation of a function."""
     @classmethod
     def from_ast(cls, node):
         """Build a `Function` instance from an AST node."""
@@ -145,6 +146,7 @@ class ClassesMixin:
 
 
 class Class(DecoratorsMixin, FunctionsMixin, Atom):
+    """Representation of a class."""
     bases = None
 
     def add_base(self, base):
@@ -294,6 +296,10 @@ class Project(ModulesMixin, Atom):
 
 
 class Document:
+    """Representation of a document.
+
+    Supported document formats are `html`, `md` and `rst`.
+    """
     filename = None
     name = None
     ext = None
@@ -307,6 +313,10 @@ class Document:
     @property
     @memoized
     def html(self):
+        """Format a document to HTML.
+
+        The value of this property is cached for better performances.
+        """
         def format_html(x):
             return x
 
@@ -329,6 +339,12 @@ class Document:
     @property
     @memoized
     def title(self):
+        """Extract a document's title.
+
+        For this to be possible, it has first to formatted to HTML.
+
+        The value of this property is cached for better performances.
+        """
         soup = BeautifulSoup(self.html, 'html.parser')
 
         headings = soup.find_all('h1')

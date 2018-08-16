@@ -4,13 +4,11 @@ This module provides an HTTP server exclusively for the purpose of serving HTML
 documentation over HTTP.
 """
 
-import logging
-
 from http import server
 
 from .writer import html
 
-logger = logging.getLogger(__name__)
+# TODO Bypass http's built-in logging
 
 
 class RequestHandler(server.BaseHTTPRequestHandler):

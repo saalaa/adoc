@@ -1,30 +1,6 @@
 import os
-import sys
-import crayons
 
 from functools import wraps
-
-
-def success(message):
-    sys.stdout.write(
-        message
-    )
-
-
-def warning(message):
-    label = crayons.yellow('Warning')
-    sys.stdout.write(
-        '{}: {}\n'.format(label, message)
-    )
-
-
-def error(message):
-    label = crayons.red('Error')
-    sys.stderr.write(
-        '{}: {}\n'.format(label, message)
-    )
-
-    return 1
 
 
 def memoized(f):
@@ -46,8 +22,10 @@ def memoized(f):
 
 class WorkingDirectory:
     def __init__(self, directory):
-        self.target_wd = directory
-        self.initial_wd = os.getcwd()
+        self.target_wd = os.path.abspath(directory)
+        self.initial_wd = os.path.abspath(
+            os.getcwd()
+        )
 
     def __enter__(self):
         os.chdir(self.target_wd)

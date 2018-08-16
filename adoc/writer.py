@@ -1,3 +1,5 @@
+"""HTML writer."""
+
 import os
 import mako.lookup
 import mako.exceptions
@@ -5,6 +7,9 @@ import mako.exceptions
 from .formats import (
     format_md, format_rst
 )
+
+# TODO Stop leaking Mako exceptions: raise, catch and log our owns
+# TODO Provide detailed error information when run in --verbose mode
 
 
 TEMPLATE_PATH = os.path.join(
@@ -21,17 +26,12 @@ def html(project, docstring_format='md'):
     else:
         format_doc = format_md
 
+    # try:
     return template.render(
         project=project,
         format_md=format_md,
         format_rst=format_rst,
         format_doc=format_doc
     )
-
-    # TODO Stop leaking Mako exceptions
-
-    # try:
     # except:
-    #     print(
-    #         mako.exceptions.text_error_template().render()
-    #     )
+    #     mako.exceptions.text_error_template().render()

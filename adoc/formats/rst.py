@@ -27,6 +27,7 @@ from docutils.parsers.rst import (
 
 
 class DummyDirective(Directive):
+    """Generic directive that does nothing."""
     required_arguments = 1
     optional_arguments = 0
 
@@ -118,6 +119,7 @@ def emphasis(role, rawtext, text, lineno, inliner, options={}, content=[]):
 
 
 def format_rst(text):
+    """Format reStructuredText text to HTML."""
     parts = core.publish_parts(
         text, writer=Writer()
     )

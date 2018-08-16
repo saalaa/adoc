@@ -773,6 +773,15 @@ table#module-list {
     h3 {
         page-break-after: avoid;
     }
+
+    article {
+        border: 0 !important;
+        page-break-before: always;
+    }
+
+    .no-print {
+        display: none;
+    }
 }
 
   </style>
@@ -805,7 +814,7 @@ table#module-list {
           </h3>
         </li>
 
-        <li class="set">
+        <li class="set no-print">
           <h3>
             Filter Symbols
           </h3>

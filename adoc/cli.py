@@ -4,39 +4,62 @@ This module exports the program's entry point: `main`.
 """
 
 import argparse
+import colorlog
+import logging
 import sys
-import traceback
 
+from .httpd import Server
+from .parser import ProjectParser
 from .version import version
 from .writer import html
-from .utils import error, success
-from .parser import ProjectParser
-from .httpd import Server
+
+# TODO Try to merge --http-host and --http-port into --http before release
+# TODO Rework writer module and implement --pdf
 
 
-def main(args=None):
-    """Program entry point.
+class SplitAppend(argparse.Action):
+    """Argument parsing action for repeatable csv strings."""
+    def __call__(self, parser, namespace, values, option_string=None):
+        old_value = getattr(namespace, self.dest) or []
+        new_value = old_value + values.split(',')
 
-    This is where command line arguments are configured and read. Then the
-    configuration is fine-tuned for execution.
-    """
-    ap = argparse.ArgumentParser(prog='adoc', description='A Python '
-                                 'documentation generation tool')
+        setattr(
+            namespace, self.dest, new_value
+        )
+
+
+def cli_setup():
+    """CLI arguments parser setup."""
+    ap = argparse.ArgumentParser(
+        prog='adoc', description='A Python documentation generation tool'
+    )
 
     ap.add_argument('--version', action='version',
                     version='%(prog)s ' + version)
 
-    ap.add_argument('-v', action='store_true',
+    ap.add_argument('-v', '--verbose', action='store_true',
                     help='run in verbose mode')
 
-    ap.add_argument('-o', '--output', type=str,
-                    help='output file')
+    ap.add_argument('--html', type=str,
+                    help='HTML output file')
 
-    ap.add_argument('-d', action='append', metavar='DOCUMENT',
-                    help='additional document')
+    # ap.add_argument('--pdf', type=str,
+    #                 help='PDF output file')
 
-    ap.add_argument('--rst-docstrings', action='store_true',
-                    help='format docstrings using RST')
+    ap.add_argument('--http', action='store_true',
+                    help='serve documentation over HTTP')
+
+    ap.add_argument('--http-host', type=str, default='0.0.0.0',
+                    help='HTTP host, defaults to 0.0.0.0')
+
+    ap.add_argument('--http-port', type=int, default='8080',
+                    help='HTTP port, defaults to 8080')
+
+    ap.add_argument('-d', '--documents', type=str, action=SplitAppend,
+                    help='additional documentation')
+
+    ap.add_argument('-f', '--docstrings-format', type=str, default='md',
+                    help='docstrings format (`md` or `rst`)')
 
     ap.add_argument('--no-setup', action='store_true',
                     help='disable parsing of `setup.py`')
@@ -47,36 +70,109 @@ def main(args=None):
     ap.add_argument('--project-version', type=str,
                     help='override project version')
 
+    ap.add_argument('-s', '--scripts', type=str, action=SplitAppend,
+                    help='override scripts')
+
     ap.add_argument('--package-dir', type=str,
                     help='override package directory')
 
-    ap.add_argument('--scripts', type=str,
-                    help='override scripts')
-
-    ap.add_argument('--packages', type=str,
+    ap.add_argument('-p', '--packages', type=str, action=SplitAppend,
                     help='override packages')
 
     ap.add_argument('--find-packages', action='store_true',
                     help='force-find packages using setuptools')
 
-    ap.add_argument('--exclude', type=str, action='append',
+    ap.add_argument('-x', '--exclude', type=str, action=SplitAppend,
                     help='set excluded packages')
-
-    ap.add_argument('--serve', action='store_true',
-                    help='serve documentation over HTTP')
-
-    ap.add_argument('--host', type=str, default='0.0.0.0',
-                    help='live-server host, defaults to 0.0.0.0')
-
-    ap.add_argument('--port', type=int, default='8080',
-                    help='live-server port, defaults to 8080')
 
     ap.add_argument('project_path', metavar='PROJECT_PATH',
                     help='project path')
 
-    args = ap.parse_args(args or sys.argv[1:])
+    return ap
 
-    docstrings_format = 'rst' if args.rst_docstrings else 'md'
+
+def cli_compat(ap):
+    """CLI backward compatibility."""
+    def warning(old_flag, new_flag):
+        logging.warning(
+            '`{}` is deprecated, use `{}` instead'.format(old_flag, new_flag)
+        )
+
+        return 1
+
+    def _cli_compat(args):
+        warnings = 0
+
+        if args.output:
+            warnings += warning('-o, --output', '--html')
+            args.html = args.output
+
+        if args.rst_docstrings:
+            warnings += warning('--rst-docstrings', '--docstrings-format')
+            args.docstrings_format = 'rst'
+
+        if args.serve:
+            warnings += warning('--serve', '--http')
+            args.http = True
+
+        if args.host:
+            warnings += warning('--host', '--http-host')
+            args.http_host = args.host
+
+        if args.port:
+            warnings += warning('--port', '--http-port')
+            args.http_port = args.port
+
+        if warnings:
+            logging.warning(
+                'support for deprecated flags will be dropped soon'
+            )
+
+        return args
+
+    suppress = dict(help=argparse.SUPPRESS)
+
+    ap.add_argument('-o', '--output', type=str, **suppress)
+    ap.add_argument('--rst-docstrings', action='store_true', **suppress)
+    ap.add_argument('--serve', action='store_true', **suppress)
+    ap.add_argument('--host', type=str, **suppress)
+    ap.add_argument('--port', type=int, **suppress)
+
+    return _cli_compat
+
+
+def logging_setup(verbose):
+    handler = colorlog.StreamHandler()
+    handler.setFormatter(
+        colorlog.ColoredFormatter(
+            '%(log_color)s%(levelname)s%(reset)s %(message)s'
+        )
+    )
+
+    logger = colorlog.getLogger()
+    logger.addHandler(handler)
+
+    logging.basicConfig(
+        format='%(levelname)s %(message)s'
+    )
+
+    logging.getLogger().setLevel(
+        logging.DEBUG if verbose else logging.INFO
+    )
+
+
+def main(args=None):
+    """Program entry point.
+
+    This is where command line arguments are configured and read. Then the
+    configuration is fine-tuned for execution.
+    """
+    ap = cli_setup()
+    args = cli_compat(ap)(
+        ap.parse_args(args or sys.argv[1:])
+    )
+
+    logging_setup(args.verbose)
 
     metadata = {}
 
@@ -87,9 +183,7 @@ def main(args=None):
         metadata['version'] = args.project_version
 
     if args.scripts:
-        metadata['scripts'] = [
-            script for script in args.scripts.split(',') if script
-        ]
+        metadata['scripts'] = args.scripts
 
     if args.package_dir:
         metadata['package_dir'] = {
@@ -97,44 +191,47 @@ def main(args=None):
         }
 
     if args.packages:
-        metadata['packages'] = [
-            package for package in args.packages.split(',') if package
-        ]
+        metadata['packages'] = args.packages
 
-    exclude = None
-    if args.exclude:
-        exclude = args.exclude.split(',')
+    parser = ProjectParser(
+        args.project_path, metadata, no_setup=args.no_setup,
+        find_packages=args.find_packages, exclude=args.exclude,
+        documents=args.documents
+    )
 
-    parser = ProjectParser(args.project_path, metadata, no_setup=args.no_setup,
-                           force_find_packages=args.find_packages,
-                           exclude=exclude, documents=args.d)
+    if args.http:
+        server = Server(args.http_host, args.http_port, parser,
+                        args.docstrings_format)
 
-    if args.serve:
-        server = Server(args.host, args.port, parser, docstrings_format)
-
-        success('Server live at http://%s:%s' % (args.host, args.port))
+        logging.info(
+            'HTTP server live at http://{}:{}'.format(
+                args.http_host, args.http_port
+            )
+        )
 
         try:
             server.serve_forever()
         except KeyboardInterrupt:
             return 0
         except Exception:
-            if not args.verbose:
-                error('An exception occured, use `-v` if you want a traceback')
-            else:
-                error('An exception occured, traceback follows')
-                traceback.print_exc(file=sys.stderr)
-
+            logging.exception('uncaught exception')
             return 1
     else:
+        filename = args.html  # or args.pdf
+
+        if not filename:
+            logging.error('no output format specified, use `--html`')
+            return 1
+
         project = parser.parse()
 
-        output = sys.stdout
-        if args.output:
-            output = open(args.output, 'w')
+        with open(filename, 'w') as fh:
+            fh.write(
+                html(project, args.docstrings_format)
+            )
 
-        output.write(
-            html(project, docstrings_format)
+        logging.info(
+            'written {}'.format(filename)
         )
 
         return 0
