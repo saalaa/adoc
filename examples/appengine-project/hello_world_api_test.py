@@ -1,10 +1,10 @@
 import webtest
 
-import main
+import hello_world_api
 
 
 def test_get():
-    app = webtest.TestApp(main.app)
+    app = webtest.TestApp(hello_world_api.app)
 
     response = app.get('/')
 

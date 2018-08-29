@@ -829,10 +829,17 @@ table#module-list {
 
           
     <ul>
-            <li class="mono searchable" data-fqn="main.py">
+            <li class="mono searchable" data-fqn="greetings_api.py">
                 
-    <a href="#main.py" title="main.py">
-        main.py
+    <a href="#greetings_api.py" title="greetings_api.py">
+        greetings_api.py
+    </a>
+
+            </li>
+            <li class="mono searchable" data-fqn="hello_world_api.py">
+                
+    <a href="#hello_world_api.py" title="hello_world_api.py">
+        hello_world_api.py
     </a>
 
             </li>
@@ -858,9 +865,23 @@ table#module-list {
 
           
     <ul>
-            <li class="mono searchable" data-fqn="main.py.mainpage">
+            <li class="mono searchable" data-fqn="greetings_api.py.greeting">
                 
-    <a href="#main.py.MainPage" title="main.py.MainPage">
+    <a href="#greetings_api.py.Greeting" title="greetings_api.py.Greeting">
+        Greeting
+    </a>
+
+            </li>
+            <li class="mono searchable" data-fqn="greetings_api.py.greetingsapi">
+                
+    <a href="#greetings_api.py.GreetingsApi" title="greetings_api.py.GreetingsApi">
+        GreetingsApi
+    </a>
+
+            </li>
+            <li class="mono searchable" data-fqn="hello_world_api.py.mainpage">
+                
+    <a href="#hello_world_api.py.MainPage" title="hello_world_api.py.MainPage">
         MainPage
     </a>
 
@@ -886,9 +907,9 @@ table#module-list {
         
         <section class="section-items">
         <h2 class="section-title" 
-  id="main.py"
+  id="greetings_api.py"
 >
-            Module <code>main.py</code>
+            Module <code>greetings_api.py</code>
         </h2>
 
 
@@ -900,8 +921,89 @@ table#module-list {
             
     <div class="item">
       <p class="name" 
-  id="main.py.MainPage"
- title="main.py.MainPage">
+  id="greetings_api.py.Greeting"
+ title="greetings_api.py.Greeting">
+
+        class <span class="ident">Greeting</span>
+      </p>
+
+
+      <div class="class">
+          <h3>
+            Ancestors
+          </h3>
+
+          <ul class="class_list">
+              <li class="mono">
+                <a href="#ancestors">messages.Message</a>
+              </li>
+          </ul>
+
+      </div>
+    </div>
+    <div class="item">
+      <p class="name" 
+  id="greetings_api.py.GreetingsApi"
+ title="greetings_api.py.GreetingsApi">
+            @endpoints.api(name=&#39;greetings&#39;, version=&#39;v1&#39;)<br>
+
+        class <span class="ident">GreetingsApi</span>
+      </p>
+
+
+      <div class="class">
+          <h3>
+            Ancestors
+          </h3>
+
+          <ul class="class_list">
+              <li class="mono">
+                <a href="#ancestors">remote.Service</a>
+              </li>
+          </ul>
+
+          <h3>
+            Methods
+          </h3>
+
+          
+    <div class="item">
+        <div class="name def" 
+  id="greetings_api.py.GreetingsApi.greetings_list"
+ title="greetings_api.py.GreetingsApi.greetings_list">
+            <div>@endpoints.method(message_types.VoidMessage, Greeting, path=&#39;greetings&#39;, http_method=&#39;GET&#39;, name=&#39;greetings.list&#39;)</div>
+
+        <div>
+          <p>def <span class="ident">greetings_list</span>(</p>
+
+            <p>self, request)</p>
+        </div>
+      </div>
+
+    </div>
+
+      </div>
+    </div>
+
+        </section>
+        <section class="section-items">
+        <h2 class="section-title" 
+  id="hello_world_api.py"
+>
+            Module <code>hello_world_api.py</code>
+        </h2>
+
+
+
+            <h2 class="section-title">
+                Classes
+            </h2>
+
+            
+    <div class="item">
+      <p class="name" 
+  id="hello_world_api.py.MainPage"
+ title="hello_world_api.py.MainPage">
 
         class <span class="ident">MainPage</span>
       </p>
@@ -925,8 +1027,8 @@ table#module-list {
           
     <div class="item">
         <div class="name def" 
-  id="main.py.MainPage.get"
- title="main.py.MainPage.get">
+  id="hello_world_api.py.MainPage.get"
+ title="hello_world_api.py.MainPage.get">
 
         <div>
           <p>def <span class="ident">get</span>(</p>

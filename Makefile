@@ -15,7 +15,8 @@ docs/django-project.html: # Build Django sample documentaiton
 	python -m adoc -v --html $@ examples/django-project
 
 docs/appengine-project.html: # Build Google AppEngine sample documentaiton
-	python -m adoc -v -s main.py --html $@ examples/appengine-project
+	python -m adoc -v -s hello_world_api.py -s greetings_api.py \
+		--html $@ examples/appengine-project
 
 serve: # Start a live server on project documentation
 	python -m adoc -v $(ADOC_OPTS) --http .
