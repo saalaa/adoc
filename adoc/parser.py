@@ -62,6 +62,7 @@ class ProjectParser:
 
         if not self.no_setup and self.setup_exists():
             logger.debug('loading setup.py')
+
             metadata.update(
                 self.load_setup()
             )

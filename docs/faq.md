@@ -49,12 +49,12 @@ overrides as well).
 
 On a typical project, there wouldn't be any noticeable difference:
 
-    adoc --serve .
+    adoc --http .
 
 However, you may need to adjust a couple of things if the documentaion comes
 out as expected:
 
-    adoc --package-dir=src --serve .
+    adoc --package-dir=src --http .
 
 See `examples/django-project` and the corresponding [HTML
 documentation](https://saalaa.github.io/adoc/django-project.html) to get an
@@ -66,7 +66,7 @@ idea.
 **adoc** supports scripts declared in `setup.py` and these can be specified
 manually on the command-line as well:
 
-    adoc --scripts=main.py --serve .
+    adoc --scripts=main.py --http .
 
 See `examples/appengine-project` and the corresponding [HTML
 documentation](https://saalaa.github.io/adoc/appengine-project.html) to get an

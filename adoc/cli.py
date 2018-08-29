@@ -8,6 +8,7 @@ import colorlog
 import logging
 import sys
 
+from .errors import FatalError
 from .httpd import Server
 from .parser import ProjectParser
 from .version import version
@@ -197,8 +198,11 @@ def main(args=None):
         metadata['packages'] = args.packages
 
     parser = ProjectParser(
-        args.project_path, metadata, no_setup=args.no_setup,
-        find_packages=args.find_packages, exclude=args.exclude,
+        args.project_path,
+        metadata,
+        no_setup=args.no_setup,
+        find_packages=args.find_packages,
+        exclude=args.exclude,
         documents=args.documents
     )
 
@@ -228,9 +232,14 @@ def main(args=None):
 
         project = parser.parse()
 
+        try:
+            output = html(project, args.docstrings_format)
+        except FatalError as err:
+            return err.log(return_with=1)
+
         with open(filename, 'w') as fh:
             fh.write(
-                html(project, args.docstrings_format)
+                output
             )
 
         logger.info(
