@@ -792,7 +792,7 @@ table#module-list {
       <h2>
         <strong>adoc</strong>
 
-          (<small>0.1.4</small>)
+          (<small>0.1.5</small>)
       </h2>
 
         <p>Python code documentation generator</p>
@@ -1299,13 +1299,13 @@ considered empty</p>
 resort to <code>find_packages()</code> if it has to (and there are still command line
 overrides as well).</p>
 <p>On a typical project, there wouldn't be any noticeable difference:</p>
-<div class="codehilite"><pre><span></span>adoc --serve .
+<div class="codehilite"><pre><span></span>adoc --http .
 </pre></div>
 
 
 <p>However, you may need to adjust a couple of things if the documentaion comes
 out as expected:</p>
-<div class="codehilite"><pre><span></span>adoc --package-dir=src --serve .
+<div class="codehilite"><pre><span></span>adoc --package-dir=src --http .
 </pre></div>
 
 
@@ -1315,7 +1315,7 @@ idea.</p>
 <h2>My project is just a bunch of scripts.</h2>
 <p><strong>adoc</strong> supports scripts declared in <code>setup.py</code> and these can be specified
 manually on the command-line as well:</p>
-<div class="codehilite"><pre><span></span>adoc --scripts=main.py --serve .
+<div class="codehilite"><pre><span></span>adoc --scripts=main.py --http .
 </pre></div>
 
 
