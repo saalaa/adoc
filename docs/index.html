@@ -929,10 +929,24 @@ table#module-list {
     </a>
 
             </li>
-            <li class="mono searchable" data-fqn="adoc.writer">
+            <li class="mono searchable" data-fqn="adoc.writers">
                 
-    <a href="#adoc.writer" title="adoc.writer">
-        adoc.writer
+    <a href="#adoc.writers" title="adoc.writers">
+        adoc.writers
+    </a>
+
+            </li>
+            <li class="mono searchable" data-fqn="adoc.writers.html">
+                
+    <a href="#adoc.writers.html" title="adoc.writers.html">
+        adoc.writers.html
+    </a>
+
+            </li>
+            <li class="mono searchable" data-fqn="adoc.writers.md">
+                
+    <a href="#adoc.writers.md" title="adoc.writers.md">
+        adoc.writers.md
     </a>
 
             </li>
@@ -989,13 +1003,6 @@ table#module-list {
     </a>
 
             </li>
-            <li class="mono searchable" data-fqn="adoc.writer.html">
-                
-    <a href="#adoc.writer.html" title="adoc.writer.html">
-        html
-    </a>
-
-            </li>
             <li class="mono searchable" data-fqn="adoc.cli.logging_setup">
                 
     <a href="#adoc.cli.logging_setup" title="adoc.cli.logging_setup">
@@ -1049,6 +1056,20 @@ table#module-list {
                 
     <a href="#adoc.models.walk" title="adoc.models.walk">
         walk
+    </a>
+
+            </li>
+            <li class="mono searchable" data-fqn="adoc.writers.html.write_html">
+                
+    <a href="#adoc.writers.html.write_html" title="adoc.writers.html.write_html">
+        write_html
+    </a>
+
+            </li>
+            <li class="mono searchable" data-fqn="adoc.writers.md.write_md">
+                
+    <a href="#adoc.writers.md.write_md" title="adoc.writers.md.write_md">
+        write_md
     </a>
 
             </li>
@@ -3019,9 +3040,19 @@ transmited to the HTML writer.</p>
         </section>
         <section class="section-items">
         <h2 class="section-title" 
-  id="adoc.writer"
+  id="adoc.writers"
 >
-            Module <code>adoc.writer</code>
+            Module <code>adoc.writers</code>
+        </h2>
+
+
+
+        </section>
+        <section class="section-items">
+        <h2 class="section-title" 
+  id="adoc.writers.html"
+>
+            Module <code>adoc.writers.html</code>
         </h2>
 
           <p>HTML writer.</p>
@@ -3033,11 +3064,41 @@ transmited to the HTML writer.</p>
             
     <div class="item">
         <div class="name def" 
-  id="adoc.writer.html"
- title="adoc.writer.html">
+  id="adoc.writers.html.write_html"
+ title="adoc.writers.html.write_html">
 
         <div>
-          <p>def <span class="ident">html</span>(</p>
+          <p>def <span class="ident">write_html</span>(</p>
+
+            <p>project, docstring_format=&#39;md&#39;)</p>
+        </div>
+      </div>
+
+    </div>
+
+
+        </section>
+        <section class="section-items">
+        <h2 class="section-title" 
+  id="adoc.writers.md"
+>
+            Module <code>adoc.writers.md</code>
+        </h2>
+
+          <p>Markdown writer.</p>
+
+            <h2 class="section-title">
+                Functions
+            </h2>
+
+            
+    <div class="item">
+        <div class="name def" 
+  id="adoc.writers.md.write_md"
+ title="adoc.writers.md.write_md">
+
+        <div>
+          <p>def <span class="ident">write_md</span>(</p>
 
             <p>project, docstring_format=&#39;md&#39;)</p>
         </div>

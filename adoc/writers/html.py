@@ -6,8 +6,8 @@ import mako.lookup
 import mako.exceptions
 import traceback
 
-from .errors import FatalError
-from .formats import (
+from ..errors import FatalError
+from ..formats import (
     format_md, format_rst
 )
 
@@ -15,11 +15,11 @@ logger = logging.getLogger(__name__)
 
 
 TEMPLATE_PATH = os.path.join(
-    os.path.dirname(__file__), 'templates'
+    os.path.dirname(__file__), '..', 'templates'
 )
 
 
-def html(project, docstring_format='md'):
+def write_html(project, docstring_format='md'):
     if docstring_format == 'rst':
         format_doc = format_rst
     else:
