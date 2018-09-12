@@ -12,7 +12,7 @@ from .errors import FatalError
 from .httpd import Server
 from .parser import ProjectParser
 from .version import version
-from .writer import html
+from .writers import find_writer
 
 # TODO Try to merge --http-host and --http-port into --http before release
 # TODO Rework writer module and implement --pdf
@@ -43,8 +43,8 @@ def cli_setup():
     ap.add_argument('-v', '--verbose', action='store_true',
                     help='run in verbose mode')
 
-    ap.add_argument('--html', type=str,
-                    help='HTML output file')
+    ap.add_argument('--html', type=str, help='HTML output file')
+    ap.add_argument('--md', type=str, help='Markdown output file')
 
     # ap.add_argument('--pdf', type=str,
     #                 help='PDF output file')
@@ -224,18 +224,21 @@ def main(args=None):
             logger.exception('uncaught exception')
             return 1
     else:
-        filename = args.html  # or args.pdf
+        filename = args.html or args.md
 
         if not filename:
-            logger.error('no output format specified, use `--html`')
+            logger.error('no output format specified, use `--html` or `--md`')
             return 1
 
         project = parser.parse()
+        writer = find_writer(args)
 
         try:
-            output = html(project, args.docstrings_format)
+            output = writer(project, args.docstrings_format)
         except FatalError as err:
             return err.log(return_with=1)
+
+        filename = args.html or args.md
 
         with open(filename, 'w') as fh:
             fh.write(

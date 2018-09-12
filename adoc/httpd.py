@@ -8,7 +8,7 @@ import logging
 
 from http import server
 
-from .writer import html
+from .writers import write_html
 
 logger = logging.getLogger(__name__)
 
@@ -39,7 +39,7 @@ class RequestHandler(server.BaseHTTPRequestHandler):
         if self.path == '/':
             project = self.server.parser.parse()
 
-            contents = html(
+            contents = write_html(
                 project, self.server.docstrings_format
             )
 
