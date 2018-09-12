@@ -20,8 +20,8 @@ def test_django_project(capsys):
 def test_appengine_project(capsys):
     with tempfile.NamedTemporaryFile() as file:
         exit_status = main(
-            ['-s', 'main.py', '--html', file.name,
-             'examples/appengine-project']
+            ['-s', 'hello_world_api.py', '-s', 'greetings_api.py',
+             '--html', file.name, 'examples/appengine-project']
         )
 
     assert exit_status == 0
