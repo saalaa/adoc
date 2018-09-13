@@ -19,7 +19,14 @@ TEMPLATE_PATH = os.path.join(
 )
 
 
-def write_html(project, docstring_format='md'):
+def write_html(filename, project, docstring_format='md'):
+    with open(filename, 'w') as fh:
+        fh.write(
+            make_html(project, docstring_format=docstring_format)
+        )
+
+
+def make_html(project, docstring_format='md'):
     if docstring_format == 'rst':
         format_doc = format_rst
     else:

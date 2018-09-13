@@ -15,7 +15,6 @@ from .version import version
 from .writers import find_writer
 
 # TODO Try to merge --http-host and --http-port into --http before release
-# TODO Rework writer module and implement --pdf
 
 logger = logging.getLogger(__name__)
 
@@ -45,9 +44,7 @@ def cli_setup():
 
     ap.add_argument('--html', type=str, help='HTML output file')
     ap.add_argument('--md', type=str, help='Markdown output file')
-
-    # ap.add_argument('--pdf', type=str,
-    #                 help='PDF output file')
+    ap.add_argument('--pdf', type=str, help='PDF output file')
 
     ap.add_argument('--http', action='store_true',
                     help='serve documentation over HTTP')
@@ -224,26 +221,24 @@ def main(args=None):
             logger.exception('uncaught exception')
             return 1
     else:
-        filename = args.html or args.md
+        filename = args.html or args.md or args.pdf
 
         if not filename:
-            logger.error('no output format specified, use `--html` or `--md`')
+            logger.error(
+                'no output format specified, use `--html`, `--md` or `--pdf`'
+            )
+
             return 1
 
         project = parser.parse()
         writer = find_writer(args)
 
         try:
-            output = writer(project, args.docstrings_format)
+            writer(
+                filename, project, args.docstrings_format
+            )
         except FatalError as err:
             return err.log(return_with=1)
-
-        filename = args.html or args.md
-
-        with open(filename, 'w') as fh:
-            fh.write(
-                output
-            )
 
         logger.info(
             'written {}'.format(filename)

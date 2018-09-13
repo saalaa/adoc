@@ -8,7 +8,14 @@ from ..errors import FatalError
 logger = logging.getLogger(__name__)
 
 
-def write_md(project, docstring_format='md'):
+def write_md(filename, project, docstring_format='md'):
+    with open(filename, 'w') as fh:
+        fh.write(
+            make_md(project, docstring_format=docstring_format)
+        )
+
+
+def make_md(project, docstring_format='md'):
     if not docstring_format == 'md':
         raise FatalError(
             'unsupported docstring format: {}'.format(docstring_format)
