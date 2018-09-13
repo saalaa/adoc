@@ -16,7 +16,7 @@ This projet targets Python 3.5 and above.
 - MD/RST docstrings support
 - Additional files inclusion as separate doc sections
 - Built-in HTTP live-server
-- Single HTML artifact
+- Single HTML, PDF or Markdown artifact
 
 
 ## Long-term Goals
