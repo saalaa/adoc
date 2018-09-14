@@ -12,9 +12,9 @@ stages:
   - analysis
   - test
 
+script: pytest
+
 jobs:
   include:
     - stage: analysis
       script: bandit -r adoc
-    - stage: test
-      script: pytest
