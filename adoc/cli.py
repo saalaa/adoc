@@ -49,8 +49,8 @@ def cli_setup():
     ap.add_argument('--http', action='store_true',
                     help='serve documentation over HTTP')
 
-    ap.add_argument('--http-host', type=str, default='0.0.0.0',
-                    help='HTTP host, defaults to 0.0.0.0')
+    ap.add_argument('--http-host', type=str, default='127.0.0.1',
+                    help='HTTP host, defaults to 127.0.0.1')
 
     ap.add_argument('--http-port', type=int, default='8080',
                     help='HTTP port, defaults to 8080')

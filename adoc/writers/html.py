@@ -60,7 +60,7 @@ def make_html(project, docstring_format='md'):
             tb = mako.exceptions.text_error_template() \
                 .render()
         except Exception:
-            pass
+            tb = tb
 
         raise FatalError(
             'unknown error while rendering HTML', tb=tb
