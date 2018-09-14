@@ -10,5 +10,7 @@ install:
 
 jobs:
   include:
-    - script: bandit -r adoc
-    - script: pytest .
+    - stage: analysis
+      script: bandit -r adoc
+    - stage: test
+      script: pytest .
