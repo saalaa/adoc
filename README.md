@@ -32,6 +32,11 @@ This is fairly straighforward:
 
     pip install adoc
 
+If you wish to output PDF documentation you'll need to install a different
+flavour of `adoc`:
+
+    pip install adoc[pdf]
+
 
 ## Usage
 
