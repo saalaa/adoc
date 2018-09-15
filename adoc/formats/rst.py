@@ -27,6 +27,7 @@ from docutils.parsers.rst import (
 
 
 class DummyDirective(Directive):
+    """Generic directive that does nothing."""
     required_arguments = 1
     optional_arguments = 0
 
@@ -81,13 +82,13 @@ class VersionAdmonition(Directive):
 
         if len(node):
             label = nodes.inline(
-                '', '%s: ' % label, classes=['versionmodified']
+                '', '{}: '.format(label), classes=['versionmodified']
             )
 
             node[0].insert(0, label)
         else:
             label = nodes.inline(
-                '', '%s.' % label, classes=['versionmodified']
+                '', '{}.'.format(label), classes=['versionmodified']
             )
 
             node.append(
@@ -118,6 +119,7 @@ def emphasis(role, rawtext, text, lineno, inliner, options={}, content=[]):
 
 
 def format_rst(text):
+    """Format reStructuredText text to HTML."""
     parts = core.publish_parts(
         text, writer=Writer()
     )

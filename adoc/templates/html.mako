@@ -99,7 +99,7 @@
           </h3>
         </li>
 
-        <li class="set">
+        <li class="set no-print">
           <h3>
             Filter Symbols
           </h3>

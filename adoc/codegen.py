@@ -1,8 +1,10 @@
 """Python source code generation."""
 
 import ast
+import logging
 
-from .utils import warning
+logger = logging.getLogger(__name__)
+
 
 BINARY_OP_MAPPING = {
     ast.Add: '+',
@@ -201,8 +203,8 @@ def make_python(node):
             make_signature(node)
         )
 
-    warning(
-        'Unsupported node: {}'.format(node)
+    logger.error(
+        'unsupported node: {}'.format(node)
     )
 
     return '???'

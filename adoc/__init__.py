@@ -3,12 +3,12 @@
 import sys
 
 from .version import version
-from .cli import main
 
 __version__ = version
 
 
 if __name__ == '__main__':
+    from .cli import main
 
     sys.exit(
         main()

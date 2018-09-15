@@ -1,25 +1,6 @@
 import os
-import sys
 
 from functools import wraps
-
-
-def success(message):
-    print(
-        message, file=sys.stdout
-    )
-
-
-def warning(message):
-    print(
-        'Warning: {}'.format(message), file=sys.stderr
-    )
-
-
-def error(message):
-    print(
-        'Error: {}'.format(message), file=sys.stderr
-    )
 
 
 def memoized(f):
@@ -41,8 +22,10 @@ def memoized(f):
 
 class WorkingDirectory:
     def __init__(self, directory):
-        self.target_wd = directory
-        self.initial_wd = os.getcwd()
+        self.target_wd = os.path.abspath(directory)
+        self.initial_wd = os.path.abspath(
+            os.getcwd()
+        )
 
     def __enter__(self):
         os.chdir(self.target_wd)

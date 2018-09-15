@@ -109,7 +109,7 @@
           <ul class="class_list">
             % for base in klass.bases:
               <li class="mono">
-                <a href="#ancestors">${base}</a>
+                <a href="#">${base}</a>
               </li>
             % endfor
           </ul>

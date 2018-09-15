@@ -8,7 +8,7 @@ import logging
 
 from http import server
 
-from .writer import html
+from .writers.html import make_html
 
 logger = logging.getLogger(__name__)
 
@@ -39,13 +39,22 @@ class RequestHandler(server.BaseHTTPRequestHandler):
         if self.path == '/':
             project = self.server.parser.parse()
 
-            contents = html(
+            contents = make_html(
                 project, self.server.docstrings_format
             )
 
             self.wfile.write(
                 contents.encode('utf-8')
             )
+
+    def log_message(self, format, *args):
+        requestline, code, size = args
+
+        logging_func = logger.error
+        if int(code) // 100 == 2:
+            logging_func = logger.info
+
+        logging_func(format, requestline, code, size)
 
 
 class Server(server.HTTPServer):

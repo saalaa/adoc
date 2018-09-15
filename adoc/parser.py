@@ -6,11 +6,18 @@ import unittest.mock
 import setuptools
 import importlib
 import fnmatch
+import logging
 
-from .utils import WorkingDirectory, warning
+from .utils import WorkingDirectory
 from .models import (
     Project, Module, Document
 )
+
+# TODO Improve error handling but stick to basic logging here
+# TODO Raise exceptions when/where needed
+
+logger = logging.getLogger(__name__)
+
 
 DEFAULT_EXCLUDE = [
     '*.tests',
@@ -32,59 +39,81 @@ class ProjectParser:
     module = None
 
     def __init__(self, path, overrides, no_setup=False, exclude=None,
-                 force_find_packages=False, documents=None):
+                 find_packages=False, documents=None):
         self.path = path
         self.overrides = overrides
         self.no_setup = no_setup
-        self.force_find_packages = force_find_packages
+        self.find_packages = find_packages
         self.exclude = exclude or DEFAULT_EXCLUDE
         self.documents = documents or []
 
     def parse(self):
         """Parse a project, setting the current working directiory."""
+        logger.debug(
+            'entering {}'.format(self.path)
+        )
+
         with WorkingDirectory(self.path):
             return self.parse_project()
 
     def parse_project(self):
         """Parse a Python project in the current working directory."""
-        readme = self.parse_readme()
-
         metadata = {}
 
-        if not self.no_setup:
+        if not self.no_setup and self.setup_exists():
+            logger.debug('loading setup.py')
+
             metadata.update(
-                self.parse_setup()
+                self.load_setup()
             )
 
         metadata.update(self.overrides)
-
-        if 'name' not in metadata:
-            metadata['name'] = os.path.basename(
-                os.path.realpath(self.path)
-            )
 
         if 'package_dir' not in metadata:
             metadata['package_dir'] = {
                 '': '.'  # All packages in current directory by default
             }
 
-        if 'packages' not in metadata or self.force_find_packages:
+        if 'name' not in metadata:
+            logger.debug('guessing project name')
+            metadata['name'] = os.path.basename(
+                os.path.realpath(self.path)
+            )
+
+        if 'packages' not in metadata or self.find_packages:
+            logger.debug('guessing packages')
             metadata['packages'] = setuptools.find_packages(
                 metadata['package_dir'].get('', ''), exclude=self.exclude
             )
 
+        readme = self.find_readme()
+        if readme:
+            logger.debug(
+                'found {}'.format(readme)
+            )
+
+            readme = Document(readme)
+
         project = Project(metadata['name'], readme, metadata)
 
         for document in self.documents:
+            logger.debug(
+                'adding document {}'.format(document)
+            )
+
             project.add_document(
                 Document(document)
             )
 
         for script in metadata.get('scripts', []):
+            logger.debug(
+                'parsing script {}'.format(script)
+            )
+
             try:
                 module = self.parse_file(script, script, strip_ext=False)
             except SyntaxError:
-                warning(
+                logger.error(
                     '{} does not appear to be a Python script'.format(script)
                 )
 
@@ -95,7 +124,11 @@ class ProjectParser:
                     module
                 )
 
-        for package in metadata['packages']:
+        for package in metadata.get('packages', []):
+            logger.debug(
+                'parsing package {}'.format(package)
+            )
+
             parts = package.split('.')
             dir = metadata['package_dir'].get(
                 package, metadata['package_dir'].get('')
@@ -113,18 +146,21 @@ class ProjectParser:
 
         return project
 
-    def parse_readme(self):
-        """Parse a `README.md` file in the current working directory."""
-        if not os.path.isfile('README.md'):
-            return None
+    def find_readme(self):
+        """Parse a README file in the current working directory."""
+        if os.path.isfile('README.md'):
+            return 'README.md'
 
-        return Document('README.md')
+        if os.path.isfile('README.rst'):
+            return 'README.rst'
 
-    def parse_setup(self):
+        return None
+
+    def setup_exists(self):
+        return os.path.isfile('setup.py')
+
+    def load_setup(self):
         """Parse a `setup.py` file in the current working directory."""
-        if not os.path.isfile('setup.py'):
-            return {}
-
         with unittest.mock.patch.object(setuptools, 'setup') as mock_setup:
             spec = importlib.util.spec_from_file_location('setup', 'setup.py')
             module = importlib.util.module_from_spec(spec)

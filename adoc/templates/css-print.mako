@@ -74,4 +74,13 @@
     h3 {
         page-break-after: avoid;
     }
+
+    article {
+        border: 0 !important;
+        page-break-before: always;
+    }
+
+    .no-print {
+        display: none;
+    }
 }
