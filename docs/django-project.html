@@ -651,7 +651,49 @@ table#module-list {
     width: 65%;
   }
 }
+
 @media all and (max-width: 650px) {
+  #top {
+    display: none;
+  }
+  #sidebar {
+    float: none;
+    width: auto;
+  }
+  #content {
+    float: none;
+    width: auto;
+    padding: 30px;
+  }
+
+  #index ul {
+    padding: 0;
+    margin-bottom: 15px;
+  }
+  #index ul li {
+    display: inline-block;
+    margin-right: 30px;
+  }
+  #footer {
+    text-align: left;
+  }
+  #footer p {
+    display: block;
+    margin: inherit;
+  }
+}
+
+/*
+ * Duplicated because WeasyPrint does not support the above media queries.
+ */
+@media print {
+  #sidebar {
+    width: 35%;
+  }
+  #content {
+    width: 65%;
+  }
+
   #top {
     display: none;
   }
@@ -1103,7 +1145,7 @@ pip install -r requirements.txt
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">admin.ModelAdmin</a>
+                <a href="#">admin.ModelAdmin</a>
               </li>
           </ul>
 
@@ -1126,7 +1168,7 @@ pip install -r requirements.txt
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">admin.ModelAdmin</a>
+                <a href="#">admin.ModelAdmin</a>
               </li>
           </ul>
 
@@ -1149,7 +1191,7 @@ pip install -r requirements.txt
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">admin.ModelAdmin</a>
+                <a href="#">admin.ModelAdmin</a>
               </li>
           </ul>
 
@@ -1187,7 +1229,7 @@ pip install -r requirements.txt
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">AppConfig</a>
+                <a href="#">AppConfig</a>
               </li>
           </ul>
 
@@ -1230,7 +1272,7 @@ provides conversiont between (<em>e.g.</em>: gram to kilogram).</p>
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">models.Model</a>
+                <a href="#">models.Model</a>
               </li>
           </ul>
 
@@ -1274,7 +1316,7 @@ provides conversiont between (<em>e.g.</em>: gram to kilogram).</p>
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">models.Model</a>
+                <a href="#">models.Model</a>
               </li>
           </ul>
 
@@ -1299,10 +1341,10 @@ provides conversiont between (<em>e.g.</em>: gram to kilogram).</p>
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">Product</a>
+                <a href="#">Product</a>
               </li>
               <li class="mono">
-                <a href="#ancestors">WeighableMixin</a>
+                <a href="#">WeighableMixin</a>
               </li>
           </ul>
 
@@ -1327,10 +1369,10 @@ provides conversiont between (<em>e.g.</em>: gram to kilogram).</p>
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">Product</a>
+                <a href="#">Product</a>
               </li>
               <li class="mono">
-                <a href="#ancestors">WeighableMixin</a>
+                <a href="#">WeighableMixin</a>
               </li>
           </ul>
 
@@ -1352,7 +1394,7 @@ provides conversiont between (<em>e.g.</em>: gram to kilogram).</p>
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">Vegetable</a>
+                <a href="#">Vegetable</a>
               </li>
           </ul>
 
@@ -1374,7 +1416,7 @@ provides conversiont between (<em>e.g.</em>: gram to kilogram).</p>
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">Vegetable</a>
+                <a href="#">Vegetable</a>
               </li>
           </ul>
 
@@ -1396,7 +1438,7 @@ provides conversiont between (<em>e.g.</em>: gram to kilogram).</p>
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">Vegetable</a>
+                <a href="#">Vegetable</a>
               </li>
           </ul>
 
@@ -1444,7 +1486,7 @@ provides conversiont between (<em>e.g.</em>: gram to kilogram).</p>
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">serializers.HyperlinkedModelSerializer</a>
+                <a href="#">serializers.HyperlinkedModelSerializer</a>
               </li>
           </ul>
 
@@ -1466,7 +1508,7 @@ provides conversiont between (<em>e.g.</em>: gram to kilogram).</p>
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">viewsets.ModelViewSet</a>
+                <a href="#">viewsets.ModelViewSet</a>
               </li>
           </ul>
 
@@ -1504,7 +1546,7 @@ provides conversiont between (<em>e.g.</em>: gram to kilogram).</p>
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">serializers.HyperlinkedModelSerializer</a>
+                <a href="#">serializers.HyperlinkedModelSerializer</a>
               </li>
           </ul>
 
@@ -1526,7 +1568,7 @@ provides conversiont between (<em>e.g.</em>: gram to kilogram).</p>
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">viewsets.ModelViewSet</a>
+                <a href="#">viewsets.ModelViewSet</a>
               </li>
           </ul>
 
@@ -1564,7 +1606,7 @@ provides conversiont between (<em>e.g.</em>: gram to kilogram).</p>
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">serializers.HyperlinkedModelSerializer</a>
+                <a href="#">serializers.HyperlinkedModelSerializer</a>
               </li>
           </ul>
 
@@ -1586,7 +1628,7 @@ provides conversiont between (<em>e.g.</em>: gram to kilogram).</p>
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">viewsets.ModelViewSet</a>
+                <a href="#">viewsets.ModelViewSet</a>
               </li>
           </ul>
 

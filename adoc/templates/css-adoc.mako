@@ -268,7 +268,49 @@ table#module-list {
     width: 65%;
   }
 }
+
 @media all and (max-width: 650px) {
+  #top {
+    display: none;
+  }
+  #sidebar {
+    float: none;
+    width: auto;
+  }
+  #content {
+    float: none;
+    width: auto;
+    padding: 30px;
+  }
+
+  #index ul {
+    padding: 0;
+    margin-bottom: 15px;
+  }
+  #index ul li {
+    display: inline-block;
+    margin-right: 30px;
+  }
+  #footer {
+    text-align: left;
+  }
+  #footer p {
+    display: block;
+    margin: inherit;
+  }
+}
+
+/*
+ * Duplicated because WeasyPrint does not support the above media queries.
+ */
+@media print {
+  #sidebar {
+    width: 35%;
+  }
+  #content {
+    width: 65%;
+  }
+
   #top {
     display: none;
   }

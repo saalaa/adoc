@@ -651,7 +651,49 @@ table#module-list {
     width: 65%;
   }
 }
+
 @media all and (max-width: 650px) {
+  #top {
+    display: none;
+  }
+  #sidebar {
+    float: none;
+    width: auto;
+  }
+  #content {
+    float: none;
+    width: auto;
+    padding: 30px;
+  }
+
+  #index ul {
+    padding: 0;
+    margin-bottom: 15px;
+  }
+  #index ul li {
+    display: inline-block;
+    margin-right: 30px;
+  }
+  #footer {
+    text-align: left;
+  }
+  #footer p {
+    display: block;
+    margin: inherit;
+  }
+}
+
+/*
+ * Duplicated because WeasyPrint does not support the above media queries.
+ */
+@media print {
+  #sidebar {
+    width: 35%;
+  }
+  #content {
+    width: 65%;
+  }
+
   #top {
     display: none;
   }
@@ -950,6 +992,13 @@ table#module-list {
     </a>
 
             </li>
+            <li class="mono searchable" data-fqn="adoc.writers.pdf">
+                
+    <a href="#adoc.writers.pdf" title="adoc.writers.pdf">
+        adoc.writers.pdf
+    </a>
+
+            </li>
     </ul>
 
         </li>
@@ -1024,6 +1073,27 @@ table#module-list {
     </a>
 
             </li>
+            <li class="mono searchable" data-fqn="adoc.writers.html.make_html">
+                
+    <a href="#adoc.writers.html.make_html" title="adoc.writers.html.make_html">
+        make_html
+    </a>
+
+            </li>
+            <li class="mono searchable" data-fqn="adoc.writers.md.make_md">
+                
+    <a href="#adoc.writers.md.make_md" title="adoc.writers.md.make_md">
+        make_md
+    </a>
+
+            </li>
+            <li class="mono searchable" data-fqn="adoc.writers.pdf.make_pdf">
+                
+    <a href="#adoc.writers.pdf.make_pdf" title="adoc.writers.pdf.make_pdf">
+        make_pdf
+    </a>
+
+            </li>
             <li class="mono searchable" data-fqn="adoc.codegen.make_python">
                 
     <a href="#adoc.codegen.make_python" title="adoc.codegen.make_python">
@@ -1070,6 +1140,13 @@ table#module-list {
                 
     <a href="#adoc.writers.md.write_md" title="adoc.writers.md.write_md">
         write_md
+    </a>
+
+            </li>
+            <li class="mono searchable" data-fqn="adoc.writers.pdf.write_pdf">
+                
+    <a href="#adoc.writers.pdf.write_pdf" title="adoc.writers.pdf.write_pdf">
+        write_pdf
     </a>
 
             </li>
@@ -1210,6 +1287,13 @@ table#module-list {
     </a>
 
             </li>
+            <li class="mono searchable" data-fqn="adoc.writers.pdf.weasyprintlogfilter">
+                
+    <a href="#adoc.writers.pdf.WeasyPrintLogFilter" title="adoc.writers.pdf.WeasyPrintLogFilter">
+        WeasyPrintLogFilter
+    </a>
+
+            </li>
             <li class="mono searchable" data-fqn="adoc.utils.workingdirectory">
                 
     <a href="#adoc.utils.WorkingDirectory" title="adoc.utils.WorkingDirectory">
@@ -1238,7 +1322,7 @@ it never reaches the interpreter and side-effects are effortlessly avoided.</p>
 <li>MD/RST docstrings support</li>
 <li>Additional files inclusion as separate doc sections</li>
 <li>Built-in HTTP live-server</li>
-<li>Single HTML artifact</li>
+<li>Single HTML, PDF or Markdown artifact</li>
 </ul>
 <h2>Long-term Goals</h2>
 <ul>
@@ -1267,6 +1351,8 @@ it never reaches the interpreter and side-effects are effortlessly avoided.</p>
 <p>Prepare a virtual environment:</p>
 <div class="codehilite"><pre><span></span>python -m venv env
 source env/bin/activate
+pip install -r requirements.txt
+pip install -r requirements-pdf.txt
 pip install -r requirements-test.txt
 </pre></div>
 
@@ -1474,7 +1560,7 @@ configuration is fine-tuned for execution.</p>
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">argparse.Action</a>
+                <a href="#">argparse.Action</a>
               </li>
           </ul>
 
@@ -1590,7 +1676,7 @@ configuration is fine-tuned for execution.</p>
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">Exception</a>
+                <a href="#">Exception</a>
               </li>
           </ul>
 
@@ -1784,7 +1870,7 @@ relying on anything except <code>docutils</code>.</p>
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">Directive</a>
+                <a href="#">Directive</a>
               </li>
           </ul>
 
@@ -1832,7 +1918,7 @@ relying on anything except <code>docutils</code>.</p>
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">Directive</a>
+                <a href="#">Directive</a>
               </li>
           </ul>
 
@@ -1898,7 +1984,7 @@ with 404s for any request that's not made on <code>/</code>.</p>
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">server.BaseHTTPRequestHandler</a>
+                <a href="#">server.BaseHTTPRequestHandler</a>
               </li>
           </ul>
 
@@ -1989,7 +2075,7 @@ with 404s for any request that's not made on <code>/</code>.</p>
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">server.HTTPServer</a>
+                <a href="#">server.HTTPServer</a>
               </li>
           </ul>
 
@@ -2297,13 +2383,13 @@ transmited to the HTML writer.</p>
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">ParametersMixin</a>
+                <a href="#">ParametersMixin</a>
               </li>
               <li class="mono">
-                <a href="#ancestors">DecoratorsMixin</a>
+                <a href="#">DecoratorsMixin</a>
               </li>
               <li class="mono">
-                <a href="#ancestors">Atom</a>
+                <a href="#">Atom</a>
               </li>
           </ul>
 
@@ -2402,13 +2488,13 @@ transmited to the HTML writer.</p>
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">DecoratorsMixin</a>
+                <a href="#">DecoratorsMixin</a>
               </li>
               <li class="mono">
-                <a href="#ancestors">FunctionsMixin</a>
+                <a href="#">FunctionsMixin</a>
               </li>
               <li class="mono">
-                <a href="#ancestors">Atom</a>
+                <a href="#">Atom</a>
               </li>
           </ul>
 
@@ -2521,16 +2607,16 @@ transmited to the HTML writer.</p>
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">ModulesMixin</a>
+                <a href="#">ModulesMixin</a>
               </li>
               <li class="mono">
-                <a href="#ancestors">ClassesMixin</a>
+                <a href="#">ClassesMixin</a>
               </li>
               <li class="mono">
-                <a href="#ancestors">FunctionsMixin</a>
+                <a href="#">FunctionsMixin</a>
               </li>
               <li class="mono">
-                <a href="#ancestors">Atom</a>
+                <a href="#">Atom</a>
               </li>
           </ul>
 
@@ -2604,10 +2690,10 @@ transmited to the HTML writer.</p>
 
           <ul class="class_list">
               <li class="mono">
-                <a href="#ancestors">ModulesMixin</a>
+                <a href="#">ModulesMixin</a>
               </li>
               <li class="mono">
-                <a href="#ancestors">Atom</a>
+                <a href="#">Atom</a>
               </li>
           </ul>
 
@@ -3070,6 +3156,19 @@ transmited to the HTML writer.</p>
         <div>
           <p>def <span class="ident">write_html</span>(</p>
 
+            <p>filename, project, docstring_format=&#39;md&#39;)</p>
+        </div>
+      </div>
+
+    </div>
+    <div class="item">
+        <div class="name def" 
+  id="adoc.writers.html.make_html"
+ title="adoc.writers.html.make_html">
+
+        <div>
+          <p>def <span class="ident">make_html</span>(</p>
+
             <p>project, docstring_format=&#39;md&#39;)</p>
         </div>
       </div>
@@ -3100,12 +3199,114 @@ transmited to the HTML writer.</p>
         <div>
           <p>def <span class="ident">write_md</span>(</p>
 
+            <p>filename, project, docstring_format=&#39;md&#39;)</p>
+        </div>
+      </div>
+
+    </div>
+    <div class="item">
+        <div class="name def" 
+  id="adoc.writers.md.make_md"
+ title="adoc.writers.md.make_md">
+
+        <div>
+          <p>def <span class="ident">make_md</span>(</p>
+
             <p>project, docstring_format=&#39;md&#39;)</p>
         </div>
       </div>
 
     </div>
 
+
+        </section>
+        <section class="section-items">
+        <h2 class="section-title" 
+  id="adoc.writers.pdf"
+>
+            Module <code>adoc.writers.pdf</code>
+        </h2>
+
+
+            <h2 class="section-title">
+                Functions
+            </h2>
+
+            
+    <div class="item">
+        <div class="name def" 
+  id="adoc.writers.pdf.write_pdf"
+ title="adoc.writers.pdf.write_pdf">
+
+        <div>
+          <p>def <span class="ident">write_pdf</span>(</p>
+
+            <p>filename, project, docstring_format=&#39;md&#39;)</p>
+        </div>
+      </div>
+
+    </div>
+    <div class="item">
+        <div class="name def" 
+  id="adoc.writers.pdf.make_pdf"
+ title="adoc.writers.pdf.make_pdf">
+
+        <div>
+          <p>def <span class="ident">make_pdf</span>(</p>
+
+            <p>project, docstring_format=&#39;md&#39;)</p>
+        </div>
+      </div>
+
+    </div>
+
+
+            <h2 class="section-title">
+                Classes
+            </h2>
+
+            
+    <div class="item">
+      <p class="name" 
+  id="adoc.writers.pdf.WeasyPrintLogFilter"
+ title="adoc.writers.pdf.WeasyPrintLogFilter">
+
+        class <span class="ident">WeasyPrintLogFilter</span>
+      </p>
+
+
+      <div class="class">
+          <h3>
+            Ancestors
+          </h3>
+
+          <ul class="class_list">
+              <li class="mono">
+                <a href="#">logging.Filter</a>
+              </li>
+          </ul>
+
+          <h3>
+            Methods
+          </h3>
+
+          
+    <div class="item">
+        <div class="name def" 
+  id="adoc.writers.pdf.WeasyPrintLogFilter.filter"
+ title="adoc.writers.pdf.WeasyPrintLogFilter.filter">
+
+        <div>
+          <p>def <span class="ident">filter</span>(</p>
+
+            <p>self, record)</p>
+        </div>
+      </div>
+
+    </div>
+
+      </div>
+    </div>
 
         </section>
 

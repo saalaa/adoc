@@ -16,7 +16,7 @@ This projet targets Python 3.5 and above.
 - MD/RST docstrings support
 - Additional files inclusion as separate doc sections
 - Built-in HTTP live-server
-- Single HTML artifact
+- Single HTML, PDF or Markdown artifact
 
 
 ## Long-term Goals
@@ -31,6 +31,11 @@ This projet targets Python 3.5 and above.
 This is fairly straighforward:
 
     pip install adoc
+
+If you wish to output PDF documentation you'll need to install a different
+flavour of `adoc`:
+
+    pip install adoc[pdf]
 
 
 ## Usage
@@ -50,6 +55,8 @@ Prepare a virtual environment:
 
     python -m venv env
     source env/bin/activate
+    pip install -r requirements.txt
+    pip install -r requirements-pdf.txt
     pip install -r requirements-test.txt
 
 Run the test suite:
