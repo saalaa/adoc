@@ -14,8 +14,6 @@ from .parser import ProjectParser
 from .version import version
 from .writers import find_writer
 
-# TODO Try to merge --http-host and --http-port into --http before release
-
 logger = logging.getLogger(__name__)
 
 
@@ -36,57 +34,56 @@ def cli_setup():
         prog='adoc', description='A Python documentation generation tool'
     )
 
+    ap.add_argument('project_path', metavar='PROJECT_PATH',
+                    help='project path')
+
     ap.add_argument('--version', action='version',
                     version='%(prog)s ' + version)
 
     ap.add_argument('-v', '--verbose', action='store_true',
                     help='run in verbose mode')
 
-    ap.add_argument('--html', type=str, help='HTML output file')
-    ap.add_argument('--md', type=str, help='Markdown output file')
-    ap.add_argument('--pdf', type=str, help='PDF output file')
+    group = ap.add_argument_group('output control')
 
-    ap.add_argument('--http', action='store_true',
-                    help='serve documentation over HTTP')
+    group.add_argument('--http', type=str, help='HTTP live server')
 
-    ap.add_argument('--http-host', type=str, default='127.0.0.1',
-                    help='HTTP host, defaults to 127.0.0.1')
+    group.add_argument('--html', type=str, help='HTML output file')
+    group.add_argument('--md', type=str, help='Markdown output file')
+    group.add_argument('--pdf', type=str, help='PDF output file')
 
-    ap.add_argument('--http-port', type=int, default='8080',
-                    help='HTTP port, defaults to 8080')
+    group = ap.add_argument_group('configuration')
 
-    ap.add_argument('-d', '--documents', type=str, action=SplitAppend,
-                    help='additional documentation')
+    group.add_argument('-d', '--documents', type=str, action=SplitAppend,
+                       help='additional documentation')
 
-    ap.add_argument('-f', '--docstrings-format', type=str, default='md',
-                    help='docstrings format (`md` or `rst`)')
+    group.add_argument('-f', '--docstrings-format', type=str, default='md',
+                       help='docstrings format (`md` or `rst`)')
 
-    ap.add_argument('--no-setup', action='store_true',
-                    help='disable parsing of `setup.py`')
+    group.add_argument('--no-setup', action='store_true',
+                       help='disable parsing of `setup.py`')
 
-    ap.add_argument('--project-name', type=str,
-                    help='override project name')
+    group.add_argument('--find-packages', action='store_true',
+                       help='force-find packages using setuptools')
 
-    ap.add_argument('--project-version', type=str,
-                    help='override project version')
+    group.add_argument('-x', '--exclude', type=str, action=SplitAppend,
+                       help='set excluded packages')
 
-    ap.add_argument('-s', '--scripts', type=str, action=SplitAppend,
-                    help='override scripts')
+    group = ap.add_argument_group('setup.py overrides')
 
-    ap.add_argument('--package-dir', type=str,
-                    help='override package directory')
+    group.add_argument('--project-name', type=str,
+                       help='override project name')
 
-    ap.add_argument('-p', '--packages', type=str, action=SplitAppend,
-                    help='override packages')
+    group.add_argument('--project-version', type=str,
+                       help='override project version')
 
-    ap.add_argument('--find-packages', action='store_true',
-                    help='force-find packages using setuptools')
+    group.add_argument('-s', '--scripts', type=str, action=SplitAppend,
+                       help='override scripts')
 
-    ap.add_argument('-x', '--exclude', type=str, action=SplitAppend,
-                    help='set excluded packages')
+    group.add_argument('--package-dir', type=str,
+                       help='override package directory')
 
-    ap.add_argument('project_path', metavar='PROJECT_PATH',
-                    help='project path')
+    group.add_argument('-p', '--packages', type=str, action=SplitAppend,
+                       help='override packages')
 
     return ap
 
@@ -113,15 +110,15 @@ def cli_compat(ap):
 
         if args.serve:
             warnings += warning('--serve', '--http')
-            args.http = True
+            args.http = ':'
 
         if args.host:
             warnings += warning('--host', '--http-host')
-            args.http_host = args.host
+            args.http = args.host + ':'
 
         if args.port:
             warnings += warning('--port', '--http-port')
-            args.http_port = args.port
+            args.http = ':' + args.port
 
         if warnings:
             logger.warning(
@@ -203,13 +200,33 @@ def main(args=None):
         documents=args.documents
     )
 
+    if not args.http and not args.html and not args.md and not args.pdf:
+        logger.error(
+            'no output specified, use `--http`, `--html`, `--md` or `--pdf`'
+        )
+
+        return 1
+
     if args.http:
-        server = Server(args.http_host, args.http_port, parser,
-                        args.docstrings_format)
+        try:
+            host, port = args.http.split(':')
+
+            host = host or '127.0.0.1'
+            port = int(
+                port or '8080'
+            )
+        except Exception:
+            logger.error(
+                'value for `--http` must a be host-port combination: `:8080`'
+            )
+
+            return 1
+
+        server = Server(host, port, parser, args.docstrings_format)
 
         logger.info(
             'server live at http://{}:{}'.format(
-                args.http_host, args.http_port
+                host, port
             )
         )
 
@@ -222,13 +239,6 @@ def main(args=None):
             return 1
     else:
         filename = args.html or args.md or args.pdf
-
-        if not filename:
-            logger.error(
-                'no output format specified, use `--html`, `--md` or `--pdf`'
-            )
-
-            return 1
 
         project = parser.parse()
         writer = find_writer(args)

@@ -10,6 +10,10 @@ with open('requirements.txt') as fh:
     requirements = fh.read() \
             .split()
 
+with open('requirements-pdf.txt') as fh:
+    requirements_pdf = fh.read() \
+            .split()
+
 setup(
     name='adoc',
     version=version,
@@ -25,6 +29,9 @@ setup(
     long_description='See https://github.com/saalaa/adoc',
     python_requires='~=3.5',
     install_requires=requirements,
+    extras_require={
+        'pdf': requirements_pdf
+    },
     packages=find_packages(),
     include_package_data=True,
     classifiers=[

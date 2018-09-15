@@ -50,6 +50,8 @@ Prepare a virtual environment:
 
     python -m venv env
     source env/bin/activate
+    pip install -r requirements.txt
+    pip install -r requirements-pdf.txt
     pip install -r requirements-test.txt
 
 Run the test suite:

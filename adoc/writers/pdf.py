@@ -1,7 +1,6 @@
 import logging
 
-from weasyprint import HTML
-
+from ..errors import FatalError
 from .html import make_html
 
 logger = logging.getLogger(__name__)
@@ -28,6 +27,12 @@ def write_pdf(filename, project, docstring_format='md'):
 
 
 def make_pdf(project, docstring_format='md'):
+    try:
+        from weasyprint import HTML
+    except ImportError:
+        raise FatalError(
+            'PDF output requires WeasyPrint'
+        )
 
     html = make_html(
         project, docstring_format=docstring_format
