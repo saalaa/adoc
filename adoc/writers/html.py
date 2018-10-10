@@ -7,8 +7,9 @@ import mako.exceptions
 import traceback
 
 from ..errors import FatalError
+from ..utils import compose
 from ..formats import (
-    format_md, format_rst
+    stripper, format_md, format_rst
 )
 
 logger = logging.getLogger(__name__)
@@ -19,18 +20,22 @@ TEMPLATE_PATH = os.path.join(
 )
 
 
-def write_html(filename, project, docstring_format='md'):
+def write_html(filename, project, docstrings_format='md',
+               strip_docstrings=False):
     with open(filename, 'w') as fh:
         fh.write(
-            make_html(project, docstring_format=docstring_format)
+            make_html(project, docstrings_format, strip_docstrings)
         )
 
 
-def make_html(project, docstring_format='md'):
-    if docstring_format == 'rst':
+def make_html(project, docstrings_format, strip_docstrings):
+    if docstrings_format == 'rst':
         format_doc = format_rst
     else:
         format_doc = format_md
+
+    if strip_docstrings:
+        format_doc = compose(stripper, format_doc)
 
     try:
         lookup = mako.lookup.TemplateLookup(directories=[TEMPLATE_PATH])

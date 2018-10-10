@@ -15,7 +15,7 @@ def test_html_md(capsys):
     assert project
 
     with tempfile.NamedTemporaryFile(mode='w+') as fh:
-        write_html(fh.name, project, 'md')
+        write_html(fh.name, project, 'md', False)
 
         assert '<!doctype html>' in fh.read()
 
@@ -32,7 +32,7 @@ def test_html_rst(capsys):
     assert project
 
     with tempfile.NamedTemporaryFile(mode='w+') as fh:
-        write_html(fh.name, project, 'rst')
+        write_html(fh.name, project, 'rst', False)
 
         assert '<!doctype html>' in fh.read()
 
@@ -49,7 +49,7 @@ def test_md_md(capsys):
     assert project
 
     with tempfile.NamedTemporaryFile(mode='w+') as fh:
-        write_md(fh.name, project, 'md')
+        write_md(fh.name, project, 'md', False)
 
         assert 'API Reference' in fh.read()
 
@@ -67,7 +67,7 @@ def test_md_rst(capsys):
 
     with tempfile.NamedTemporaryFile(mode='w+') as fh:
         with pytest.raises(FatalError, message='unsupported'):
-            write_md(fh.name, project, 'rst')
+            write_md(fh.name, project, 'rst', False)
 
 
 def test_pdf_md(capsys):
@@ -77,7 +77,7 @@ def test_pdf_md(capsys):
     assert project
 
     with tempfile.NamedTemporaryFile(mode='w+b') as fh:
-        write_pdf(fh.name, project, 'md')
+        write_pdf(fh.name, project, 'md', False)
 
         assert fh.read().startswith(
             b'%PDF'
@@ -96,7 +96,7 @@ def test_pdf_rst(capsys):
     assert project
 
     with tempfile.NamedTemporaryFile(mode='w+b') as fh:
-        write_pdf(fh.name, project, 'rst')
+        write_pdf(fh.name, project, 'rst', False)
 
         assert fh.read().startswith(
             b'%PDF'

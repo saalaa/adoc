@@ -6,17 +6,21 @@ help: # This help message
 		| sed 's/^/\n  /' \
 		| sed 's/: #/\n   /'
 
-docs: docs/index.html docs/django-project.html docs/appengine-project.html
+docs: docs/index.html docs/django-project.html docs/appengine-project.html \
+		docs/flask-project.html
 
 docs/index.html: # Build project documentation
 	python -m adoc -v $(ADOC_OPTS) --html $@ .
 
-docs/django-project.html: # Build Django sample documentaiton
+docs/django-project.html: # Build Django sample documentation
 	python -m adoc -v --html $@ examples/django-project
 
-docs/appengine-project.html: # Build Google AppEngine sample documentaiton
+docs/appengine-project.html: # Build Google AppEngine sample documentation
 	python -m adoc -v -s hello_world_api.py -s greetings_api.py \
 		--html $@ examples/appengine-project
+
+docs/flask-project.html: # Build Flask sample documentation
+	python -m adoc -v -s app.py --strip-docstrings --html $@ examples/flask-project
 
 serve: # Start a live server on project documentation
 	python -m adoc -v $(ADOC_OPTS) --http .
@@ -39,3 +43,4 @@ upload: # Upload release artifact to PyPi
 .PHONY: docs/index.html
 .PHONY: docs/django-project.html
 .PHONY: docs/appengine-project.html
+.PHONY: docs/flask-project.html

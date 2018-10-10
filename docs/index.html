@@ -1024,6 +1024,13 @@ table#module-list {
     </a>
 
             </li>
+            <li class="mono searchable" data-fqn="adoc.utils.compose">
+                
+    <a href="#adoc.utils.compose" title="adoc.utils.compose">
+        compose
+    </a>
+
+            </li>
             <li class="mono searchable" data-fqn="adoc.formats.rst.dummy_role">
                 
     <a href="#adoc.formats.rst.dummy_role" title="adoc.formats.rst.dummy_role">
@@ -1333,6 +1340,12 @@ it never reaches the interpreter and side-effects are effortlessly avoided.</p>
 <h2>Installation</h2>
 <p>This is fairly straighforward:</p>
 <div class="codehilite"><pre><span></span>pip install adoc
+</pre></div>
+
+
+<p>If you wish to output PDF documentation you'll need to install a different
+flavour of <code>adoc</code>:</p>
+<div class="codehilite"><pre><span></span>pip install adoc[pdf]
 </pre></div>
 
 
@@ -2092,7 +2105,7 @@ with 404s for any request that's not made on <code>/</code>.</p>
         <div>
           <p>def <span class="ident">__init__</span>(</p>
 
-            <p>self, host, port, parser, docstrings_format)</p>
+            <p>self, host, port, parser, docstrings_format, strip_docstrings)</p>
         </div>
       </div>
 
@@ -3057,6 +3070,19 @@ transmited to the HTML writer.</p>
       </div>
 
     </div>
+    <div class="item">
+        <div class="name def" 
+  id="adoc.utils.compose"
+ title="adoc.utils.compose">
+
+        <div>
+          <p>def <span class="ident">compose</span>(</p>
+
+            <p>*functions)</p>
+        </div>
+      </div>
+
+    </div>
 
 
             <h2 class="section-title">
@@ -3156,7 +3182,7 @@ transmited to the HTML writer.</p>
         <div>
           <p>def <span class="ident">write_html</span>(</p>
 
-            <p>filename, project, docstring_format=&#39;md&#39;)</p>
+            <p>filename, project, docstrings_format=&#39;md&#39;, strip_docstrings=False)</p>
         </div>
       </div>
 
@@ -3169,7 +3195,7 @@ transmited to the HTML writer.</p>
         <div>
           <p>def <span class="ident">make_html</span>(</p>
 
-            <p>project, docstring_format=&#39;md&#39;)</p>
+            <p>project, docstrings_format, strip_docstrings)</p>
         </div>
       </div>
 
@@ -3199,7 +3225,7 @@ transmited to the HTML writer.</p>
         <div>
           <p>def <span class="ident">write_md</span>(</p>
 
-            <p>filename, project, docstring_format=&#39;md&#39;)</p>
+            <p>filename, project, docstrings_format, strip_docstrings)</p>
         </div>
       </div>
 
@@ -3212,7 +3238,7 @@ transmited to the HTML writer.</p>
         <div>
           <p>def <span class="ident">make_md</span>(</p>
 
-            <p>project, docstring_format=&#39;md&#39;)</p>
+            <p>project, docstrings_format, strip_docstrings)</p>
         </div>
       </div>
 
@@ -3241,7 +3267,7 @@ transmited to the HTML writer.</p>
         <div>
           <p>def <span class="ident">write_pdf</span>(</p>
 
-            <p>filename, project, docstring_format=&#39;md&#39;)</p>
+            <p>filename, project, docstrings_format, strip_docstring)</p>
         </div>
       </div>
 
@@ -3254,7 +3280,7 @@ transmited to the HTML writer.</p>
         <div>
           <p>def <span class="ident">make_pdf</span>(</p>
 
-            <p>project, docstring_format=&#39;md&#39;)</p>
+            <p>project, docstrings_format, strip_docstring)</p>
         </div>
       </div>
 

@@ -30,3 +30,18 @@ def test_appengine_project(capsys):
 
     assert not cap.out
     assert 'written' in cap.err
+
+
+def test_flask_project(capsys):
+    with tempfile.NamedTemporaryFile() as file:
+        exit_status = main(
+            ['-s', 'app.py', '--strip-docstrings', '--html', file.name,
+             'examples/flask-project']
+        )
+
+    assert exit_status == 0
+
+    cap = capsys.readouterr()
+
+    assert not cap.out
+    assert 'written' in cap.err

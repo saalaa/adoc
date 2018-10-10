@@ -4,22 +4,29 @@ import io
 import logging
 
 from ..errors import FatalError
+from ..formats import (
+    as_is, stripper
+)
 
 logger = logging.getLogger(__name__)
 
 
-def write_md(filename, project, docstring_format='md'):
+def write_md(filename, project, docstrings_format, strip_docstrings):
     with open(filename, 'w') as fh:
         fh.write(
-            make_md(project, docstring_format=docstring_format)
+            make_md(project, docstrings_format, strip_docstrings)
         )
 
 
-def make_md(project, docstring_format='md'):
-    if not docstring_format == 'md':
+def make_md(project, docstrings_format, strip_docstrings):
+    if not docstrings_format == 'md':
         raise FatalError(
-            'unsupported docstring format: {}'.format(docstring_format)
+            'unsupported docstring format: {}'.format(docstrings_format)
         )
+
+    format_doc = as_is
+    if strip_docstrings:
+        format_doc = stripper
 
     buf = io.StringIO()
 
@@ -51,13 +58,17 @@ def make_md(project, docstring_format='md'):
         h2('Module `', m.fully_qualified_name, '`')
 
         if m.doc:
-            write(m.doc)
+            write(
+                format_doc(m.doc)
+            )
 
         for f in m.functions or []:
             h3('Function `', f.name, '(', ', '.join(f.parameters), ')`')
 
             if f.doc:
-                write(f.doc)
+                write(
+                    format_doc(f.doc)
+                )
 
         for c in m.classes or []:
             if c.bases:
@@ -66,12 +77,16 @@ def make_md(project, docstring_format='md'):
                 h3('Class `', c.name, '`')
 
             if c.doc:
-                write(c.doc)
+                write(
+                    format_doc(c.doc)
+                )
 
             for f in c.functions or []:
                 h4('Method `', f.name, '(', ', '.join(f.parameters), ')`')
 
                 if f.doc:
-                    write(f.doc)
+                    write(
+                        format_doc(f.doc)
+                    )
 
     return buf.getvalue()

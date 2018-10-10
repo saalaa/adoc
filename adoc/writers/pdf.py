@@ -19,14 +19,14 @@ logging.getLogger('weasyprint') \
     )
 
 
-def write_pdf(filename, project, docstring_format='md'):
+def write_pdf(filename, project, docstrings_format, strip_docstring):
     with open(filename, 'wb') as fh:
         fh.write(
-            make_pdf(project, docstring_format=docstring_format)
+            make_pdf(project, docstrings_format, strip_docstring)
         )
 
 
-def make_pdf(project, docstring_format='md'):
+def make_pdf(project, docstrings_format, strip_docstring):
     try:
         from weasyprint import HTML
     except ImportError:
@@ -35,7 +35,7 @@ def make_pdf(project, docstring_format='md'):
         )
 
     html = make_html(
-        project, docstring_format=docstring_format
+        project, docstrings_format, strip_docstring
     )
 
     html = HTML(string=html)

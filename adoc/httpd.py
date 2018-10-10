@@ -36,11 +36,14 @@ class RequestHandler(server.BaseHTTPRequestHandler):
         """
         self.send_headers()
 
+        docstrings_format = self.server.docstrings_format
+        strip_docstrings = self.server.strip_docstrings
+
         if self.path == '/':
             project = self.server.parser.parse()
 
             contents = make_html(
-                project, self.server.docstrings_format
+                project, docstrings_format, strip_docstrings
             )
 
             self.wfile.write(
@@ -62,9 +65,11 @@ class Server(server.HTTPServer):
 
     It will reponde to HTTP requests using `RequestHandler`.
     """
-    def __init__(self, host, port, parser, docstrings_format):
+    def __init__(self, host, port, parser, docstrings_format,
+                 strip_docstrings):
         self.parser = parser
         self.docstrings_format = docstrings_format
+        self.strip_docstrings = strip_docstrings
 
         super().__init__(
             (host, port), RequestHandler

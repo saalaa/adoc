@@ -20,6 +20,16 @@ def memoized(f):
     return wrapper
 
 
+def compose(*functions):
+    def wrapped(arg):
+        for function in functions:
+            arg = function(arg)
+
+        return arg
+
+    return wrapped
+
+
 class WorkingDirectory:
     def __init__(self, directory):
         self.target_wd = os.path.abspath(directory)

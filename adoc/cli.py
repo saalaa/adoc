@@ -59,6 +59,9 @@ def cli_setup():
     group.add_argument('-f', '--docstrings-format', type=str, default='md',
                        help='docstrings format (`md` or `rst`)')
 
+    group.add_argument('--strip-docstrings', action='store_true',
+                       help='strip docstrings off of embedded YAML documents')
+
     group.add_argument('--no-setup', action='store_true',
                        help='disable parsing of `setup.py`')
 
@@ -207,6 +210,9 @@ def main(args=None):
 
         return 1
 
+    docstrings_format = args.docstrings_format
+    strip_docstrings = args.strip_docstrings
+
     if args.http:
         try:
             host, port = args.http.split(':')
@@ -222,7 +228,9 @@ def main(args=None):
 
             return 1
 
-        server = Server(host, port, parser, args.docstrings_format)
+        server = Server(
+            host, port, parser, docstrings_format, strip_docstrings
+        )
 
         logger.info(
             'server live at http://{}:{}'.format(
@@ -245,7 +253,7 @@ def main(args=None):
 
         try:
             writer(
-                filename, project, args.docstrings_format
+                filename, project, docstrings_format, strip_docstrings
             )
         except FatalError as err:
             return err.log(return_with=1)
