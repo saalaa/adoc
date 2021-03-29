@@ -4,4 +4,4 @@ docutils==0.14
 Mako==1.0.7
 Markdown==2.6.11
 MarkupSafe==1.0
-Pygments==2.2.0
+Pygments==2.7.4
